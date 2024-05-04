@@ -1,11 +1,15 @@
 #![no_std]
 #![no_main]
+use bme280;
 use defmt::*;
 use embassy_executor::Spawner;
-use embassy_rp::gpio;
+use embassy_rp::{gpio, i2c};
 use embassy_sync::blocking_mutex::raw::ThreadModeRawMutex;
 use embassy_sync::mutex::Mutex;
-use embassy_time::{Duration, Ticker};
+use embassy_time::Delay;
+use embassy_time::{Duration, Ticker, Timer};
+use embedded_hal::delay::DelayNs;
+
 use gpio::{Level, Output};
 use {defmt_rtt as _, panic_probe as _};
 
@@ -15,11 +19,9 @@ static LED: LedType = Mutex::new(None);
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     let p = embassy_rp::init(Default::default());
-    // set the content of the global LED reference to the real LED pin
+
+    // add led blinking
     let led = Output::new(p.PIN_25, Level::High);
-    // let led = Output::new(AnyPin::from(p.PIN_25), Level::High);
-    // inner scope is so that once the mutex is written to, the MutexGuard is dropped, thus the
-    // Mutex is released
     {
         *(LED.lock().await) = Some(led);
     }
@@ -31,6 +33,44 @@ async fn main(spawner: Spawner) {
         &LED,
         Duration::from_nanos((dt as f64 * k) as u64)
     )));
+
+    Timer::after(Duration::from_millis(10_000)).await;
+
+    // init the bme280 i2c
+    let (sda, sck) = (p.PIN_0, p.PIN_1);
+    let pressure_i2c = i2c::I2c::new_blocking(p.I2C0, sck, sda, i2c::Config::default());
+
+    let mut bme = bme280::i2c::BME280::new_primary(pressure_i2c);
+    let mut delay = Delay {};
+    // delay.delay_ms(10000);
+
+    match bme.init(&mut delay) {
+        Ok(_) => {
+            info!("bme init success");
+            let mut led = LED.lock().await;
+            if let Some(pin) = led.as_mut() {
+                for _ in 0..10 {
+                    pin.toggle();
+                    delay.delay_ms(100);
+                }
+            }
+        }
+        Err(_) => {
+            warn!("bme init fail");
+            let mut led = LED.lock().await;
+            if let Some(pin) = led.as_mut() {
+                for i in 0..20 {
+                    pin.toggle();
+                    delay.delay_ms(i * 100);
+                }
+            }
+            crate::panic!()
+        }
+    }
+
+    loop {
+        let _p = bme.measure(&mut delay).unwrap().pressure;
+    }
 }
 
 #[embassy_executor::task(pool_size = 2)]
