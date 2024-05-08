@@ -31,3 +31,5 @@ embassy-rp = { git = "https://github.com/embassy-rs/embassy", rev = "45a2abc392d
 embassy-executor = { git = "https://github.com/embassy-rs/embassy", rev = "45a2abc392df91ce6963ac0956f48f22bfa1489b" }
 embassy-sync = { git = "https://github.com/embassy-rs/embassy", rev = "45a2abc392df91ce6963ac0956f48f22bfa1489b" }
 embassy-time = { git = "https://github.com/embassy-rs/embassy", rev = "45a2abc392df91ce6963ac0956f48f22bfa1489b" }
+[profile.release]
+debug = 2
