@@ -51,12 +51,21 @@ async fn main(spawner: Spawner) {
             error!("BME init failed");
         }
     }
+    ps.set_normal_mode(&mut d);
     let mut last_p: Option<f32> = None;
     let mut h: f32 = 0.;
 
     loop {
         match ps.measure(&mut d) {
             Ok(data) => {
+                match ps.mode() {
+                    Ok(m) => {
+                        info!("sensor mode {}", m)
+                    }
+                    Err(_) => {
+                        info!("could not get sensor mode")
+                    }
+                }
                 let p = data.pressure;
                 if let None = last_p {
                     last_p = Some(p);
