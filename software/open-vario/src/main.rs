@@ -6,6 +6,7 @@
 #![no_main]
 
 use bme280;
+use bme280::{Configuration, IIRFilter, Oversampling};
 use defmt::*;
 use embassy_executor::Spawner;
 use embassy_rp::gpio;
@@ -13,6 +14,7 @@ use embassy_rp::i2c::{self, Config};
 use embassy_sync::blocking_mutex::raw::ThreadModeRawMutex;
 use embassy_sync::mutex::Mutex;
 use embassy_time::{Delay, Duration, Timer};
+use embedded_hal::delay::DelayNs;
 use gpio::{Level, Output};
 use {defmt_rtt as _, panic_probe as _};
 
@@ -43,7 +45,12 @@ async fn main(spawner: Spawner) {
     let mut ps = bme280::i2c::BME280::new_primary(i2c);
     let mut d = Delay {};
 
-    match ps.init(&mut d) {
+    let bme_config = Configuration::default()
+        .with_pressure_oversampling(Oversampling::Oversampling16X)
+        .with_temperature_oversampling(Oversampling::Oversampling1X)
+        .with_iir_filter(IIRFilter::Coefficient16);
+
+    match ps.init_with_config(&mut d, bme_config) {
         Ok(_) => {
             info!("BME init successful");
         }
@@ -51,7 +58,9 @@ async fn main(spawner: Spawner) {
             error!("BME init failed");
         }
     }
-    ps.set_normal_mode(&mut d);
+    // let _ = ps.set_normal_mode(&mut d);
+    let _ = ps.common.set_normal_mode(&mut d);
+    d.delay_ms(100);
     let mut last_p: Option<f32> = None;
     let mut h: f32 = 0.;
 
