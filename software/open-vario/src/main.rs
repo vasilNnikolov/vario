@@ -13,7 +13,7 @@ use embassy_rp::gpio;
 use embassy_rp::i2c::{self, Config};
 use embassy_sync::blocking_mutex::raw::ThreadModeRawMutex;
 use embassy_sync::mutex::Mutex;
-use embassy_time::{Delay, Duration, Timer};
+use embassy_time::{Delay, Duration, Instant, Timer};
 use embedded_hal::delay::DelayNs;
 use gpio::{Level, Output};
 use {defmt_rtt as _, panic_probe as _};
@@ -23,7 +23,7 @@ static LED: LedType = Mutex::new(None);
 const G: f32 = 9.81; // m.s^-2
 const MU: f32 = 29e-3; // kg.mol^-1
 const R: f32 = 8.314; // J.mol^-1
-const DT: Duration = Duration::from_millis(100);
+const DT: Duration = Duration::from_millis(20);
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -60,30 +60,21 @@ async fn main(spawner: Spawner) {
     }
     // let _ = ps.set_normal_mode(&mut d);
     let _ = ps.common.set_normal_mode(&mut d);
-    d.delay_ms(100);
+    d.delay_ms(1000);
     let mut last_p: Option<f32> = None;
+    let mut last_t: Option<Instant> = None;
     let mut h: f32 = 0.;
 
     loop {
         match ps.measure(&mut d) {
             Ok(data) => {
-                match ps.mode() {
-                    Ok(m) => {
-                        info!("sensor mode {}", m)
-                    }
-                    Err(_) => {
-                        info!("could not get sensor mode")
-                    }
-                }
                 let p = data.pressure;
-                if let None = last_p {
-                    last_p = Some(p);
-                }
                 let t = data.temperature;
-                info!("{} Pa, {} C", p, t);
+                let now = Instant::now();
+                // info!("{} Pa, {} C", p, t);
 
-                if let Some(last_p) = last_p {
-                    let dpdt = (p - last_p) / (DT.as_millis() as f32 / 1000.0);
+                if let (Some(last_p), Some(last_t)) = (last_p, last_t) {
+                    let dpdt = (p - last_p) / ((now - last_t).as_micros() as f32 / 1_000_000.0);
 
                     let v = -(R * (t + 273.15)) / (G * p * MU) * dpdt;
                     h += v * (DT.as_millis() as f32 / 1000.);
@@ -95,9 +86,11 @@ async fn main(spawner: Spawner) {
                     );
                 }
                 last_p = Some(p);
+                last_t = Some(now);
             }
             Err(_) => {
-                error!("Could not measure from BME280");
+                warn!("Could not measure from BME280");
+                d.delay_ms(100);
             }
         }
         Timer::after(DT).await;
