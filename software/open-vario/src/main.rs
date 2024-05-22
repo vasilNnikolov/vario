@@ -17,13 +17,14 @@ use embassy_time::{Delay, Duration, Instant, Timer};
 use embedded_hal::delay::DelayNs;
 use gpio::{Level, Output};
 use {defmt_rtt as _, panic_probe as _};
+mod fir;
 
 type LedType = Mutex<ThreadModeRawMutex, Option<Output<'static>>>;
 static LED: LedType = Mutex::new(None);
 const G: f32 = 9.81; // m.s^-2
 const MU: f32 = 29e-3; // kg.mol^-1
 const R: f32 = 8.314; // J.mol^-1
-const DT: Duration = Duration::from_millis(20);
+const DT: Duration = Duration::from_millis(50);
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -64,6 +65,7 @@ async fn main(spawner: Spawner) {
     let mut last_p: Option<f32> = None;
     let mut last_t: Option<Instant> = None;
     let mut h: f32 = 0.;
+    let mut fir = fir::FIR93;
 
     loop {
         match ps.measure(&mut d) {
@@ -71,18 +73,20 @@ async fn main(spawner: Spawner) {
                 let p = data.pressure;
                 let t = data.temperature;
                 let now = Instant::now();
-                // info!("{} Pa, {} C", p, t);
 
                 if let (Some(last_p), Some(last_t)) = (last_p, last_t) {
-                    let dpdt = (p - last_p) / ((now - last_t).as_micros() as f32 / 1_000_000.0);
+                    let dt = (now - last_t).as_micros() as f32 / 1_000_000.0;
+                    let dpdt = (p - last_p) / dt;
 
                     let v = -(R * (t + 273.15)) / (G * p * MU) * dpdt;
+                    fir.feed(v);
                     h += v * (DT.as_millis() as f32 / 1000.);
 
                     info!(
-                        "Vertical speed {} cm/s, height {} cm",
-                        100. * ((1000.0 * v) as i32) as f32 / 1000.0,
-                        100. * ((1000.0 * h) as i32) as f32 / 1000.0,
+                        "Vertical speed {} cm/s, height {} cm, filtered v {} cm/s",
+                        100. * v,
+                        100. * h,
+                        100. * fir.output(),
                     );
                 }
                 last_p = Some(p);
@@ -93,6 +97,7 @@ async fn main(spawner: Spawner) {
                 d.delay_ms(100);
             }
         }
+
         Timer::after(DT).await;
     }
 }
