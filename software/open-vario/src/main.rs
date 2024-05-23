@@ -24,7 +24,7 @@ static LED: LedType = Mutex::new(None);
 const G: f32 = 9.81; // m.s^-2
 const MU: f32 = 29e-3; // kg.mol^-1
 const R: f32 = 8.314; // J.mol^-1
-const DT: Duration = Duration::from_millis(50);
+const DT: Duration = Duration::from_millis(250);
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -51,21 +51,16 @@ async fn main(spawner: Spawner) {
         .with_temperature_oversampling(Oversampling::Oversampling1X)
         .with_iir_filter(IIRFilter::Coefficient16);
 
-    match ps.init_with_config(&mut d, bme_config) {
-        Ok(_) => {
-            info!("BME init successful");
-        }
-        Err(_) => {
-            error!("BME init failed");
-        }
-    }
-    // let _ = ps.set_normal_mode(&mut d);
+    ps.init_with_config(&mut d, bme_config)
+        .unwrap_or_else(|_| error!("could not inint BME280"));
+    info!("BME init successful");
+
     let _ = ps.common.set_normal_mode(&mut d);
     d.delay_ms(1000);
     let mut last_p: Option<f32> = None;
     let mut last_t: Option<Instant> = None;
     let mut h: f32 = 0.;
-    let mut fir = fir::FIR93;
+    let mut fir = fir::MAVG;
 
     loop {
         match ps.measure(&mut d) {
@@ -83,7 +78,7 @@ async fn main(spawner: Spawner) {
                     h += v * (DT.as_millis() as f32 / 1000.);
 
                     info!(
-                        "Vertical speed {} cm/s, height {} cm, filtered v {} cm/s",
+                        "VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s",
                         100. * v,
                         100. * h,
                         100. * fir.output(),
@@ -95,6 +90,12 @@ async fn main(spawner: Spawner) {
             Err(_) => {
                 warn!("Could not measure from BME280");
                 d.delay_ms(100);
+                if let Err(_) = ps.init_with_config(&mut d, bme_config) {
+                    warn!("could not reinint BME280");
+                    continue;
+                };
+                let _ = ps.common.set_normal_mode(&mut d);
+                d.delay_ms(1000);
             }
         }
 
