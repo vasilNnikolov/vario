@@ -1,7 +1,3 @@
-//! This example test the RP Pico on board LED.
-//!
-//! It does not work with the RP Pico W board. See wifi_blinky.rs.
-
 #![no_std]
 #![no_main]
 
@@ -78,7 +74,8 @@ async fn main(spawner: Spawner) {
                     h += v * (DT.as_millis() as f32 / 1000.);
 
                     info!(
-                        "VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s",
+                        "VAR pressure {} Pa, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s",
+                        p,
                         100. * v,
                         100. * h,
                         100. * fir.output(),
