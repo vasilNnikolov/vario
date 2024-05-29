@@ -20,7 +20,7 @@ static LED: LedType = Mutex::new(None);
 const G: f32 = 9.81; // m.s^-2
 const MU: f32 = 29e-3; // kg.mol^-1
 const R: f32 = 8.314; // J.mol^-1
-const DT: Duration = Duration::from_millis(250);
+const DT: Duration = Duration::from_millis(50);
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -56,7 +56,9 @@ async fn main(spawner: Spawner) {
     let mut last_p: Option<f32> = None;
     let mut last_t: Option<Instant> = None;
     let mut h: f32 = 0.;
-    let mut fir = fir::MAVG;
+    let mut filtered_h: f32 = 0.;
+
+    let mut fir = fir::moving_average!(100);
 
     loop {
         match ps.measure(&mut d) {
@@ -70,15 +72,20 @@ async fn main(spawner: Spawner) {
                     let dpdt = (p - last_p) / dt;
 
                     let v = -(R * (t + 273.15)) / (G * p * MU) * dpdt;
-                    fir.feed(v);
                     h += v * (DT.as_millis() as f32 / 1000.);
 
+                    fir.feed(v);
+                    let filtered_v = fir.output();
+                    filtered_h += filtered_v * (DT.as_millis() as f32 / 1000.);
+
                     info!(
-                        "VAR pressure {} Pa, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s",
+                        "VAR t_ms {} ms, VAR pressure {} Pa, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s, VAR filtered_h {} cm",
+                        now.as_millis(),
                         p,
                         100. * v,
                         100. * h,
-                        100. * fir.output(),
+                        100. * filtered_v,
+                        100. * filtered_h
                     );
                 }
                 last_p = Some(p);
