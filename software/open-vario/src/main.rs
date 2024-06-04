@@ -5,8 +5,8 @@ use bme280;
 use bme280::{Configuration, IIRFilter, Oversampling};
 use defmt::*;
 use embassy_executor::Spawner;
-use embassy_rp::gpio;
 use embassy_rp::i2c::{self, Config};
+use embassy_rp::{gpio, pwm};
 use embassy_sync::blocking_mutex::raw::ThreadModeRawMutex;
 use embassy_sync::mutex::Mutex;
 use embassy_time::{Delay, Duration, Instant, Timer};
@@ -15,8 +15,15 @@ use gpio::{Level, Output};
 use {defmt_rtt as _, panic_probe as _};
 mod fir;
 
-type LedType = Mutex<ThreadModeRawMutex, Option<Output<'static>>>;
-static LED: LedType = Mutex::new(None);
+// a type allowing to share peripherals
+type Shared<T> = Mutex<ThreadModeRawMutex, T>;
+
+type OutputPin = Shared<Option<Output<'static>>>;
+static LED: OutputPin = Mutex::new(None);
+const MAX_V: f32 = 10.0; // m.s^-1
+
+// static VELOCITY: Shared<f32> = Mutex::new(0.0);
+
 const G: f32 = 9.81; // m.s^-2
 const MU: f32 = 29e-3; // kg.mol^-1
 const R: f32 = 8.314; // J.mol^-1
@@ -60,6 +67,17 @@ async fn main(spawner: Spawner) {
 
     let mut fir = fir::moving_average!(100);
 
+    // set up pwm on pin 1, frequency ~1907 Hz
+    let mut pwm_config = pwm::Config::default();
+    pwm_config.top = 0xffff;
+    pwm_config.compare_b = 0x7fff;
+    let mut pwm = pwm::Pwm::new_output_b(p.PWM_SLICE0, p.PIN_1, pwm_config);
+    Timer::after(Duration::from_secs(2)).await;
+
+    let mut pwm_config = pwm::Config::default();
+    pwm_config.top = 0xffff;
+    pwm_config.compare_b = 0x7fff;
+
     loop {
         match ps.measure(&mut d) {
             Ok(data) => {
@@ -67,29 +85,38 @@ async fn main(spawner: Spawner) {
                 let t = data.temperature;
                 let now = Instant::now();
 
-                if let (Some(last_p), Some(last_t)) = (last_p, last_t) {
-                    let dt = (now - last_t).as_micros() as f32 / 1_000_000.0;
-                    let dpdt = (p - last_p) / dt;
-
-                    let v = -(R * (t + 273.15)) / (G * p * MU) * dpdt;
-                    h += v * (DT.as_millis() as f32 / 1000.);
-
-                    fir.feed(v);
-                    let filtered_v = fir.output();
-                    filtered_h += filtered_v * (DT.as_millis() as f32 / 1000.);
-
-                    info!(
-                        "VAR t_ms {} ms, VAR pressure {} Pa, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s, VAR filtered_h {} cm",
-                        now.as_millis(),
-                        p,
-                        100. * v,
-                        100. * h,
-                        100. * filtered_v,
-                        100. * filtered_h
-                    );
+                if let (None, None) = (last_p, last_t) {
+                    last_p = Some(p);
+                    last_t = Some(now);
+                    continue;
                 }
-                last_p = Some(p);
-                last_t = Some(now);
+
+                let (last_p, last_t) = (last_p.unwrap(), last_t.unwrap());
+                let dt = (now - last_t).as_micros() as f32 / 1_000_000.0;
+                let dpdt = (p - last_p) / dt;
+
+                let v = -(R * (t + 273.15)) / (G * p * MU) * dpdt;
+                h += v * (DT.as_millis() as f32 / 1000.);
+
+                fir.feed(v);
+                let filtered_v = fir.output();
+                filtered_h += filtered_v * (DT.as_millis() as f32 / 1000.);
+
+                info!(
+                    "VAR t_ms {} ms, VAR pressure {} Pa, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s, VAR filtered_h {} cm",
+                    now.as_millis(),
+                    p,
+                    100. * v,
+                    100. * h,
+                    100. * filtered_v,
+                    100. * filtered_h
+                );
+                pwm_config.compare_b = if filtered_v < 0. {
+                    0
+                } else {
+                    ((filtered_v / MAX_V) * 0xffff as f32) as u16
+                };
+                pwm.set_config(&pwm_config);
             }
             Err(_) => {
                 warn!("Could not measure from BME280");
@@ -108,7 +135,7 @@ async fn main(spawner: Spawner) {
 }
 
 #[embassy_executor::task]
-async fn blink_led(led: &'static LedType) {
+async fn blink_led(led: &'static OutputPin) {
     loop {
         {
             let mut led_unlocked = led.lock().await;
