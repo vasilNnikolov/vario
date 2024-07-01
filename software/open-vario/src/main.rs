@@ -15,19 +15,22 @@ use gpio::{Level, Output};
 use {defmt_rtt as _, panic_probe as _};
 mod fir;
 
+const G: f32 = 9.81; // m.s^-2
+const MU: f32 = 29e-3; // kg.mol^-1
+const R: f32 = 8.314; // J.mol^-1
+/// the delay between each poll of the pressure sensor
+const LOOP_DT: Duration = Duration::from_millis(50);
+/// the duration of one beep
+const BEEP_TIME: Duration = Duration::from_millis(400);
+const N_FREQUENCY_INCREASES: u8 = 10;
+
 // a type allowing to share peripherals
 type Shared<T> = Mutex<ThreadModeRawMutex, T>;
 
 type OutputPin = Shared<Option<Output<'static>>>;
 static LED: OutputPin = Mutex::new(None);
-const MAX_V: f32 = 10.0; // m.s^-1
-
-// static VELOCITY: Shared<f32> = Mutex::new(0.0);
-
-const G: f32 = 9.81; // m.s^-2
-const MU: f32 = 29e-3; // kg.mol^-1
-const R: f32 = 8.314; // J.mol^-1
-const DT: Duration = Duration::from_millis(50);
+static VELOCITY: Shared<f32> = Mutex::new(0.0);
+const MAX_V: f32 = 0.1; // m.s^-1
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -71,12 +74,8 @@ async fn main(spawner: Spawner) {
     let mut pwm_config = pwm::Config::default();
     pwm_config.top = 0xffff;
     pwm_config.compare_b = 0x7fff;
-    let mut pwm = pwm::Pwm::new_output_b(p.PWM_SLICE0, p.PIN_1, pwm_config);
+    let mut pwm = pwm::Pwm::new_output_b(p.PWM_SLICE0, p.PIN_1, pwm_config.clone());
     Timer::after(Duration::from_secs(2)).await;
-
-    let mut pwm_config = pwm::Config::default();
-    pwm_config.top = 0xffff;
-    pwm_config.compare_b = 0x7fff;
 
     loop {
         match ps.measure(&mut d) {
@@ -96,11 +95,14 @@ async fn main(spawner: Spawner) {
                 let dpdt = (p - last_p) / dt;
 
                 let v = -(R * (t + 273.15)) / (G * p * MU) * dpdt;
-                h += v * (DT.as_millis() as f32 / 1000.);
+                h += v * (LOOP_DT.as_millis() as f32 / 1000.);
 
                 fir.feed(v);
                 let filtered_v = fir.output();
-                filtered_h += filtered_v * (DT.as_millis() as f32 / 1000.);
+                {
+                    *(VELOCITY.lock().await) = filtered_v;
+                }
+                filtered_h += filtered_v * (LOOP_DT.as_millis() as f32 / 1000.);
 
                 info!(
                     "VAR t_ms {} ms, VAR pressure {} Pa, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s, VAR filtered_h {} cm",
@@ -130,7 +132,7 @@ async fn main(spawner: Spawner) {
             }
         }
 
-        Timer::after(DT).await;
+        Timer::after(LOOP_DT).await;
     }
 }
 
@@ -153,5 +155,25 @@ async fn blink_led(led: &'static OutputPin) {
             debug!("LED off")
         }
         Timer::after_millis(1000).await;
+    }
+}
+
+#[embassy_executor::task]
+async fn beep(_beeper_pin: impl pwm::Slice) {
+    loop {
+        let v = { *(VELOCITY.lock().await) };
+        let mut pwm_config = pwm::Config::default();
+        let PWM_MAX_TOP = 0xffffu16;
+        if v > 0. {
+            // beeps with increasing freqency
+            // final frequency is twice the starting freqency
+            for i in 0..N_FREQUENCY_INCREASES {
+                pwm_config.top =
+                    (PWM_MAX_TOP as f32 / (1. + i as f32 / N_FREQUENCY_INCREASES as f32)) as u16;
+                // 50% duty cycle
+                pwm_config.compare_b = pwm_config.top >> 1;
+                Timer::after(BEEP_TIME / N_FREQUENCY_INCREASES.into()).await
+            }
+        }
     }
 }
