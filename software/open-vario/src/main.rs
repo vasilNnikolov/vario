@@ -19,10 +19,10 @@ const G: f32 = 9.81; // m.s^-2
 const MU: f32 = 29e-3; // kg.mol^-1
 const R: f32 = 8.314; // J.mol^-1
 /// the delay between each poll of the pressure sensor
-const LOOP_DT: Duration = Duration::from_millis(50);
+const LOOP_DT: Duration = Duration::from_millis(500);
 /// the duration of one beep
 const BEEP_TIME: Duration = Duration::from_millis(400);
-const N_FREQUENCY_INCREASES: u8 = 10;
+const N_FREQUENCY_INCREASES: u8 = 50;
 
 // a type allowing to share peripherals
 type Shared<T> = Mutex<ThreadModeRawMutex, T>;
@@ -30,7 +30,8 @@ type Shared<T> = Mutex<ThreadModeRawMutex, T>;
 type OutputPin = Shared<Option<Output<'static>>>;
 static LED: OutputPin = Mutex::new(None);
 static VELOCITY: Shared<f32> = Mutex::new(0.0);
-const MAX_V: f32 = 0.1; // m.s^-1
+/// if the height changes by that much, a beep is played out
+const BEEP_INTERVAL: f32 = 0.5; // m
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -68,7 +69,7 @@ async fn main(spawner: Spawner) {
     let mut h: f32 = 0.;
     let mut filtered_h: f32 = 0.;
 
-    let mut fir = fir::moving_average!(100);
+    let mut fir = fir::moving_average!(30);
 
     // set up pwm on pin 1, frequency ~1907 Hz
     let mut pwm_config = pwm::Config::default();
@@ -76,6 +77,7 @@ async fn main(spawner: Spawner) {
     pwm_config.compare_b = 0x7fff;
     let mut pwm = pwm::Pwm::new_output_b(p.PWM_SLICE0, p.PIN_1, pwm_config.clone());
     Timer::after(Duration::from_secs(2)).await;
+    let mut last_beep_hight: f32 = 0.;
 
     loop {
         match ps.measure(&mut d) {
@@ -91,34 +93,38 @@ async fn main(spawner: Spawner) {
                 }
 
                 let (last_p, last_t) = (last_p.unwrap(), last_t.unwrap());
-                let dt = (now - last_t).as_micros() as f32 / 1_000_000.0;
-                let dpdt = (p - last_p) / dt;
+                let dt = now - last_t;
+                let dpdt = (p - last_p) / (dt.as_micros() as f32 / 1_000_000.0);
 
                 let v = -(R * (t + 273.15)) / (G * p * MU) * dpdt;
-                h += v * (LOOP_DT.as_millis() as f32 / 1000.);
+                h += v * (dt.as_millis() as f32 / 1000.);
 
                 fir.feed(v);
                 let filtered_v = fir.output();
                 {
                     *(VELOCITY.lock().await) = filtered_v;
                 }
-                filtered_h += filtered_v * (LOOP_DT.as_millis() as f32 / 1000.);
+                filtered_h += filtered_v * (dt.as_millis() as f32 / 1000.);
 
                 info!(
-                    "VAR t_ms {} ms, VAR pressure {} Pa, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s, VAR filtered_h {} cm",
+                    "VAR t_ms {} ms, VAR pressure {} Pa, VAR dpdt {} Pa/s, VAR veritcal_speed {} cm/s, VAR height {} cm, VAR filtered_v {} cm/s, VAR filtered_h {} cm",
                     now.as_millis(),
                     p,
+                    dpdt,
                     100. * v,
                     100. * h,
                     100. * filtered_v,
                     100. * filtered_h
                 );
-                pwm_config.compare_b = if filtered_v < 0. {
-                    0
-                } else {
-                    ((filtered_v / MAX_V) * 0xffff as f32) as u16
-                };
-                pwm.set_config(&pwm_config);
+                if filtered_h - last_beep_hight > BEEP_INTERVAL {
+                    last_beep_hight = filtered_h;
+                    beep(&mut pwm, true).await;
+                    info!("beep up");
+                } else if last_beep_hight - filtered_h > BEEP_INTERVAL {
+                    last_beep_hight = filtered_h;
+                    beep(&mut pwm, false).await;
+                    info!("beep down");
+                }
             }
             Err(_) => {
                 warn!("Could not measure from BME280");
@@ -158,22 +164,28 @@ async fn blink_led(led: &'static OutputPin) {
     }
 }
 
-#[embassy_executor::task]
-async fn beep(_beeper_pin: impl pwm::Slice) {
-    loop {
-        let v = { *(VELOCITY.lock().await) };
-        let mut pwm_config = pwm::Config::default();
-        let PWM_MAX_TOP = 0xffffu16;
-        if v > 0. {
-            // beeps with increasing freqency
-            // final frequency is twice the starting freqency
-            for i in 0..N_FREQUENCY_INCREASES {
-                pwm_config.top =
-                    (PWM_MAX_TOP as f32 / (1. + i as f32 / N_FREQUENCY_INCREASES as f32)) as u16;
-                // 50% duty cycle
-                pwm_config.compare_b = pwm_config.top >> 1;
-                Timer::after(BEEP_TIME / N_FREQUENCY_INCREASES.into()).await
-            }
+/// if beep_up is true, beep up. If false, beep down
+async fn beep<'d, T>(beeper_pin: &mut pwm::Pwm<'d, T>, beep_up: bool)
+where
+    T: pwm::Slice,
+{
+    let mut pwm_config = pwm::Config::default();
+    let pwm_max_top = 0xffffu16;
+    let pwm_min_top = pwm_max_top >> 4;
+    // beeps with increasing freqency
+    // final frequency is twice the starting freqency
+    for i in 0..N_FREQUENCY_INCREASES {
+        let factor = 1. + (3 * i) as f32 / N_FREQUENCY_INCREASES as f32;
+        if beep_up {
+            pwm_config.top = (pwm_max_top as f32 / factor) as u16;
+        } else {
+            pwm_config.top = (pwm_min_top as f32 * factor) as u16;
         }
+        // 12.5% duty cycle
+        pwm_config.compare_b = pwm_config.top >> 1;
+        beeper_pin.set_config(&pwm_config);
+        Timer::after(BEEP_TIME / N_FREQUENCY_INCREASES.into()).await
     }
+    pwm_config.compare_b = 0;
+    beeper_pin.set_config(&pwm_config);
 }
