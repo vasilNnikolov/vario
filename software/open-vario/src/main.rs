@@ -27,8 +27,6 @@ const N_FREQUENCY_INCREASES: u8 = 50;
 // a type allowing to share peripherals
 type Shared<T> = Mutex<ThreadModeRawMutex, T>;
 
-type OutputPin = Shared<Option<Output<'static>>>;
-static LED: OutputPin = Mutex::new(None);
 static VELOCITY: Shared<f32> = Mutex::new(0.0);
 /// if the height changes by that much, a beep is played out
 const BEEP_INTERVAL: f32 = 0.5; // m
@@ -36,12 +34,7 @@ const BEEP_INTERVAL: f32 = 0.5; // m
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     let p = embassy_rp::init(Default::default());
-    // set up blinking LED
-    {
-        *(LED.lock().await) = Some(Output::new(p.PIN_25, Level::Low));
-    }
-
-    unwrap!(spawner.spawn(blink_led(&LED)));
+    unwrap!(spawner.spawn(blink_led(Output::new(p.PIN_25, Level::Low))));
 
     // set up BME280 I2C
     let sda = p.PIN_14;
@@ -59,7 +52,8 @@ async fn main(spawner: Spawner) {
         .with_iir_filter(IIRFilter::Coefficient16);
 
     ps.init_with_config(&mut d, bme_config)
-        .unwrap_or_else(|_| error!("could not inint BME280"));
+        .unwrap_or_else(|_| core::panic!("could not inint BME280"));
+
     info!("BME init successful");
 
     let _ = ps.common.set_normal_mode(&mut d);
@@ -143,23 +137,11 @@ async fn main(spawner: Spawner) {
 }
 
 #[embassy_executor::task]
-async fn blink_led(led: &'static OutputPin) {
+async fn blink_led(mut led: Output<'static>) {
     loop {
-        {
-            let mut led_unlocked = led.lock().await;
-            if let Some(pin_ref) = led_unlocked.as_mut() {
-                pin_ref.set_high();
-            }
-            debug!("LED on")
-        }
+        led.set_high();
         Timer::after_millis(100).await;
-        {
-            let mut led_unlocked = led.lock().await;
-            if let Some(pin_ref) = led_unlocked.as_mut() {
-                pin_ref.set_low();
-            }
-            debug!("LED off")
-        }
+        led.set_low();
         Timer::after_millis(1000).await;
     }
 }
