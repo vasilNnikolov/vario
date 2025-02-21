@@ -1,6 +1,8 @@
 #![no_std]
 #![no_main]
 
+use core::{any::Any, borrow::Borrow};
+
 // pick a panicking behavior
 use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
                      // use panic_abort as _; // requires nightly
@@ -13,16 +15,36 @@ use defmt::info;
 use defmt_rtt as _;
 use stm32l0::stm32l0x1;
 
+fn log_resets(rcc: &stm32l0x1::RCC) {
+    let low_power_reset = rcc.csr.read().porrstf().bit_is_set();
+    info!("POR true/false: {}", low_power_reset);
+}
+
 #[entry]
 fn main() -> ! {
-    let core_p = cortex_m::Peripherals::take().unwrap();
+    info!("Start");
+    let _core_p = cortex_m::Peripherals::take().unwrap();
     let p = stm32l0x1::Peripherals::take().unwrap();
-    info!("abcd");
 
-    asm::nop(); // To not have main optimize to abort in release mode, remove when you add code
+    log_resets(&p.RCC);
+    p.RCC.iopenr.modify(|_, w| w.iopaen().bit(true));
+    p.GPIOA.moder.modify(|_, w| w.mode8().output());
+    p.GPIOA.otyper.modify(|_, w| w.ot8().push_pull());
 
+    let mut i = 0;
     loop {
-        // your code goes here
-        asm::nop();
+        info!("Counter: {}", i);
+        if i & 1 == 0 {
+            // turn on
+            p.GPIOA.bsrr.write(|w| w.bs8().set_bit());
+        } else {
+            // turn off
+            p.GPIOA.bsrr.write(|w| w.br8().set_bit());
+        }
+
+        i += 1;
+        for _ in 0..16_000_000 {
+            asm::nop();
+        }
     }
 }
