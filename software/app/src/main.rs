@@ -1,9 +1,6 @@
 #![no_std]
 #![no_main]
 
-use core::{any::Any, borrow::Borrow};
-
-// pick a panicking behavior
 use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
                      // use panic_abort as _; // requires nightly
                      // use panic_itm as _; // logs messages over ITM; requires ITM support
