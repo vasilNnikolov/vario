@@ -1,3 +1,0 @@
-[submodule "software/bme280-rs"]
-	path = software/bme280-rs
-	url = git@github.com:vasilNnikolov/bme280-rs.git
