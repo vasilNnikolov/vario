@@ -1,8 +1,10 @@
 ## Hardware
 
-- `STM32L071CBT6` MCU
-    - [Reference manual](/stm32l0x1reference_manual.pdf)
-    - [Datasheet](/stm32l071v8.pdf)
+- `STM32L072CBT6` MCU
+    - [Reference manual](stm32l0x2_reference_manual.pdf)
+    - [Datasheet](stm32l072cb.pdf)
+    - [JLCPCB part](https://jlcpcb.com/partdetail/STMicroelectronics-STM32L072CBT6/C465977)
+    - has USB peripheral
 
 - `BME280` pressure and temperature sensor
 - small SMD speaker
