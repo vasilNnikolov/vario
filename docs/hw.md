@@ -8,6 +8,8 @@
 
 - `BME280` pressure and temperature sensor
 - small SMD speaker
+    - class D audio amplifier, see [this manual](class_d_filter_design.pdf)
+    - `NS4150B`
 - External flash to store audio: `W25Q128JVSIQ`
     - [Basic part in JLCPCB](https://jlcpcb.com/partdetail/WinbondElec-W25Q128JVSIQ/C97521)
     - SPI interface
