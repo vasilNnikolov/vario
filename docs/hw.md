@@ -15,3 +15,4 @@
     - 16 MiB ~= 3 min 16bit PCM audio@44.1 kHz
 - coin battery
     - `LIR2032` - 3.6V, 45 mAh, rechargeable
+    - [charge ic](https://jlcpcb.com/partdetail/Goodwork-TP4054/C21713960)
