@@ -7,6 +7,211 @@
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "U"
+			(at -5.08 10.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at -5.08 10.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_SO:MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at -5.08 10.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at -5.08 10.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "NS4150B_1_1"
+			(rectangle
+				(start -8.89 8.89)
+				(end 8.89 -10.16)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(pin input line
+				(at -11.43 5.08 0)
+				(length 2.54)
+				(name "CTRL"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -11.43 -6.35 0)
+				(length 2.54)
+				(name "BYPASS"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -11.43 1.27 0)
+				(length 2.54)
+				(name "INP"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -11.43 -2.54 0)
+				(length 2.54)
+				(name "INN"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 11.43 -2.54 180)
+				(length 2.54)
+				(name "VoN"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 11.43 5.08 180)
+				(length 2.54)
+				(name "VCC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 11.43 -6.35 180)
+				(length 2.54)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 11.43 1.27 180)
+				(length 2.54)
+				(name "VoP"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "8"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+	)
+	(symbol "TP4054"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "U"
 			(at 0 0 0)
 			(effects
 				(font
@@ -22,7 +227,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SO:MSOP-8-1EP_3x3mm_P0.65mm_EP1.73x1.85mm"
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
 			(at 0 0 0)
 			(effects
 				(font
@@ -49,22 +254,22 @@
 				(hide yes)
 			)
 		)
-		(symbol "NS4150B_1_1"
+		(symbol "TP4054_1_1"
 			(rectangle
 				(start -3.81 -1.27)
-				(end 13.97 -20.32)
+				(end 11.43 -16.51)
 				(stroke
 					(width 0)
 					(type default)
 				)
 				(fill
-					(type none)
+					(type background)
 				)
 			)
 			(pin input line
-				(at -6.35 -5.08 0)
+				(at -6.35 -8.89 0)
 				(length 2.54)
-				(name "CTRL"
+				(name "~{CHRG}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -79,10 +284,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -6.35 -8.89 0)
+			(pin power_in line
+				(at -6.35 -12.7 0)
 				(length 2.54)
-				(name "BYPASS"
+				(name "GND"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -97,10 +302,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -6.35 -12.7 0)
+			(pin power_out line
+				(at 13.97 -5.08 180)
 				(length 2.54)
-				(name "INP"
+				(name "BAT"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -115,10 +320,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -6.35 -16.51 0)
+			(pin power_in line
+				(at -6.35 -5.08 0)
 				(length 2.54)
-				(name "INN"
+				(name "VCC"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -133,10 +338,10 @@
 					)
 				)
 			)
-			(pin output line
-				(at 16.51 -12.7 180)
+			(pin input line
+				(at 13.97 -12.7 180)
 				(length 2.54)
-				(name "VoN"
+				(name "PROG"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -151,17 +356,86 @@
 					)
 				)
 			)
+		)
+	)
+	(symbol "____XC6206P332MR-G"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "U"
+			(at -3.81 6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at -3.81 6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at -3.81 6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at -3.81 6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at -3.81 6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_locked" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "____XC6206P332MR-G_1_1"
+			(rectangle
+				(start -7.62 5.08)
+				(end 7.62 -6.35)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
 			(pin power_in line
-				(at 16.51 -5.08 180)
+				(at 0 -8.89 90)
 				(length 2.54)
-				(name "VCC"
+				(name "VSS"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number "6"
+				(number "1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -170,16 +444,16 @@
 				)
 			)
 			(pin power_in line
-				(at 16.51 -16.51 180)
+				(at -10.16 1.27 0)
 				(length 2.54)
-				(name "GND"
+				(name "VIN"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number "7"
+				(number "2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -187,17 +461,17 @@
 					)
 				)
 			)
-			(pin power_in line
-				(at 16.51 -8.89 180)
+			(pin power_out line
+				(at 10.16 1.27 180)
 				(length 2.54)
-				(name "VoP"
+				(name "VOUT"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number "8"
+				(number "2"
 					(effects
 						(font
 							(size 1.27 1.27)

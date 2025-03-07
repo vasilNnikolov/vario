@@ -4,3 +4,5 @@ nav:
   - Hardware: "hw.md"
   - Software: "sw.md"
   
+markdown_extensions: 
+  - tables
