@@ -578,6 +578,18 @@
     [
       "50389aff-b244-451e-8e3a-c5addd2215e1",
       "Root"
+    ],
+    [
+      "ae77d581-7721-4c08-a977-60b9367d2173",
+      "switch1"
+    ],
+    [
+      "1d6f8f38-55c9-4e4a-ab41-42426d9c3f80",
+      "switch2"
+    ],
+    [
+      "976879c2-7f90-4e8e-bed0-613d5ac3800c",
+      "switch3"
     ]
   ],
   "text_variables": {}
