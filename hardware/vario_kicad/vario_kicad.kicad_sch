@@ -990,163 +990,6 @@
 				)
 			)
 		)
-		(symbol "Device:L"
-			(pin_numbers hide)
-			(pin_names
-				(offset 1.016) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "L"
-				(at -1.27 0 90)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "L"
-				(at 1.905 0 90)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Inductor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "inductor choke coil reactor magnetic"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "L_0_1"
-				(arc
-					(start 0 -2.54)
-					(mid 0.6323 -1.905)
-					(end 0 -1.27)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start 0 -1.27)
-					(mid 0.6323 -0.635)
-					(end 0 0)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start 0 0)
-					(mid 0.6323 0.635)
-					(end 0 1.27)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start 0 1.27)
-					(mid 0.6323 1.905)
-					(end 0 2.54)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "L_1_1"
-				(pin passive line
-					(at 0 3.81 270)
-					(length 1.27)
-					(name "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -3.81 90)
-					(length 1.27)
-					(name "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "Device:LED"
 			(pin_numbers hide)
 			(pin_names
@@ -2817,16 +2660,16 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U1"
-				(at 0 12.7 0)
+			(property "Reference" "U"
+				(at -5.08 10.16 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
 				)
 			)
-			(property "Value" "~"
-				(at 0 10.16 0)
+			(property "Value" ""
+				(at -5.08 10.16 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2842,7 +2685,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
+			(property "Datasheet" "https://www.lcsc.com/product-detail/Audio-Amplifiers_Shenzhen-Nsiway-Tech-NS4150B_C189961.html?s_z=n_ns4150b"
 				(at -5.08 10.16 0)
 				(effects
 					(font
@@ -3156,7 +2999,7 @@
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "U"
-				(at 0 0 0)
+				(at 0.508 4.064 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3172,7 +3015,7 @@
 				)
 			)
 			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
-				(at 0 0 0)
+				(at 1.778 1.27 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3180,8 +3023,8 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
-				(at 0 0 0)
+			(property "Datasheet" "https://www.lcsc.com/product-detail/Battery-Management_TOPPOWER-Nanjing-Extension-Microelectronics-TP4054-42-SOT25R_C32574.html?s_z=n_tp4054"
+				(at 0 8.382 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3302,7 +3145,7 @@
 				)
 			)
 		)
-		(symbol "New_Library:____XC6206P332MR-G"
+		(symbol "New_Library:XC6206P332MR-G"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -3323,7 +3166,7 @@
 				)
 			)
 			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-				(at -3.81 6.35 0)
+				(at 2.032 14.478 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3331,8 +3174,9 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
-				(at -3.81 6.35 0)
+			(property "Datasheet" "https://www.lcsc.com/product-detail/Voltage-Regulators-Linear-Low-Drop-Out-LDO-Regulators_Torex-Semicon-XC6206P332MR-G_C5446.html"
+				(at -4.064 10.414 0)
+				(do_not_autoplace)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3349,15 +3193,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "____XC6206P332MR-G_1_1"
+			(symbol "XC6206P332MR-G_1_1"
 				(rectangle
 					(start -7.62 5.08)
 					(end 7.62 -6.35)
@@ -4776,6 +4612,12 @@
 		(uuid "a8c641c3-83b9-422a-9a87-e774c185ecad")
 	)
 	(junction
+		(at 86.36 161.29)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a93eaf27-15da-4715-a60a-863aa080ea8d")
+	)
+	(junction
 		(at 105.41 254)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4812,12 +4654,6 @@
 		(uuid "c66ad67c-cede-4c45-994e-d77e3e78983d")
 	)
 	(junction
-		(at 83.82 195.58)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c9c3f3c2-5e53-4575-ac28-e768071633fc")
-	)
-	(junction
 		(at 67.31 135.89)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4840,12 +4676,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ded48b84-2ca3-4554-977c-c930c1656bb7")
-	)
-	(junction
-		(at 88.9 172.72)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e63a302a-d968-4347-8097-c5c28dc60b3c")
 	)
 	(junction
 		(at 49.53 95.25)
@@ -4950,16 +4780,6 @@
 			(type default)
 		)
 		(uuid "074d887e-25aa-491e-b053-4b07cb7f7886")
-	)
-	(wire
-		(pts
-			(xy 181.61 177.8) (xy 186.69 177.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0ab2b37c-f189-4868-9ad4-f4b84afc7bd5")
 	)
 	(wire
 		(pts
@@ -5163,16 +4983,6 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 172.72) (xy 99.06 185.42)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "227f1586-c7b1-4175-bb17-469a202ffa4e")
-	)
-	(wire
-		(pts
 			(xy 300.99 107.95) (xy 308.61 107.95)
 		)
 		(stroke
@@ -5373,7 +5183,7 @@
 	)
 	(wire
 		(pts
-			(xy 167.64 177.8) (xy 173.99 177.8)
+			(xy 167.64 177.8) (xy 179.07 177.8)
 		)
 		(stroke
 			(width 0)
@@ -5543,16 +5353,6 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 161.29) (xy 88.9 172.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4c250a6c-0eb9-4076-aa28-10267d653554")
-	)
-	(wire
-		(pts
 			(xy 113.03 176.53) (xy 113.03 171.45)
 		)
 		(stroke
@@ -5563,16 +5363,6 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 195.58) (xy 99.06 193.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4db7e993-b007-4a18-97d1-20d961642b4a")
-	)
-	(wire
-		(pts
 			(xy 356.87 224.79) (xy 356.87 228.6)
 		)
 		(stroke
@@ -5580,6 +5370,16 @@
 			(type default)
 		)
 		(uuid "4e7f5d65-8bfb-4c6f-bb30-0e02649de0a0")
+	)
+	(wire
+		(pts
+			(xy 76.2 158.75) (xy 86.36 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e7fe0f2-a63e-4ff6-b28e-a52490a6179d")
 	)
 	(wire
 		(pts
@@ -5853,16 +5653,6 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 194.31) (xy 83.82 195.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6608d8ff-0bfc-433b-8d95-fe64d030d900")
-	)
-	(wire
-		(pts
 			(xy 373.38 224.79) (xy 373.38 228.6)
 		)
 		(stroke
@@ -5960,6 +5750,16 @@
 			(type default)
 		)
 		(uuid "6df6debc-5305-408c-8b1c-cf09dffe21af")
+	)
+	(wire
+		(pts
+			(xy 86.36 161.29) (xy 86.36 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6eaf837f-ec6a-48c4-80c1-a1043c84e0e5")
 	)
 	(wire
 		(pts
@@ -6393,6 +6193,16 @@
 	)
 	(wire
 		(pts
+			(xy 86.36 158.75) (xy 86.36 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a3fa3b79-b878-4111-9854-d2663e3e0b33")
+	)
+	(wire
+		(pts
 			(xy 113.03 171.45) (xy 120.65 171.45)
 		)
 		(stroke
@@ -6513,6 +6323,16 @@
 	)
 	(wire
 		(pts
+			(xy 54.61 158.75) (xy 68.58 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af1f302f-e02c-41cd-a99a-9503e16eaad0")
+	)
+	(wire
+		(pts
 			(xy 283.21 176.53) (xy 283.21 177.8)
 		)
 		(stroke
@@ -6533,7 +6353,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 177.8) (xy 198.12 177.8)
+			(xy 186.69 177.8) (xy 190.5 177.8)
 		)
 		(stroke
 			(width 0)
@@ -6550,16 +6370,6 @@
 			(type default)
 		)
 		(uuid "b444f0f5-8403-422e-b30f-ccd7bad19f18")
-	)
-	(wire
-		(pts
-			(xy 83.82 195.58) (xy 99.06 195.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b4b9c634-ccd4-4808-a774-3735cb0518d1")
 	)
 	(wire
 		(pts
@@ -6670,16 +6480,6 @@
 			(type default)
 		)
 		(uuid "bebb051b-86af-4781-bda4-a0110d80c039")
-	)
-	(wire
-		(pts
-			(xy 88.9 172.72) (xy 99.06 172.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c03e9203-9092-47fa-bf87-6d79c983f422")
 	)
 	(wire
 		(pts
@@ -7053,7 +6853,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 195.58) (xy 83.82 196.85)
+			(xy 83.82 194.31) (xy 83.82 196.85)
 		)
 		(stroke
 			(width 0)
@@ -7110,6 +6910,16 @@
 			(type default)
 		)
 		(uuid "f3c8f330-7b65-4a0d-9711-456b129815c2")
+	)
+	(wire
+		(pts
+			(xy 91.44 161.29) (xy 86.36 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f4f16f05-b285-46d9-8bc0-bce50c2b45c4")
 	)
 	(wire
 		(pts
@@ -7253,7 +7063,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 172.72) (xy 80.01 172.72)
+			(xy 86.36 172.72) (xy 80.01 172.72)
 		)
 		(stroke
 			(width 0)
@@ -7345,9 +7155,19 @@
 		)
 		(uuid e3e9979a-d8bb-4be7-82ed-608030c08b1c)
 	)
-	(text "audio amp disabled by default"
+	(text "f_cutoff = 23.4 kHz"
 		(exclude_from_sim no)
-		(at 108.712 193.04 0)
+		(at 179.07 182.118 0)
+		(effects
+			(font
+				(size 0.762 0.762)
+			)
+		)
+		(uuid "25c6ea02-da47-40a2-bdd9-cf29d69f6765")
+	)
+	(text "audio amp enabled by default"
+		(exclude_from_sim no)
+		(at 99.822 157.988 0)
 		(effects
 			(font
 				(size 0.762 0.762)
@@ -7587,7 +7407,7 @@
 		(uuid "34cff74e-9211-42fb-9b20-6c4bd5891162")
 	)
 	(label "TIM2_CH3"
-		(at 198.12 177.8 0)
+		(at 190.5 177.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7687,7 +7507,7 @@
 		(uuid "6277e2e9-bcb5-43fe-97c3-039d0691c308")
 	)
 	(label "AUDIO_AMP_ENABLE"
-		(at 88.9 161.29 0)
+		(at 91.44 161.29 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8045,7 +7865,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 190.5 177.8 90)
+		(at 182.88 177.8 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8054,15 +7874,15 @@
 		(fields_autoplaced yes)
 		(uuid "080fbd0e-9645-4c2f-b712-56b69f46b696")
 		(property "Reference" "R21"
-			(at 190.5 171.45 90)
+			(at 182.88 171.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "330R"
-			(at 190.5 173.99 90)
+		(property "Value" "680R"
+			(at 182.88 173.99 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8070,7 +7890,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 179.578 90)
+			(at 182.88 179.578 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8079,7 +7899,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 190.5 177.8 0)
+			(at 182.88 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8088,7 +7908,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 190.5 177.8 0)
+			(at 182.88 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9422,74 +9242,6 @@
 			(project ""
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1"
 					(reference "TP1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:L")
-		(at 177.8 177.8 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "295e2934-9884-46bd-877f-b86ddaf7de2f")
-		(property "Reference" "L1"
-			(at 177.8 172.72 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10uH"
-			(at 177.8 175.26 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 177.8 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 177.8 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Inductor"
-			(at 177.8 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "25cd6c21-47a2-4935-851f-ccbd51c0692f")
-		)
-		(pin "2"
-			(uuid "1306e7d6-6e86-4d02-91ea-3502cf28ee10")
-		)
-		(instances
-			(project ""
-				(path "/50389aff-b244-451e-8e3a-c5addd2215e1"
-					(reference "L1")
 					(unit 1)
 				)
 			)
@@ -11242,7 +10994,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/Battery-Management_TOPPOWER-Nanjing-Extension-Microelectronics-TP4054-42-SOT25R_C32574.html?s_z=n_tp4054"
 			(at 54.61 41.91 0)
 			(effects
 				(font
@@ -11457,7 +11209,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/Audio-Amplifiers_Shenzhen-Nsiway-Tech-NS4150B_C189961.html?s_z=n_ns4150b"
 			(at 73.66 167.64 0)
 			(effects
 				(font
@@ -11641,77 +11393,6 @@
 			(project ""
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1"
 					(reference "C11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "New_Library:____XC6206P332MR-G")
-		(at 143.51 48.26 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "7e02a401-1e88-4412-9eef-0871da844649")
-		(property "Reference" "U6"
-			(at 143.51 39.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "~"
-			(at 143.51 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 139.7 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 139.7 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 139.7 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "0885d001-fbb9-4c3e-bf5c-8599570bb380")
-		)
-		(pin "1"
-			(uuid "8083d855-0273-4534-8079-0adf9be2b954")
-		)
-		(pin "2"
-			(uuid "2c4d7441-8bf1-4c30-85fa-ba6fec218a70")
-		)
-		(instances
-			(project ""
-				(path "/50389aff-b244-451e-8e3a-c5addd2215e1"
-					(reference "U6")
 					(unit 1)
 				)
 			)
@@ -12797,7 +12478,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "abf2b78b-521f-4bc7-b34c-2b3cc697f134")
 		(property "Reference" "BT1"
@@ -12925,6 +12606,78 @@
 			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1"
 					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "New_Library:XC6206P332MR-G")
+		(at 143.51 48.26 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b425408d-bfc7-4c2b-8ecb-4eb14bfea771")
+		(property "Reference" "U6"
+			(at 143.51 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 143.51 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
+			(at 145.542 33.782 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/product-detail/Voltage-Regulators-Linear-Low-Drop-Out-LDO-Regulators_Torex-Semicon-XC6206P332MR-G_C5446.html"
+			(at 139.446 37.846 0)
+			(do_not_autoplace yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 139.7 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "3c7b961d-82fd-4461-9e0a-5488b02c02df")
+		)
+		(pin "2"
+			(uuid "e2679cb0-662e-48cb-a423-fa8494e3e375")
+		)
+		(pin "1"
+			(uuid "5ea79e84-15e6-4997-bc16-a514a8476178")
+		)
+		(instances
+			(project ""
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1"
+					(reference "U6")
 					(unit 1)
 				)
 			)
@@ -13149,7 +12902,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1uF"
+		(property "Value" "10nF"
 			(at 171.45 186.6899 0)
 			(effects
 				(font
@@ -14314,34 +14067,32 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 99.06 189.23 0)
+		(at 72.39 158.75 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "e8bd9963-b355-44b3-9fe6-f98e1bfee58a")
+		(uuid "ed39d970-8090-4d02-b473-16666b8babdd")
 		(property "Reference" "R16"
-			(at 101.6 187.9599 0)
+			(at 72.39 152.4 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Value" "100k"
-			(at 101.6 190.4999 0)
+			(at 72.39 154.94 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 97.282 189.23 90)
+			(at 72.39 160.528 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14350,7 +14101,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 99.06 189.23 0)
+			(at 72.39 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14359,7 +14110,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 99.06 189.23 0)
+			(at 72.39 158.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14368,13 +14119,13 @@
 			)
 		)
 		(pin "1"
-			(uuid "b7e65337-71f8-424e-ad98-e5c3112d25cc")
+			(uuid "b5aa0722-c588-42e0-98a3-071bd888bb0a")
 		)
 		(pin "2"
-			(uuid "717f0605-cd81-4ec1-9475-6a68fa74403b")
+			(uuid "884dfa51-4820-4811-a2b4-0d79ed1cff51")
 		)
 		(instances
-			(project ""
+			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1"
 					(reference "R16")
 					(unit 1)
