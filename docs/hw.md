@@ -2,11 +2,12 @@
 
 ## Power budget
 
-| Component | Current typ, mA | Current max, mA |
-|:---:|:---:|:---:|
-| MCU | - | 105 | 
-| memory chip | 0.01 | 25 |
-| audio amp | 4 | 4 + speaker current |
+| Component | Current typ, mA | Current max, mA | Current stop mode, uA |
+|:---:|:---:|:---:|:---:|
+| MCU | - | 105 | 0.3 |
+| LDO | - | - | 1 |
+| memory chip | 0.01 | 25 | ~1 |
+| audio amp | 4 | 4 + speaker current | 0 (disconnected) |
 
 ## Component selection
 
@@ -17,7 +18,6 @@
     - has USB peripheral
 - `BME280` pressure and temperature sensor 
     - [datasheet](./bst-bme280-ds002.pdf)
-- TODO try `BMP581` pressure sensor
 - small SMD speaker
     - [`NS4150B`](ULNS4150b_NSIWAY_0001.pdf)
 - External flash to store audio: `W25Q128JVSIQ`

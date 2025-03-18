@@ -620,6 +620,26 @@
     [
       "976879c2-7f90-4e8e-bed0-613d5ac3800c",
       "switch3"
+    ],
+    [
+      "9ff7b2dd-70fe-4259-884c-1f1f10c7ad3d",
+      "power"
+    ],
+    [
+      "c1ce8014-8ca1-4d8c-ab67-abb68a6156e7",
+      "audio_amp"
+    ],
+    [
+      "a2acba3f-1e31-48a4-807d-9523c9d04b72",
+      "bme280"
+    ],
+    [
+      "46f26a35-4266-4bb4-816f-d8c91119a86f",
+      "memory"
+    ],
+    [
+      "4441a76a-484b-421b-b7b1-6af4df4487ca",
+      "leds"
     ]
   ],
   "text_variables": {}
