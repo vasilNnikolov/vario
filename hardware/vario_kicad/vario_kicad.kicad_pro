@@ -640,6 +640,10 @@
     [
       "4441a76a-484b-421b-b7b1-6af4df4487ca",
       "leds"
+    ],
+    [
+      "dd2cba4c-5ed6-4588-88fb-827c05b79647",
+      "mcu"
     ]
   ],
   "text_variables": {}
