@@ -12,14 +12,15 @@
 ## Component selection
 
 - `STM32L072CBT6` MCU
-    - [Reference manual](stm32l0x2_reference_manual.pdf)
-    - [Datasheet](stm32l072cb.pdf)
+    - [Reference manual](./stm32l0x2_reference_manual.pdf)
+    - [Datasheet](./stm32l072cb.pdf)
+    - [HW design guide](./an4467-getting-started-with-stm32l0xx-hardware-development-stmicroelectronics.pdf)
     - [JLCPCB part](https://jlcpcb.com/partdetail/STMicroelectronics-STM32L072CBT6/C465977)
     - has USB peripheral
 - `BME280` pressure and temperature sensor 
     - [datasheet](./bst-bme280-ds002.pdf)
 - small SMD speaker
-    - [`NS4150B`](ULNS4150b_NSIWAY_0001.pdf)
+    - [`NS4150B`](./ULNS4150b_NSIWAY_0001.pdf)
 - External flash to store audio: `W25Q128JVSIQ`
     - [Basic part in JLCPCB](https://jlcpcb.com/partdetail/WinbondElec-W25Q128JVSIQ/C97521)
     - SPI interface
