@@ -11,14 +11,30 @@
 
 ## Component selection
 
-- `STM32L072CBT6` MCU
-    - [Reference manual](./stm32l0x2_reference_manual.pdf)
-    - [Datasheet](./stm32l072cb.pdf)
-    - [HW design guide](./an4467-getting-started-with-stm32l0xx-hardware-development-stmicroelectronics.pdf)
-    - [JLCPCB part](https://jlcpcb.com/partdetail/STMicroelectronics-STM32L072CBT6/C465977)
-    - has USB peripheral
-- `BME280` pressure and temperature sensor 
-    - [datasheet](./bst-bme280-ds002.pdf)
+### `STM32L072CBT6` MCU
+
+Low power MCU with USB peripheral
+
+- [Reference manual](./stm32l0x2_reference_manual.pdf)
+- [Datasheet](./stm32l072cb.pdf)
+- [HW design guide](./an4467-getting-started-with-stm32l0xx-hardware-development-stmicroelectronics.pdf)
+- [JLCPCB part](https://jlcpcb.com/partdetail/STMicroelectronics-STM32L072CBT6/C465977)
+
+### LSE oscillator
+
+- [design guide](./an2867-guidelines-for-oscillator-design-on-stm8afals-and-stm32-mcusmpus-stmicroelectronics.pdf)
+- [oscillator](https://www.lcsc.com/product-detail/Crystals_Seiko-Epson-X1A0000610006_C99009.html)
+
+According to design guide section 3.4, `g_m_crit(max) = 1.48 uA/V`. With HIGH drive strength of the oscillator, the gain margin is ~9
+
+### `BME280` pressure sensor
+
+- [datasheet](./bst-bme280-ds002.pdf)
+- [C driver](https://github.com/boschsensortec/BME280_SensorAPI)
+- [rust driver](https://docs.rs/bme280/latest/bme280/)
+
+## Other components
+
 - small SMD speaker
     - [`NS4150B`](./ULNS4150b_NSIWAY_0001.pdf)
 - External flash to store audio: `W25Q128JVSIQ`
@@ -31,3 +47,4 @@
     - [TP4054](https://jlcpcb.com/partdetail/Goodwork-TP4054/C21713960) charge IC - [datasheet](tp4054.pdf)
         `R_prog` = 1000/0.11 ~= 9k, 10k in schematic
     - [LDO](https://jlcpcb.com/partdetail/TorexSemicon-XC6206P332MRG/C5446) - [datasheet](./ldo_datasheet.pdf)
+
