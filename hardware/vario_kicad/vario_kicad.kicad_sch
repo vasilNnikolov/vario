@@ -5,9 +5,15 @@
 	(uuid "50389aff-b244-451e-8e3a-c5addd2215e1")
 	(paper "A4")
 	(lib_symbols)
-	(no_connect
-		(at 342.9 76.2)
-		(uuid "3e038949-3e20-4a97-898a-babfd18ca11c")
+	(wire
+		(pts
+			(xy 124.46 46.99) (xy 124.46 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "008e86a8-09d6-4f21-80d6-d51d32f3a496")
 	)
 	(wire
 		(pts
@@ -31,6 +37,46 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 25.4) (xy 69.85 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1563550a-ec88-4919-a709-7e5d9ef737d0")
+	)
+	(wire
+		(pts
+			(xy 69.85 25.4) (xy 69.85 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f081de2-3ba9-422f-8663-c7afb64d81a2")
+	)
+	(wire
+		(pts
+			(xy 69.85 46.99) (xy 124.46 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "21a9208b-5f15-4308-8880-6fbef8131b54")
+	)
+	(wire
+		(pts
+			(xy 76.2 31.75) (xy 82.55 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2520eb3b-08db-47f3-9a5a-6f7623146cda")
+	)
+	(wire
+		(pts
 			(xy 114.3 25.4) (xy 133.35 25.4)
 		)
 		(stroke
@@ -38,6 +84,16 @@
 			(type default)
 		)
 		(uuid "347806ff-73e4-4f76-b78a-313f106638f4")
+	)
+	(wire
+		(pts
+			(xy 116.84 43.18) (xy 76.2 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "375172a0-c760-4452-8184-b056c4779456")
 	)
 	(wire
 		(pts
@@ -151,6 +207,16 @@
 	)
 	(wire
 		(pts
+			(xy 133.35 38.1) (xy 116.84 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8648d14e-d6b3-49df-9b92-0b98bb2715b1")
+	)
+	(wire
+		(pts
 			(xy 120.65 151.13) (xy 133.35 151.13)
 		)
 		(stroke
@@ -178,6 +244,26 @@
 			(type default)
 		)
 		(uuid "9a8469d6-ea20-4b1e-b9d5-6cb108defdef")
+	)
+	(wire
+		(pts
+			(xy 76.2 43.18) (xy 76.2 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b64bb347-8d63-46b4-95f7-e8fd687c1c93")
+	)
+	(wire
+		(pts
+			(xy 124.46 44.45) (xy 133.35 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb02038c-4ddb-4643-b0ae-05a68d13f98a")
 	)
 	(wire
 		(pts
@@ -228,6 +314,16 @@
 			(type default)
 		)
 		(uuid "e7a8860e-19d7-41b1-8cf1-b3fdd4c0d8e4")
+	)
+	(wire
+		(pts
+			(xy 116.84 38.1) (xy 116.84 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f0e48ba5-20d6-481a-bcbf-6f063b74993c")
 	)
 	(wire
 		(pts
@@ -531,8 +627,8 @@
 		)
 	)
 	(sheet
-		(at 90.805 19.05)
-		(size 23.495 19.05)
+		(at 82.55 19.05)
+		(size 31.75 19.05)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -543,7 +639,7 @@
 		)
 		(uuid "9ff7b2dd-70fe-4259-884c-1f1f10c7ad3d")
 		(property "Sheetname" "power"
-			(at 90.805 18.3384 0)
+			(at 82.55 18.3384 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -552,7 +648,7 @@
 			)
 		)
 		(property "Sheetfile" "power.kicad_sch"
-			(at 90.805 38.6846 0)
+			(at 82.55 38.6846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -579,6 +675,26 @@
 				(justify right)
 			)
 			(uuid "f0303827-9ccd-4dc5-a7c0-661bd017a15f")
+		)
+		(pin "USB_D+" input
+			(at 82.55 25.4 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "58ba1222-ecce-477f-a347-86d2e499260d")
+		)
+		(pin "USB_D-" input
+			(at 82.55 31.75 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "a477b71a-889e-4632-a26f-23e0e101efae")
 		)
 		(instances
 			(project "vario_kicad"
@@ -991,6 +1107,26 @@
 				(justify right)
 			)
 			(uuid "2d775c75-f148-45dc-9bbd-eb4a4d96ea0c")
+		)
+		(pin "USB_D-" input
+			(at 133.35 38.1 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "c38822b1-d151-4cec-a2f6-587896905af6")
+		)
+		(pin "USB_D+" input
+			(at 133.35 44.45 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "94a06043-7dec-4834-acd1-7a9c08720244")
 		)
 		(instances
 			(project "vario_kicad"

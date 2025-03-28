@@ -571,7 +571,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin output line
 					(at 11.43 1.27 180)
 					(length 2.54)
 					(name "VoP"
@@ -582,6 +582,24 @@
 						)
 					)
 					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 -12.7 90)
+					(length 2.54)
+					(name "GNDPAD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -821,6 +839,12 @@
 		(uuid "26733177-a822-4501-8e5f-6c3e14603094")
 	)
 	(junction
+		(at 121.92 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5691dc14-190d-4242-a139-f627ad9bcb19")
+	)
+	(junction
 		(at 92.71 74.93)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -996,6 +1020,16 @@
 	)
 	(wire
 		(pts
+			(xy 105.41 106.68) (xy 105.41 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "455a0c7a-4e02-4a4a-802a-088b08087b8a")
+	)
+	(wire
+		(pts
 			(xy 64.77 77.47) (xy 64.77 74.93)
 		)
 		(stroke
@@ -1036,6 +1070,16 @@
 	)
 	(wire
 		(pts
+			(xy 105.41 111.76) (xy 121.92 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b05975b-d1ca-4d51-b8fc-c69228db1bc3")
+	)
+	(wire
+		(pts
 			(xy 166.37 101.6) (xy 172.72 101.6)
 		)
 		(stroke
@@ -1043,6 +1087,16 @@
 			(type default)
 		)
 		(uuid "60aeb15f-7af5-4e83-be19-36b7eb057c81")
+	)
+	(wire
+		(pts
+			(xy 121.92 111.76) (xy 121.92 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b154552-8600-40ff-b71a-f96465c02790")
 	)
 	(wire
 		(pts
@@ -1176,7 +1230,7 @@
 	)
 	(wire
 		(pts
-			(xy 121.92 110.49) (xy 121.92 113.03)
+			(xy 121.92 110.49) (xy 121.92 111.76)
 		)
 		(stroke
 			(width 0)
@@ -2097,7 +2151,7 @@
 		(dnp no)
 		(uuid "64e72b48-1397-43a6-aa14-2846d6335800")
 		(property "Reference" "U1"
-			(at 106.68 81.28 0)
+			(at 111.76 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2105,7 +2159,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 106.68 83.82 0)
+			(at 111.76 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2162,6 +2216,9 @@
 		)
 		(pin "3"
 			(uuid "71fd0bbd-dce1-486b-a985-1706a3fc1383")
+		)
+		(pin "9"
+			(uuid "56860d35-85af-4bbc-8d3d-05f20606f409")
 		)
 		(instances
 			(project "vario_kicad"

@@ -58,7 +58,7 @@
 					(type default)
 				)
 				(fill
-					(type none)
+					(type background)
 				)
 			)
 			(pin input line
@@ -187,7 +187,7 @@
 					)
 				)
 			)
-			(pin power_in line
+			(pin output line
 				(at 11.43 1.27 180)
 				(length 2.54)
 				(name "VoP"
@@ -198,6 +198,24 @@
 					)
 				)
 				(number "8"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 11.43 270)
+				(length 2.54)
+				(name "GNDPAD"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "9"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -569,10 +587,10 @@
 					)
 				)
 			)
-			(pin power_in line
-				(at -10.16 1.27 0)
+			(pin power_out line
+				(at 10.16 1.27 180)
 				(length 2.54)
-				(name "VIN"
+				(name "VOUT"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -587,17 +605,17 @@
 					)
 				)
 			)
-			(pin power_out line
-				(at 10.16 1.27 180)
+			(pin power_in line
+				(at -10.16 1.27 0)
 				(length 2.54)
-				(name "VOUT"
+				(name "VIN"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number "2"
+				(number "3"
 					(effects
 						(font
 							(size 1.27 1.27)
