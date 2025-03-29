@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 
+use embedded_hal::delay::DelayNs;
 use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch panics
                      // use panic_abort as _; // requires nightly
                      // use panic_itm as _; // logs messages over ITM; requires ITM support
@@ -17,6 +18,16 @@ fn log_resets(rcc: &stm32l0x1::RCC) {
     info!("POR true/false: {}", low_power_reset);
 }
 
+struct BusyLoopDelayNs;
+
+impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
+    fn delay_ns(&mut self, ns: u32) {
+        for _ in 0..(ns * 8) {
+            asm::nop();
+        }
+    }
+}
+
 #[entry]
 fn main() -> ! {
     info!("Start");
@@ -28,6 +39,7 @@ fn main() -> ! {
     p.GPIOA.moder.modify(|_, w| w.mode8().output());
     p.GPIOA.otyper.modify(|_, w| w.ot8().push_pull());
 
+    let mut bld = BusyLoopDelayNs;
     let mut i = 0;
     loop {
         info!("Counter: {}", i);
@@ -40,8 +52,6 @@ fn main() -> ! {
         }
 
         i += 1;
-        for _ in 0..16_000_000 {
-            asm::nop();
-        }
+        bld.delay_ms(1000);
     }
 }
