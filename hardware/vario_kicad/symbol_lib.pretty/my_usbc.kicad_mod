@@ -238,20 +238,6 @@
 		(roundrect_rratio 0.25)
 		(uuid "1a166f7c-3fb7-4c11-94b9-f2335228a292")
 	)
-	(pad "B1" smd roundrect
-		(at 2.88 4.64)
-		(size 0.6 1.15)
-		(layers "F.Cu" "F.Paste" "F.Mask")
-		(roundrect_rratio 0.25)
-		(uuid "5150fd44-4d3d-4adf-9099-d7ee6e47b6fe")
-	)
-	(pad "B4" smd roundrect
-		(at 2.08 4.64)
-		(size 0.6 1.15)
-		(layers "F.Cu" "F.Paste" "F.Mask")
-		(roundrect_rratio 0.25)
-		(uuid "493ea4db-b587-475c-8deb-f88293e3eeac")
-	)
 	(pad "B5" smd roundrect
 		(at 1.43 4.64)
 		(size 0.3 1.15)
@@ -280,31 +266,12 @@
 		(roundrect_rratio 0.25)
 		(uuid "accc7942-ae5c-4e7f-8d1a-48b81ae15c61")
 	)
-	(pad "B9" smd roundrect
-		(at -2.72 4.64)
-		(size 0.6 1.15)
-		(layers "F.Cu" "F.Paste" "F.Mask")
-		(roundrect_rratio 0.25)
-		(uuid "a20daf09-763f-4737-a271-488fadd135b8")
-	)
-	(pad "B12" smd roundrect
-		(at -3.52 4.64)
-		(size 0.6 1.15)
-		(layers "F.Cu" "F.Paste" "F.Mask")
-		(roundrect_rratio 0.25)
-		(uuid "5e8d10a7-67c7-4c42-8d29-b072234ff7c0")
-	)
 	(pad "S1" thru_hole oval
 		(at -4.64 5.215)
 		(size 1 2.1)
 		(drill oval 0.6 1.7)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
-			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
-			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
-			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
-			"In29.Cu" "In30.Cu" "F.Paste"
-		)
+		(layers "*.Cu" "*.Mask" "F.Paste")
 		(remove_unused_layers no)
 		(uuid "8a91acbf-ec21-4672-a140-401acef81336")
 	)
@@ -313,12 +280,7 @@
 		(size 1 1.8)
 		(drill oval 0.6 1.4)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
-			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
-			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
-			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
-			"In29.Cu" "In30.Cu" "F.Paste"
-		)
+		(layers "*.Cu" "*.Mask" "F.Paste")
 		(remove_unused_layers no)
 		(uuid "0e9e7fc3-82dd-4230-a54e-4e2e721ba9a8")
 	)
@@ -327,12 +289,7 @@
 		(size 1 2.1)
 		(drill oval 0.6 1.7)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
-			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
-			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
-			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
-			"In29.Cu" "In30.Cu" "F.Paste"
-		)
+		(layers "*.Cu" "*.Mask" "F.Paste")
 		(remove_unused_layers no)
 		(uuid "cc52166d-6009-4413-92bd-a4908f9f7369")
 	)
@@ -341,12 +298,7 @@
 		(size 1 1.8)
 		(drill oval 0.6 1.4)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
-			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
-			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
-			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
-			"In29.Cu" "In30.Cu" "F.Paste"
-		)
+		(layers "*.Cu" "*.Mask" "F.Paste")
 		(remove_unused_layers no)
 		(uuid "c0251a4d-92dd-4b70-acfa-63d94a26fbf9")
 	)

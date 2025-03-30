@@ -1322,6 +1322,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 95.25 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "397870c8-d4eb-47e9-888b-0133af12bf42")
 		)
@@ -1392,6 +1401,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 165.1 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3616d067-b1d4-431e-b507-55af761ac6f8")
 		)
@@ -1453,6 +1471,15 @@
 			)
 		)
 		(property "Description" "test point"
+			(at 185.42 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 185.42 101.6 0)
 			(effects
 				(font
@@ -1594,6 +1621,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 109.22 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "f34cff46-59cc-455d-9685-f0b43ce13d54")
 		)
@@ -1663,6 +1699,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 182.88 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b934fe58-f905-4d58-b62a-7d0283b6961f")
 		)
@@ -1722,6 +1767,15 @@
 			)
 		)
 		(property "Description" "3-in-1 sensor, humidity, pressure, temperature, I2C and SPI interface, 1.71-3.6V, LGA-8"
+			(at 127 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 127 99.06 0)
 			(effects
 				(font
@@ -1810,6 +1864,15 @@
 			)
 		)
 		(property "Description" "Resistor"
+			(at 153.67 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 153.67 88.9 0)
 			(effects
 				(font

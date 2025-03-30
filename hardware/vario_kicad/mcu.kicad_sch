@@ -3560,6 +3560,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 297.18 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "2d7762a0-3a46-4bee-989a-151a9dbe5cc1")
 		)
@@ -3828,6 +3837,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 265.43 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "c95126fa-363d-4342-beee-45370d1f979e")
 		)
@@ -3890,6 +3908,15 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
+			(at 219.71 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 219.71 101.6 0)
 			(effects
 				(font
@@ -3968,6 +3995,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 203.2 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "44feb579-0812-4efa-8ece-98d6e6389189")
 		)
@@ -4028,6 +4064,15 @@
 			)
 		)
 		(property "Description" "STMicroelectronics Arm Cortex-M0+ MCU, 128KB flash, 20KB RAM, 32 MHz, 1.65-3.6V, 37 GPIO, LQFP48"
+			(at 157.48 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 157.48 137.16 0)
 			(effects
 				(font
@@ -4310,6 +4355,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 29.21 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "41ffd9a7-6182-4ebb-9119-1ce5e44a45c5")
 		)
@@ -4446,6 +4500,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 252.73 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "627c645f-7673-4a13-bf52-201489372ca3")
 		)
@@ -4516,6 +4579,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 203.2 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "c566c5e4-e05f-46c1-845a-395e141bca51")
 		)
@@ -4574,6 +4646,15 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
+			(at 240.03 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 240.03 101.6 0)
 			(effects
 				(font
@@ -4715,6 +4796,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 52.07 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "e733059c-4053-42dc-b384-5af56cc9fa86")
 		)
@@ -4785,6 +4875,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 311.15 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "39dae478-473c-4033-b14f-15dc3321133f")
 		)
@@ -4847,6 +4946,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 196.85 210.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 196.85 210.82 0)
 			(effects
 				(font
@@ -4928,6 +5036,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 52.07 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "becfa079-3eb0-4cac-9d60-6091c6d510f8")
 		)
@@ -4987,6 +5104,15 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
+			(at 38.1 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 38.1 251.46 0)
 			(effects
 				(font
@@ -5065,6 +5191,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 57.15 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d3ea976a-eea8-43ea-b5ab-97da1a59e455")
 		)
@@ -5134,6 +5269,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" ""
+			(at 29.21 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "26a79063-d6ef-4ebf-9cd9-94fd916513ad")
 		)
@@ -5191,6 +5335,15 @@
 			)
 		)
 		(property "Description" "32768Hz crystal"
+			(at 46.99 243.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 46.99 243.84 0)
 			(effects
 				(font
