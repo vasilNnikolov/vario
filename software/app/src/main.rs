@@ -13,6 +13,26 @@ use defmt::info;
 use defmt_rtt as _;
 use stm32l0::stm32l0x1;
 
+struct Counters {
+    total_reset: u32,
+    /// power on counter
+    por: u32,
+    /// user reset counter
+    user_reset: u32,
+}
+
+#[used]
+#[link_section = ".persistent_counters"]
+static mut COUNTERS: Counters = Counters {
+    total_reset: 0,
+    por: 0,
+    user_reset: 0,
+};
+
+#[used]
+#[link_section = ".persistent_counters"]
+static mut A: u8 = 0;
+
 fn log_resets(rcc: &stm32l0x1::RCC) {
     let low_power_reset = rcc.csr.read().porrstf().bit_is_set();
     info!("POR true/false: {}", low_power_reset);
@@ -33,6 +53,12 @@ fn main() -> ! {
     info!("Start");
     let _core_p = cortex_m::Peripherals::take().unwrap();
     let p = stm32l0x1::Peripherals::take().unwrap();
+
+    unsafe {
+        COUNTERS.total_reset += 1;
+        COUNTERS.por += 1;
+        COUNTERS.user_reset += 1;
+    }
 
     log_resets(&p.RCC);
     p.RCC.iopenr.modify(|_, w| w.iopaen().bit(true));
