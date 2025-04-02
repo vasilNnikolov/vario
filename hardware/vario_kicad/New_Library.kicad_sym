@@ -275,7 +275,7 @@
 		(symbol "SWD_PROGRAMMING_1_1"
 			(rectangle
 				(start -2.54 -2.54)
-				(end 8.89 -21.59)
+				(end 8.89 -29.21)
 				(stroke
 					(width 0)
 					(type default)
@@ -338,8 +338,44 @@
 					)
 				)
 			)
-			(pin power_in line
+			(pin input line
 				(at -5.08 -17.78 0)
+				(length 2.54)
+				(name "NRST"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -5.08 -21.59 0)
+				(length 2.54)
+				(name "BOOT0"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at -5.08 -25.4 0)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -348,7 +384,7 @@
 						)
 					)
 				)
-				(number "4"
+				(number "6"
 					(effects
 						(font
 							(size 1.27 1.27)
