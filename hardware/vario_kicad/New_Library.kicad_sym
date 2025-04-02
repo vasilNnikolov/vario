@@ -820,6 +820,24 @@
 					)
 				)
 			)
+			(pin input line
+				(at 6.35 -41.91 90)
+				(length 2.54)
+				(name "SHIELD"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "S1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
 		)
 	)
 	(symbol "XC6206P332MR-G"
