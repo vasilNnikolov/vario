@@ -20,12 +20,22 @@ Low power MCU with USB peripheral
 - [HW design guide](./an4467-getting-started-with-stm32l0xx-hardware-development-stmicroelectronics.pdf)
 - [JLCPCB part](https://jlcpcb.com/partdetail/STMicroelectronics-STM32L072CBT6/C465977)
 
-### LSE oscillator
 
-- [design guide](./an2867-guidelines-for-oscillator-design-on-stm8afals-and-stm32-mcusmpus-stmicroelectronics.pdf)
-- [oscillator](https://www.lcsc.com/product-detail/Crystals_Seiko-Epson-X1A0000610006_C99009.html)
+### Oscillators
+
+[design guide](./an2867-guidelines-for-oscillator-design-on-stm8afals-and-stm32-mcusmpus-stmicroelectronics.pdf)
+
+#### LSE 
+
+[LSE](https://www.lcsc.com/product-detail/Crystals_Seiko-Epson-X1A0000610006_C99009.html)
 
 According to design guide section 3.4, `g_m_crit(max) = 1.48 uA/V`. With HIGH drive strength of the oscillator, the gain margin is ~9
+
+#### HSE
+
+[HSE](https://www.lcsc.com/product-detail/Crystals_YXC-Crystal-Oscillators-X322516MLB4SI_C13738.html)
+
+`g_m_crit(max) = 0.46 mA/V`. Gain margin ~= 16
 
 ### `BME280` pressure sensor
 
