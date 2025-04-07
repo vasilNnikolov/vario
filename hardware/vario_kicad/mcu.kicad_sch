@@ -3738,6 +3738,17 @@
 		)
 		(uuid 4b1868b0-870c-4140-9529-b84555d72af0)
 	)
+	(text "pin used for wakeup from MCU standby mode\nneeds a rising edge"
+		(exclude_from_sim no)
+		(at 183.134 101.6 0)
+		(effects
+			(font
+				(size 0.762 0.762)
+			)
+			(justify left)
+		)
+		(uuid "057da671-6c38-4900-a805-9cdf2d6cb349")
+	)
 	(text "LSE"
 		(exclude_from_sim no)
 		(at 67.31 141.986 0)
