@@ -2760,10 +2760,6 @@
 		(uuid "336fe7d7-d66f-49a1-af14-9d26982d0902")
 	)
 	(no_connect
-		(at 139.7 162.56)
-		(uuid "45808b60-9798-4af5-b648-ec911d24482f")
-	)
-	(no_connect
 		(at 139.7 170.18)
 		(uuid "888017e3-e4c4-4651-bc00-fc2620a395fe")
 	)
@@ -2774,6 +2770,10 @@
 	(no_connect
 		(at 139.7 137.16)
 		(uuid "ad4871bf-a9ee-4a09-aa59-09bdee2eeb04")
+	)
+	(no_connect
+		(at 175.26 124.46)
+		(uuid "c8f4bf57-5996-476c-8cd9-032f576fa974")
 	)
 	(wire
 		(pts
@@ -3357,16 +3357,6 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 124.46) (xy 182.88 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "601211ee-076a-47d3-8088-2c7a17b21985")
-	)
-	(wire
-		(pts
 			(xy 162.56 93.98) (xy 162.56 96.52)
 		)
 		(stroke
@@ -3434,6 +3424,16 @@
 			(type default)
 		)
 		(uuid "734a36ab-de4b-4be2-948f-571713bda25a")
+	)
+	(wire
+		(pts
+			(xy 128.27 162.56) (xy 139.7 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7370c12e-50e3-453f-8851-b7323f31cfa8")
 	)
 	(wire
 		(pts
@@ -4360,6 +4360,17 @@
 		)
 		(uuid "ec045674-9785-4a7b-b312-52e8ae7e44ad")
 	)
+	(hierarchical_label "LED1"
+		(shape input)
+		(at 128.27 162.56 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "095e95bd-6083-4397-8e70-fc81820ef286")
+	)
 	(hierarchical_label "SW1"
 		(shape input)
 		(at 128.27 144.78 180)
@@ -4392,17 +4403,6 @@
 			(justify right)
 		)
 		(uuid "1a4f1dec-60c5-418c-8142-7148bb1c68cc")
-	)
-	(hierarchical_label "LED1"
-		(shape input)
-		(at 182.88 124.46 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "234dbc4b-8623-4543-9d1b-1aaa780540f0")
 	)
 	(hierarchical_label "DAC_OUT1"
 		(shape input)
