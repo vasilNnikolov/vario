@@ -981,8 +981,8 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U"
-				(at -15.24 39.37 0)
+			(property "Reference" "U5"
+				(at 4.7341 -40.64 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -991,7 +991,7 @@
 				)
 			)
 			(property "Value" "STM32L072CBTx"
-				(at 7.62 39.37 0)
+				(at 4.7341 -43.18 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1009,7 +1009,7 @@
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://www.st.com/resource/en/datasheet/stm32l072cb.pdf"
+			(property "Datasheet" "https://www.lcsc.com/product-detail/Microcontrollers-MCU-MPU-SOC_STMicroelectronics-STM32L072CBT6_C465977.html"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1019,6 +1019,15 @@
 				)
 			)
 			(property "Description" "STMicroelectronics Arm Cortex-M0+ MCU, 128KB flash, 20KB RAM, 32 MHz, 1.65-3.6V, 37 GPIO, LQFP48"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Sim.Pins" ""
 				(at 0 0 0)
 				(effects
 					(font
@@ -1047,8 +1056,8 @@
 			)
 			(symbol "STM32L072CBTx_0_1"
 				(rectangle
-					(start -15.24 -38.1)
-					(end 15.24 38.1)
+					(start -15.24 38.1)
+					(end 15.24 -38.1)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -1708,6 +1717,24 @@
 					(alternate "SYS_SWDIO" bidirectional line)
 					(alternate "USB_NOE" bidirectional line)
 				)
+				(pin power_in line
+					(at -2.54 -40.64 90)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "35"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin passive line
 					(at 0 -40.64 90)
 					(length 2.54) hide
@@ -1994,6 +2021,24 @@
 					(alternate "I2C1_SDA" bidirectional line)
 					(alternate "I2S2_WS" bidirectional line)
 					(alternate "SPI2_NSS" bidirectional line)
+				)
+				(pin power_in line
+					(at -5.08 -40.64 90)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "47"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
 				)
 				(pin passive line
 					(at 0 -40.64 90)
@@ -2657,6 +2702,12 @@
 		(uuid "c4738af6-63b0-4e2a-a122-cf3e44208cce")
 	)
 	(junction
+		(at 154.94 179.07)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d2bb3285-ca27-4dc0-9396-0fdd9c4aeacd")
+	)
+	(junction
 		(at 157.48 179.07)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2813,6 +2864,16 @@
 			(type default)
 		)
 		(uuid "0aef5567-83d7-49a8-b9a2-05f4392c345b")
+	)
+	(wire
+		(pts
+			(xy 152.4 177.8) (xy 152.4 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "114b2ee3-2d77-4a32-a048-ff4c2fb61e95")
 	)
 	(wire
 		(pts
@@ -3236,6 +3297,16 @@
 	)
 	(wire
 		(pts
+			(xy 154.94 179.07) (xy 154.94 177.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49ab0b3b-b0e6-431a-9db1-27173dfb594a")
+	)
+	(wire
+		(pts
 			(xy 86.36 218.44) (xy 86.36 224.79)
 		)
 		(stroke
@@ -3453,6 +3524,16 @@
 			(type default)
 		)
 		(uuid "86232928-12f9-4eb6-8dbd-9cbc6d391e09")
+	)
+	(wire
+		(pts
+			(xy 154.94 179.07) (xy 152.4 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "865d1d6d-5e3d-4def-97ab-7ee52159272f")
 	)
 	(wire
 		(pts
@@ -3913,6 +3994,16 @@
 			(type default)
 		)
 		(uuid "d640cee0-1c63-4b5a-a979-f2cde90b74cf")
+	)
+	(wire
+		(pts
+			(xy 157.48 179.07) (xy 154.94 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d843766f-d4c8-4e94-aa59-8e521325b694")
 	)
 	(wire
 		(pts
@@ -5445,6 +5536,12 @@
 		)
 		(pin "3"
 			(uuid "86ac1a57-acf2-4abd-b69d-6f5d885fc48c")
+		)
+		(pin "35"
+			(uuid "1ebe9808-a4fc-4a49-a8f8-2e3728186dc9")
+		)
+		(pin "47"
+			(uuid "9ad75a47-d4c0-4a5a-86a2-cd991be79f14")
 		)
 		(instances
 			(project "vario_kicad"
