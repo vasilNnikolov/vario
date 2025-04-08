@@ -872,7 +872,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "14b0a224-a5af-4d3c-b1c5-e16bb7a1623c")
-		(property "Reference" "#PWR17"
+		(property "Reference" "#PWR24"
 			(at 130.81 83.82 0)
 			(effects
 				(font
@@ -1103,7 +1103,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "417c0baf-1c6c-4a85-9cce-8c28b7e70c74")
-		(property "Reference" "C16"
+		(property "Reference" "C17"
 			(at 157.48 110.4901 0)
 			(effects
 				(font
