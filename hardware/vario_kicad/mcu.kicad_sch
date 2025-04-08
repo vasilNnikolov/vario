@@ -2520,10 +2520,6 @@
 		(at 139.7 137.16)
 		(uuid "ad4871bf-a9ee-4a09-aa59-09bdee2eeb04")
 	)
-	(no_connect
-		(at 139.7 121.92)
-		(uuid "d451799a-ca3e-4da5-b754-d16121dcbab5")
-	)
 	(wire
 		(pts
 			(xy 76.2 120.65) (xy 76.2 123.19)
@@ -3073,6 +3069,16 @@
 			(type default)
 		)
 		(uuid "6b481007-379c-4c82-826f-7099825843d7")
+	)
+	(wire
+		(pts
+			(xy 95.25 121.92) (xy 139.7 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6bc17055-f488-464a-a16e-ba51a32512b8")
 	)
 	(wire
 		(pts
@@ -3898,6 +3904,16 @@
 			(justify left bottom)
 		)
 		(uuid "9f0d1324-efcb-4571-9f47-238677cab408")
+	)
+	(label "RTC_CALIB"
+		(at 102.87 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c2b466ad-a4c0-4c12-b648-4eb14acb5a27")
 	)
 	(label "OSC_IN"
 		(at 128.27 114.3 180)
@@ -6122,6 +6138,73 @@
 			(project ""
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
 					(reference "C27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 95.25 121.92 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d37ea102-a36c-405e-b7a4-0448db7bd9cd")
+		(property "Reference" "TP4"
+			(at 97.79 123.9519 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 97.79 126.4919 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 90.17 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 90.17 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 95.25 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a4d685ad-8cec-4113-9daa-493276cb3325")
+		)
+		(instances
+			(project ""
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
+					(reference "TP4")
 					(unit 1)
 				)
 			)
