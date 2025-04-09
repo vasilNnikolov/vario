@@ -2621,6 +2621,12 @@
 		(uuid "0b9bc805-11c6-4787-8fbc-5abfb7b3e35c")
 	)
 	(junction
+		(at 138.43 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "24f78186-9374-4d14-9687-24adce50ee46")
+	)
+	(junction
 		(at 166.37 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2645,10 +2651,22 @@
 		(uuid "2f6fc425-e353-4b33-80ad-e559f2c0e341")
 	)
 	(junction
+		(at 125.73 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4694a939-7576-4faa-b439-f416b0ddfe05")
+	)
+	(junction
 		(at 41.91 149.86)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "51504fb8-61e1-4ff8-93e9-fbb86f721738")
+	)
+	(junction
+		(at 151.13 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5f47795b-2768-4e0c-82ce-633644e932b8")
 	)
 	(junction
 		(at 76.2 29.21)
@@ -2711,12 +2729,6 @@
 		(uuid "eff29212-5c35-4afc-8d0b-7efabe7d7961")
 	)
 	(junction
-		(at 140.97 46.99)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "faa27260-fc19-4d03-a883-e95f25021675")
-	)
-	(junction
 		(at 214.63 59.69)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2737,6 +2749,16 @@
 	(no_connect
 		(at 160.02 125.73)
 		(uuid "efd55d4c-92d3-4e47-b2e4-c9db06e83393")
+	)
+	(wire
+		(pts
+			(xy 128.27 46.99) (xy 125.73 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "02594364-89d9-4f21-8091-1ed8d044b9c8")
 	)
 	(wire
 		(pts
@@ -2767,6 +2789,16 @@
 			(type default)
 		)
 		(uuid "07049521-d20a-47dd-9e7c-47f4b1666440")
+	)
+	(wire
+		(pts
+			(xy 128.27 36.83) (xy 125.73 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0989bc8a-0caf-45d6-b66c-04679cab6673")
 	)
 	(wire
 		(pts
@@ -2810,6 +2842,16 @@
 	)
 	(wire
 		(pts
+			(xy 125.73 36.83) (xy 125.73 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "13c29cdc-e5b9-4017-802e-ece041fe9a96")
+	)
+	(wire
+		(pts
 			(xy 214.63 59.69) (xy 214.63 62.23)
 		)
 		(stroke
@@ -2830,7 +2872,7 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 41.91) (xy 140.97 46.99)
+			(xy 151.13 41.91) (xy 151.13 46.99)
 		)
 		(stroke
 			(width 0)
@@ -2890,7 +2932,7 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 46.99) (xy 166.37 46.99)
+			(xy 151.13 46.99) (xy 166.37 46.99)
 		)
 		(stroke
 			(width 0)
@@ -3080,16 +3122,6 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 46.99) (xy 140.97 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "57108bc1-31b4-4904-8199-44b97986a6d3")
-	)
-	(wire
-		(pts
 			(xy 44.45 109.22) (xy 50.8 109.22)
 		)
 		(stroke
@@ -3177,6 +3209,16 @@
 			(type default)
 		)
 		(uuid "715773ea-22c0-45a4-a9ab-db2dd555a040")
+	)
+	(wire
+		(pts
+			(xy 138.43 46.99) (xy 135.89 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7641ddd8-0860-4dc9-b540-f830d6c5195a")
 	)
 	(wire
 		(pts
@@ -3480,6 +3522,26 @@
 	)
 	(wire
 		(pts
+			(xy 138.43 46.99) (xy 151.13 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ccec15cf-d88f-432d-bd7d-8f4c948284aa")
+	)
+	(wire
+		(pts
+			(xy 138.43 36.83) (xy 135.89 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ce1a1565-816e-467d-aa55-9a30f23c951a")
+	)
+	(wire
+		(pts
 			(xy 142.24 133.35) (xy 160.02 133.35)
 		)
 		(stroke
@@ -3517,6 +3579,16 @@
 			(type default)
 		)
 		(uuid "d8e1fe10-10d3-4ca3-ac11-78c3ef86258f")
+	)
+	(wire
+		(pts
+			(xy 111.76 46.99) (xy 125.73 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d91221c6-98de-4e42-80ef-2b5452f6d52b")
 	)
 	(wire
 		(pts
@@ -3597,6 +3669,16 @@
 			(type default)
 		)
 		(uuid "f7754e75-5a35-47db-81bb-6807b8468904")
+	)
+	(wire
+		(pts
+			(xy 138.43 46.99) (xy 138.43 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f82fc818-20c8-41fd-a598-dfeb4d954dff")
 	)
 	(wire
 		(pts
@@ -3685,6 +3767,16 @@
 			)
 		)
 		(uuid "4c9f50cc-760d-4682-aa79-e57d07ffd2a3")
+	)
+	(text "optional resistor to measure charging current/disconnect charger"
+		(exclude_from_sim no)
+		(at 131.318 27.686 0)
+		(effects
+			(font
+				(size 0.762 0.762)
+			)
+		)
+		(uuid "8353015a-abe1-4046-966b-76aaf5c547a4")
 	)
 	(text "Max V_BATT voltage 4.3V\nmax adc voltage 2.95V"
 		(exclude_from_sim no)
@@ -5310,6 +5402,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Jumper:SolderJumper_2_Bridged")
+		(at 132.08 46.99 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "8ca290b7-253d-4433-946d-e124b8b52c94")
+		(property "Reference" "JP3"
+			(at 132.08 49.784 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SolderJumper_2_Bridged"
+			(at 138.684 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm"
+			(at 132.08 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 132.08 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, closed/bridged"
+			(at 132.08 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cb98cde4-6e7e-4927-86b1-011821f64e35")
+		)
+		(pin "2"
+			(uuid "c4881d85-4fed-47a3-89a0-3bfbb523696d")
+		)
+		(instances
+			(project "vario_kicad"
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/9ff7b2dd-70fe-4259-884c-1f1f10c7ad3d"
+					(reference "JP3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 237.49 53.34 0)
 		(unit 1)
@@ -5908,6 +6067,74 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 132.08 36.83 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(fields_autoplaced yes)
+		(uuid "a0c368b8-06d5-4bc8-8438-48a5f640d175")
+		(property "Reference" "R32"
+			(at 132.08 30.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0R"
+			(at 132.08 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.08 38.608 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 132.08 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 132.08 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "377e2bbb-f0e6-4d63-b56f-3c0a44906f5f")
+		)
+		(pin "1"
+			(uuid "25a962c8-d44f-4521-b31c-a5913c32f752")
+		)
+		(instances
+			(project "vario_kicad"
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/9ff7b2dd-70fe-4259-884c-1f1f10c7ad3d"
+					(reference "R32")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 63.5 40.64 0)
 		(unit 1)
@@ -6197,7 +6424,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 140.97 41.91 0)
+		(at 151.13 41.91 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6205,7 +6432,7 @@
 		(dnp no)
 		(uuid "bc389135-5c26-438b-9821-7ac803315b93")
 		(property "Reference" "TP9"
-			(at 142.494 37.338 0)
+			(at 152.654 37.338 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6214,7 +6441,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 142.494 39.624 0)
+			(at 152.654 39.624 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6223,7 +6450,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 146.05 41.91 0)
+			(at 156.21 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6232,7 +6459,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 146.05 41.91 0)
+			(at 156.21 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6241,7 +6468,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 140.97 41.91 0)
+			(at 151.13 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6250,7 +6477,7 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 140.97 41.91 0)
+			(at 151.13 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
