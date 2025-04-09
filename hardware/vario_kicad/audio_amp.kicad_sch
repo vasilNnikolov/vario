@@ -947,6 +947,12 @@
 		(uuid "26733177-a822-4501-8e5f-6c3e14603094")
 	)
 	(junction
+		(at 95.25 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "487078bd-d0c0-442c-b167-50b23fc7daf3")
+	)
+	(junction
 		(at 95.25 115.57)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -959,28 +965,22 @@
 		(uuid "7e01d4a7-19da-4854-b317-c3691582a82d")
 	)
 	(junction
-		(at 97.79 81.28)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "83a69f36-a7c9-4b86-80d1-025525225859")
-	)
-	(junction
 		(at 52.07 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cb788911-0afc-4a51-8019-ef49cf79efdd")
 	)
 	(junction
+		(at 196.85 83.82)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d3843701-f6bc-461b-a3e1-55a25332f6c8")
+	)
+	(junction
 		(at 78.74 115.57)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e64d5aa0-6a3f-4407-b2d7-288a62b38126")
-	)
-	(junction
-		(at 163.83 91.44)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ec43c12d-05d1-438c-8545-357e1b427a3c")
 	)
 	(junction
 		(at 177.8 91.44)
@@ -1000,7 +1000,27 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 92.71) (xy 91.44 92.71)
+			(xy 95.25 81.28) (xy 95.25 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "09df922e-ca6f-43aa-913e-61b089fe51c8")
+	)
+	(wire
+		(pts
+			(xy 95.25 92.71) (xy 109.22 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a7d5f22-ca1f-45c0-9731-ed54b0ec5e4b")
+	)
+	(wire
+		(pts
+			(xy 91.44 92.71) (xy 95.25 92.71)
 		)
 		(stroke
 			(width 0)
@@ -1090,26 +1110,6 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 78.74) (xy 97.79 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2563d125-a8cc-44c9-8fa6-f04a8fa48ba5")
-	)
-	(wire
-		(pts
-			(xy 163.83 80.01) (xy 163.83 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2f127664-be1f-48b0-804a-847a57e0fbdf")
-	)
-	(wire
-		(pts
 			(xy 226.06 92.71) (xy 226.06 97.79)
 		)
 		(stroke
@@ -1140,13 +1140,13 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 91.44) (xy 163.83 91.44)
+			(xy 95.25 81.28) (xy 99.06 81.28)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3f0435ba-cabc-4879-b304-745ff51292c0")
+		(uuid "3d6dba59-f9cf-495a-ba88-fdd5bbbe43c7")
 	)
 	(wire
 		(pts
@@ -1270,13 +1270,23 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 81.28) (xy 97.79 81.28)
+			(xy 109.22 114.3) (xy 109.22 115.57)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "71467b90-4b3f-4d13-955c-936674ae0338")
+		(uuid "6c97bef9-87c3-4bb2-9ed9-826b60f2cd45")
+	)
+	(wire
+		(pts
+			(xy 109.22 92.71) (xy 109.22 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a7196fa-550b-4d61-9d9f-f6928949355c")
 	)
 	(wire
 		(pts
@@ -1287,16 +1297,6 @@
 			(type default)
 		)
 		(uuid "81b0f91e-9057-43f9-b043-071cce54496f")
-	)
-	(wire
-		(pts
-			(xy 97.79 81.28) (xy 97.79 92.71)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "820805cf-93cd-4563-825f-c82588cad667")
 	)
 	(wire
 		(pts
@@ -1360,6 +1360,26 @@
 	)
 	(wire
 		(pts
+			(xy 196.85 83.82) (xy 208.28 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ad00a51-a3bb-4d93-a108-aab28fdd56ba")
+	)
+	(wire
+		(pts
+			(xy 109.22 115.57) (xy 95.25 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ca6be08-dab3-4e42-b661-163c486b6782")
+	)
+	(wire
+		(pts
 			(xy 177.8 97.79) (xy 181.61 97.79)
 		)
 		(stroke
@@ -1400,6 +1420,16 @@
 	)
 	(wire
 		(pts
+			(xy 196.85 77.47) (xy 196.85 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b06f260a-536a-4611-a279-617dfa1f861c")
+	)
+	(wire
+		(pts
 			(xy 177.8 91.44) (xy 177.8 83.82)
 		)
 		(stroke
@@ -1410,17 +1440,7 @@
 	)
 	(wire
 		(pts
-			(xy 87.63 78.74) (xy 97.79 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b718b15a-d6e2-4561-b726-7201925eb8c7")
-	)
-	(wire
-		(pts
-			(xy 189.23 83.82) (xy 193.04 83.82)
+			(xy 189.23 83.82) (xy 196.85 83.82)
 		)
 		(stroke
 			(width 0)
@@ -1470,7 +1490,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 91.44) (xy 177.8 91.44)
+			(xy 153.67 91.44) (xy 177.8 91.44)
 		)
 		(stroke
 			(width 0)
@@ -1510,16 +1530,6 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 78.74) (xy 80.01 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e3c8713b-4723-47aa-b156-2a2f7d8db9f2")
-	)
-	(wire
-		(pts
 			(xy 57.15 111.76) (xy 57.15 96.52)
 		)
 		(stroke
@@ -1550,7 +1560,7 @@
 	)
 	(text "audio amp enabled by default"
 		(exclude_from_sim no)
-		(at 111.252 77.978 0)
+		(at 119.634 115.316 0)
 		(effects
 			(font
 				(size 0.762 0.762)
@@ -1568,7 +1578,7 @@
 		)
 		(uuid "73e5d293-a98e-4ad0-a468-1b38f1457971")
 	)
-	(text "gain settings resistors"
+	(text "gain settings resistors\ngain = 2.4"
 		(exclude_from_sim no)
 		(at 135.636 95.504 0)
 		(effects
@@ -1580,7 +1590,7 @@
 	)
 	(hierarchical_label "AUDIO_IN_ANALOG"
 		(shape input)
-		(at 193.04 83.82 0)
+		(at 208.28 83.82 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1591,7 +1601,7 @@
 	)
 	(hierarchical_label "AUDIO_AMP_ENABLE"
 		(shape input)
-		(at 102.87 81.28 0)
+		(at 99.06 81.28 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2067,150 +2077,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 83.82 78.74 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "37b2fa05-a9c8-44ea-8fc0-13048ec5f2fb")
-		(property "Reference" "R16"
-			(at 83.82 72.39 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "100k"
-			(at 83.82 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 83.82 80.518 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 83.82 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 83.82 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" ""
-			(at 83.82 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "43a0c1f2-7e9b-4fe0-a349-dbf1b1f3a040")
-		)
-		(pin "2"
-			(uuid "10301237-3c1c-4062-af0a-f1dd892b60b6")
-		)
-		(instances
-			(project "vario_kicad"
-				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/c1ce8014-8ca1-4d8c-ab67-abb68a6156e7"
-					(reference "R16")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 163.83 80.01 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3966297b-c0ba-493f-9eeb-b8f0f3385a7b")
-		(property "Reference" "TP3"
-			(at 166.37 75.4379 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "AUDIO_IN"
-			(at 166.37 77.9779 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 168.91 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 168.91 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "test point"
-			(at 163.83 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "51d075c9-f50c-4eb0-af21-90e65fe1b8e0")
-		)
-		(instances
-			(project ""
-				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/c1ce8014-8ca1-4d8c-ab67-abb68a6156e7"
-					(reference "TP3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:Speaker")
 		(at 49.53 111.76 0)
 		(mirror y)
@@ -2465,7 +2331,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TestPoint"
+		(property "Value" "PWM_IN"
 			(at 228.6 90.6779 0)
 			(effects
 				(font
@@ -2826,6 +2692,152 @@
 			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/c1ce8014-8ca1-4d8c-ab67-abb68a6156e7"
 					(reference "#PWR18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 196.85 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7e2edaab-d252-4026-8e54-677cd3fbb1b7")
+		(property "Reference" "TP3"
+			(at 199.39 72.8979 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "AUDIO_IN"
+			(at 199.39 75.4379 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 201.93 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 201.93 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 196.85 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0d900bae-1f60-4abe-abaa-3d91bf3fa52e")
+		)
+		(instances
+			(project "vario_kicad"
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/c1ce8014-8ca1-4d8c-ab67-abb68a6156e7"
+					(reference "TP3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 109.22 110.49 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "87f99814-0da9-4013-a5e4-6def3e548a4e")
+		(property "Reference" "R16"
+			(at 111.76 109.2199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "100k"
+			(at 111.76 111.7599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 110.998 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 109.22 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 109.22 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 109.22 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "114c9484-b464-4ef3-8295-042256af6318")
+		)
+		(pin "2"
+			(uuid "b2edd8b8-f744-4a87-847e-bc678edbd762")
+		)
+		(instances
+			(project "vario_kicad"
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/c1ce8014-8ca1-4d8c-ab67-abb68a6156e7"
+					(reference "R16")
 					(unit 1)
 				)
 			)
