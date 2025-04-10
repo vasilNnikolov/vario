@@ -11,29 +11,42 @@ use cortex_m::asm;
 use cortex_m_rt::entry;
 use defmt::info;
 use defmt_rtt as _;
-use stm32l0::stm32l0x1;
+use stm32l0::stm32l0x2 as pac;
 
-struct Counters {
-    total_reset: u32,
-    /// power on counter
-    por: u32,
-    /// user reset counter
-    user_reset: u32,
-}
+// /// TODO think of an abstraction to always call enable_flash and disable_flash when writing the counters
+// mod persistent {
 
-#[used]
-#[link_section = ".persistent_counters"]
-static mut COUNTERS: Counters = Counters {
-    total_reset: 0,
-    por: 0,
-    user_reset: 0,
-};
+//     use crate::pac;
+//     pub fn enable_flash_write(p: &mut pac::Peripherals) {
+//         p.RCC.ahbenr.modify(|_, w| w.mifen().set_bit());
 
-#[used]
-#[link_section = ".persistent_counters"]
-static mut A: u8 = 0;
+//         p.FLASH.pekeyr.write(|w| w.bits(0x89ABCDEF)); // First key
+//         p.FLASH.pekeyr.write(|w| w.bits(0x02030405)); // Second key
 
-fn log_resets(rcc: &stm32l0x1::RCC) {
+//         while p.FLASH.sr.read().bsy().bit_is_set() {}
+
+//     }
+//     pub fn disable_flash_write(p: &mut pac::Peripherals) {}
+
+//     #[derive(Clone, Copy)]
+//     pub struct Counters {
+//         total_reset: u32,
+//         /// power on counter
+//         por: u32,
+//         /// user reset counter
+//         user_reset: u32,
+//     }
+
+//     #[used]
+//     #[link_section = ".persistent_counters"]
+//     pub static mut COUNTERS: Counters = Counters {
+//         total_reset: 0,
+//         por: 0,
+//         user_reset: 0,
+//     };
+// }
+
+fn log_resets(rcc: &pac::RCC) {
     let low_power_reset = rcc.csr.read().porrstf().bit_is_set();
     info!("POR true/false: {}", low_power_reset);
 }
@@ -52,18 +65,13 @@ impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
 fn main() -> ! {
     info!("Start");
     let _core_p = cortex_m::Peripherals::take().unwrap();
-    let p = stm32l0x1::Peripherals::take().unwrap();
-
-    unsafe {
-        COUNTERS.total_reset += 1;
-        COUNTERS.por += 1;
-        COUNTERS.user_reset += 1;
-    }
+    let p = pac::Peripherals::take().unwrap();
 
     log_resets(&p.RCC);
     p.RCC.iopenr.modify(|_, w| w.iopaen().bit(true));
     p.GPIOA.moder.modify(|_, w| w.mode8().output());
     p.GPIOA.otyper.modify(|_, w| w.ot8().push_pull());
+    p.RCC.ahbenr.modify(|_, w| w.mifen().set_bit());
 
     let mut bld = BusyLoopDelayNs;
     let mut i = 0;

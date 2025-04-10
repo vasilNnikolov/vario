@@ -311,6 +311,15 @@
 					(hide yes)
 				)
 			)
+			(property "Sim.Pins" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
 			(property "ki_keywords" "flash memory SPI QPI DTR"
 				(at 0 0 0)
 				(effects
@@ -470,7 +479,7 @@
 					)
 				)
 				(pin power_in line
-					(at 3.81 12.7 270)
+					(at 3.81 13.97 270)
 					(length 2.54)
 					(name "VCC"
 						(effects
@@ -707,6 +716,12 @@
 		)
 	)
 	(junction
+		(at 212.09 95.25)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "039e7f9d-0f85-40a4-bd38-029bc1b4ea9c")
+	)
+	(junction
 		(at 161.29 96.52)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -717,6 +732,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2fc35ced-4f45-4fc9-bb18-bd7ed394a5ff")
+	)
+	(junction
+		(at 212.09 81.28)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3ed7c74d-f128-4528-9ebe-50de43cfbb07")
 	)
 	(junction
 		(at 171.45 81.28)
@@ -750,6 +771,16 @@
 	)
 	(wire
 		(pts
+			(xy 140.97 81.28) (xy 140.97 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "01f25077-5342-4bc1-890c-a977985d8ef4")
+	)
+	(wire
+		(pts
 			(xy 102.87 86.36) (xy 107.95 86.36)
 		)
 		(stroke
@@ -770,13 +801,13 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 81.28) (xy 140.97 90.17)
+			(xy 228.6 95.25) (xy 228.6 91.44)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0c0aa7c2-ffed-4734-9003-37c4d94ec983")
+		(uuid "0dbc37db-a5e6-47a4-b15c-701dcecdc3d7")
 	)
 	(wire
 		(pts
@@ -860,6 +891,16 @@
 	)
 	(wire
 		(pts
+			(xy 212.09 95.25) (xy 228.6 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "48588f40-5d2c-4f49-b489-7ead5e776c5e")
+	)
+	(wire
+		(pts
 			(xy 212.09 81.28) (xy 212.09 83.82)
 		)
 		(stroke
@@ -880,6 +921,16 @@
 	)
 	(wire
 		(pts
+			(xy 212.09 95.25) (xy 212.09 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "673a2b7c-ca8b-400b-8f9a-18d969280540")
+	)
+	(wire
+		(pts
 			(xy 114.3 81.28) (xy 140.97 81.28)
 		)
 		(stroke
@@ -887,6 +938,16 @@
 			(type default)
 		)
 		(uuid "6e7c6786-1cc9-472e-8816-305b2476186d")
+	)
+	(wire
+		(pts
+			(xy 212.09 81.28) (xy 228.6 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "73b7bf65-0d35-4891-a326-f702fbee28b5")
 	)
 	(wire
 		(pts
@@ -970,6 +1031,16 @@
 	)
 	(wire
 		(pts
+			(xy 228.6 81.28) (xy 228.6 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bdeb145f-df73-465d-a405-594e5324c91d")
+	)
+	(wire
+		(pts
 			(xy 140.97 77.47) (xy 140.97 81.28)
 		)
 		(stroke
@@ -980,7 +1051,7 @@
 	)
 	(wire
 		(pts
-			(xy 212.09 91.44) (xy 212.09 99.06)
+			(xy 212.09 91.44) (xy 212.09 95.25)
 		)
 		(stroke
 			(width 0)
@@ -1067,6 +1138,16 @@
 			(type default)
 		)
 		(uuid "f6a03c03-3fae-4217-89c0-5e73d52f91d7")
+	)
+	(text "Write protect and HOLD pins both deactivated by default \n(both are active low)"
+		(exclude_from_sim no)
+		(at 171.196 77.978 0)
+		(effects
+			(font
+				(size 0.762 0.762)
+			)
+		)
+		(uuid "530ac95a-4260-498e-b211-4a0c649c7c6b")
 	)
 	(text "~1uA in power-down"
 		(exclude_from_sim no)
@@ -1384,7 +1465,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "51088216-c9e6-4b7c-8c27-f87467b6dd73")
 		(property "Reference" "R10"
@@ -1396,7 +1477,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "100k"
 			(at 163.83 90.1699 0)
 			(effects
 				(font
@@ -1463,7 +1544,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "51add6bd-5ad0-437d-bae2-2e51806a1f05")
 		(property "Reference" "R8"
@@ -1475,7 +1556,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "100k"
 			(at 116.84 88.8999 0)
 			(effects
 				(font
@@ -1530,6 +1611,76 @@
 			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/46f26a35-4266-4bb4-816f-d8c91119a86f"
 					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 228.6 87.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6607b187-7b72-4db0-8c9d-648f54cd90b5")
+		(property "Reference" "C15"
+			(at 232.41 86.3599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1uF"
+			(at 232.41 88.8999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 229.5652 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 228.6 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 228.6 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "49a798f9-0965-499f-980b-827aa0a1ab37")
+		)
+		(pin "2"
+			(uuid "6be89ac3-114f-4ac6-834d-7b5880df656a")
+		)
+		(instances
+			(project ""
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/46f26a35-4266-4bb4-816f-d8c91119a86f"
+					(reference "C15")
 					(unit 1)
 				)
 			)
@@ -1637,7 +1788,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf"
+		(property "Datasheet" "https://www.lcsc.com/product-detail/NOR-FLASH_Winbond-Elec-W25Q128JVSIQ_C113767.html"
 			(at 137.16 77.47 0)
 			(effects
 				(font
@@ -1646,7 +1797,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"
+		(property "Description" ""
 			(at 137.16 74.93 0)
 			(effects
 				(font
@@ -1922,7 +2073,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e721f5da-e6a7-4242-a36c-afe3cbc510d0")
 		(property "Reference" "R11"
@@ -1934,7 +2085,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "100k"
 			(at 173.99 90.1699 0)
 			(effects
 				(font

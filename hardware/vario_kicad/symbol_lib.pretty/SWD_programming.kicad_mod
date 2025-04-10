@@ -69,7 +69,7 @@
 	(attr through_hole)
 	(fp_rect
 		(start -1.5 -1.5)
-		(end 1.5 9)
+		(end 1.5 14)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -121,5 +121,21 @@
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "8451db21-f19b-43ea-b301-a1f06e26d964")
+	)
+	(pad "5" thru_hole circle
+		(at 0 10)
+		(size 1.524 1.524)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "7ddfb9e7-4ede-4d12-8e6d-1f28e27a2312")
+	)
+	(pad "6" thru_hole circle
+		(at 0 12.5)
+		(size 1.524 1.524)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "4c12f6f7-1cf1-4053-b2ad-34038de12bd7")
 	)
 )

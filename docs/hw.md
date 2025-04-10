@@ -20,12 +20,22 @@ Low power MCU with USB peripheral
 - [HW design guide](./an4467-getting-started-with-stm32l0xx-hardware-development-stmicroelectronics.pdf)
 - [JLCPCB part](https://jlcpcb.com/partdetail/STMicroelectronics-STM32L072CBT6/C465977)
 
-### LSE oscillator
 
-- [design guide](./an2867-guidelines-for-oscillator-design-on-stm8afals-and-stm32-mcusmpus-stmicroelectronics.pdf)
-- [oscillator](https://www.lcsc.com/product-detail/Crystals_Seiko-Epson-X1A0000610006_C99009.html)
+### Oscillators
+
+[design guide](./an2867-guidelines-for-oscillator-design-on-stm8afals-and-stm32-mcusmpus-stmicroelectronics.pdf)
+
+#### LSE 
+
+[LSE](https://www.lcsc.com/product-detail/Crystals_Seiko-Epson-X1A0000610006_C99009.html)
 
 According to design guide section 3.4, `g_m_crit(max) = 1.48 uA/V`. With HIGH drive strength of the oscillator, the gain margin is ~9
+
+#### HSE
+
+[HSE](https://www.lcsc.com/product-detail/Crystals_YXC-Crystal-Oscillators-X322516MLB4SI_C13738.html)
+
+`g_m_crit(max) = 0.46 mA/V`. Gain margin ~= 16
 
 ### `BME280` pressure sensor
 
@@ -43,8 +53,11 @@ According to design guide section 3.4, `g_m_crit(max) = 1.48 uA/V`. With HIGH dr
     - 16 MiB ~= 3 min 16bit PCM audio@44.1 kHz
 - flat li-po battery
     - [example battery](https://vikiwat.com/product/21044/akumulatorna-bateria-lp503040-3-7vdc-550mah-lipo.html?_gl=1*avbpzw*_up*MQ..*_gs*MQ..&gclid=Cj0KCQjwm7q-BhDRARIsACD6-fV4nz9wrJJZZHtHrbiDHF7CsGa15AtlHapZ-KCusHSsi9U_Mh-u0QsaAskiEALw_wcB) - 550 mAh
-        Standard charge is 0.2C, so ~110 mA.
     - [TP4054](https://jlcpcb.com/partdetail/Goodwork-TP4054/C21713960) charge IC - [datasheet](tp4054.pdf)
-        `R_prog` = 1000/0.11 ~= 9k, 10k in schematic
+    
+        `R_prog` = 10k 
+        
+        `I_charge` = 100 mA ~= 0.18C charging
+
     - [LDO](https://jlcpcb.com/partdetail/TorexSemicon-XC6206P332MRG/C5446) - [datasheet](./ldo_datasheet.pdf)
 
