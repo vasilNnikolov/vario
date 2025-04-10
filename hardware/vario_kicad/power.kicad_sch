@@ -3778,7 +3778,7 @@
 		)
 		(uuid "8353015a-abe1-4046-966b-76aaf5c547a4")
 	)
-	(text "Max V_BATT voltage 4.3V\nmax adc voltage 2.95V"
+	(text "Max V_BATT voltage 4.3V\nmax adc voltage 2.15V"
 		(exclude_from_sim no)
 		(at 83.82 145.542 0)
 		(effects
@@ -5126,7 +5126,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100k"
+		(property "Value" "220k"
 			(at 71.12 130.8099 0)
 			(effects
 				(font
