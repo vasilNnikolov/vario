@@ -2331,7 +2331,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "PWM_IN"
+		(property "Value" "TestPoint"
 			(at 228.6 90.6779 0)
 			(effects
 				(font
@@ -2340,7 +2340,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 231.14 92.71 0)
 			(effects
 				(font
@@ -2716,7 +2716,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "AUDIO_IN"
+		(property "Value" "TestPoint"
 			(at 199.39 75.4379 0)
 			(effects
 				(font

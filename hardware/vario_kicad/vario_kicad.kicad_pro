@@ -562,7 +562,7 @@
       "filter_string": "",
       "group_symbols": true,
       "name": "",
-      "sort_asc": true,
+      "sort_asc": false,
       "sort_field": "Footprint"
     },
     "connection_grid_size": 50.0,
