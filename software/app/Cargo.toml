@@ -15,7 +15,7 @@ defmt-rtt = "0.4.1"
 embedded-hal = { version = "1.0.0", features = ["defmt-03"] }
 # cortex-m-semihosting = "0.5"
 panic-halt = "1.0.0"
-stm32l0 = { version = "0.15.1", features = ["stm32l0x1", "rt"] }
+stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] }
 
 
 # Uncomment for the panic example.
