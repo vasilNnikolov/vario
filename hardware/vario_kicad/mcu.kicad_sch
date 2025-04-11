@@ -2630,12 +2630,6 @@
 		(uuid "55c38530-2ad1-4707-b7d2-ed038db3f53b")
 	)
 	(junction
-		(at 203.2 134.62)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "5afc64cb-8e5d-4e26-afd8-b2e8ded5d012")
-	)
-	(junction
 		(at 297.18 107.95)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2646,12 +2640,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7128fb80-468f-45b4-b891-729add8b5d7f")
-	)
-	(junction
-		(at 203.2 132.08)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "726b4836-e571-4913-914b-a6ff7222715a")
 	)
 	(junction
 		(at 252.73 93.98)
@@ -3493,16 +3481,6 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 134.62) (xy 203.2 134.62)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7d842711-8166-47d8-ae06-74335afb12c7")
-	)
-	(wire
-		(pts
 			(xy 128.27 134.62) (xy 139.7 134.62)
 		)
 		(stroke
@@ -3703,7 +3681,7 @@
 	)
 	(wire
 		(pts
-			(xy 203.2 134.62) (xy 207.01 134.62)
+			(xy 175.26 134.62) (xy 207.01 134.62)
 		)
 		(stroke
 			(width 0)
@@ -3863,7 +3841,7 @@
 	)
 	(wire
 		(pts
-			(xy 203.2 132.08) (xy 207.01 132.08)
+			(xy 175.26 132.08) (xy 207.01 132.08)
 		)
 		(stroke
 			(width 0)
@@ -4000,16 +3978,6 @@
 			(type default)
 		)
 		(uuid "d333565e-ff07-4384-b540-a83eb0ff8b83")
-	)
-	(wire
-		(pts
-			(xy 175.26 132.08) (xy 203.2 132.08)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d4f4cabf-7af6-44bc-8445-01296dd8ca23")
 	)
 	(wire
 		(pts
@@ -5299,82 +5267,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 203.2 134.62 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "54aca3b7-f7e4-4cbc-8bee-25b65c3d16f0")
-		(property "Reference" "TP12"
-			(at 204.216 138.684 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "TestPoint"
-			(at 205.74 139.1919 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 198.12 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 198.12 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "test point"
-			(at 203.2 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" ""
-			(at 203.2 134.62 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "44feb579-0812-4efa-8ece-98d6e6389189")
-		)
-		(instances
-			(project "vario_kicad"
-				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
-					(reference "TP12")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "MCU_ST_STM32L0:STM32L072CBTx")
 		(at 157.48 137.16 0)
 		(unit 1)
@@ -5883,82 +5775,6 @@
 			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
 					(reference "C23")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 203.2 132.08 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7416dc83-ae7c-4e02-bb31-edbead77a29e")
-		(property "Reference" "TP11"
-			(at 203.962 127.762 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TestPoint"
-			(at 205.74 130.0479 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 208.28 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 208.28 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "test point"
-			(at 203.2 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" ""
-			(at 203.2 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c566c5e4-e05f-46c1-845a-395e141bca51")
-		)
-		(instances
-			(project "vario_kicad"
-				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
-					(reference "TP11")
 					(unit 1)
 				)
 			)
