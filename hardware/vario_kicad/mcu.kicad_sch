@@ -2498,6 +2498,12 @@
 		(uuid "d2bb3285-ca27-4dc0-9396-0fdd9c4aeacd")
 	)
 	(junction
+		(at 234.95 115.57)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d5a5a01a-35ef-48f5-9b93-cb9050bfc955")
+	)
+	(junction
 		(at 157.48 179.07)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2887,7 +2893,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 111.76) (xy 182.88 111.76)
+			(xy 234.95 115.57) (xy 243.84 115.57)
 		)
 		(stroke
 			(width 0)
@@ -3087,6 +3093,16 @@
 	)
 	(wire
 		(pts
+			(xy 234.95 115.57) (xy 234.95 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "54292863-e6f0-4a01-baf9-9a4d5d9177e1")
+	)
+	(wire
+		(pts
 			(xy 113.03 109.22) (xy 139.7 109.22)
 		)
 		(stroke
@@ -3104,6 +3120,16 @@
 			(type default)
 		)
 		(uuid "6053e2eb-f92c-45bb-b354-6d459bfd7c4c")
+	)
+	(wire
+		(pts
+			(xy 234.95 111.76) (xy 175.26 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6673ed66-deeb-45bc-8b57-6527bc55f507")
 	)
 	(wire
 		(pts
@@ -3737,6 +3763,16 @@
 	)
 	(wire
 		(pts
+			(xy 234.95 127) (xy 234.95 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e41c2379-f35a-4fd0-a014-665258b14714")
+	)
+	(wire
+		(pts
 			(xy 45.72 237.49) (xy 68.58 237.49)
 		)
 		(stroke
@@ -3825,6 +3861,16 @@
 		)
 		(uuid "f967078d-98a9-442a-a08a-6447f0e11878")
 	)
+	(wire
+		(pts
+			(xy 234.95 115.57) (xy 234.95 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe494f8f-9195-48c0-8c4f-b3451f2f823e")
+	)
 	(rectangle
 		(start 41.91 139.192)
 		(end 95.504 180.086)
@@ -3889,6 +3935,16 @@
 			)
 		)
 		(uuid "af5bcbb9-a7ca-4500-aa4d-8e47594c6c07")
+	)
+	(text "noise decoupling cap\n"
+		(exclude_from_sim no)
+		(at 243.078 127.762 0)
+		(effects
+			(font
+				(size 0.762 0.762)
+			)
+		)
+		(uuid "c0d9cecc-e112-4f84-ac7b-e5a2032c0be0")
 	)
 	(text "MCU"
 		(exclude_from_sim no)
@@ -4114,7 +4170,7 @@
 	)
 	(hierarchical_label "ADC_IN3"
 		(shape input)
-		(at 182.88 111.76 0)
+		(at 243.84 115.57 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4472,6 +4528,72 @@
 			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
 					(reference "#PWR26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 234.95 130.81 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2bcf281e-e1a0-4927-b6a2-8bda08a9f74f")
+		(property "Reference" "#PWR39"
+			(at 234.95 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 234.95 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 234.95 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 234.95 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 234.95 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e791aab2-0728-4c98-9c4f-8b5c7459d8bd")
+		)
+		(instances
+			(project ""
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
+					(reference "#PWR39")
 					(unit 1)
 				)
 			)
@@ -5501,6 +5623,84 @@
 			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
 					(reference "C22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 234.95 123.19 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "76601abf-ae4f-4939-8747-bb9af92000c3")
+		(property "Reference" "C30"
+			(at 238.76 121.9199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 238.76 124.4599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 235.9152 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 234.95 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 234.95 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 234.95 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "ed292154-b1e4-4cc2-9287-f442a15f3df2")
+		)
+		(pin "1"
+			(uuid "0c9ae853-2886-4ed6-8b1c-9c99363bd252")
+		)
+		(instances
+			(project "vario_kicad"
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/dd2cba4c-5ed6-4588-88fb-827c05b79647"
+					(reference "C30")
 					(unit 1)
 				)
 			)
