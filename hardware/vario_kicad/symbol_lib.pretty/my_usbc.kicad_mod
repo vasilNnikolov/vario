@@ -172,26 +172,36 @@
 		(at -3.21 5.715)
 		(size 0.65 0.65)
 		(drill 0.65)
-		(layers "*.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu"
+		)
 		(uuid "a0a65579-ee37-4d17-b9b5-c11539b90f46")
 	)
 	(pad "" np_thru_hole circle
 		(at 2.57 5.715)
 		(size 0.65 0.65)
 		(drill 0.65)
-		(layers "*.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu"
+		)
 		(uuid "da837a30-60fc-43c4-8424-ae9d5cf3081e")
 	)
 	(pad "A1" smd roundrect
-		(at -3.52 4.64)
-		(size 0.6 1.15)
+		(at -3.52 4.59)
+		(size 0.6 1.05)
 		(layers "F.Cu" "F.Paste" "F.Mask")
 		(roundrect_rratio 0.25)
 		(uuid "b27cc745-c79e-48b1-9db7-e43e8a3dd98b")
 	)
 	(pad "A4" smd roundrect
-		(at -2.72 4.64)
-		(size 0.6 1.15)
+		(at -2.72 4.59)
+		(size 0.6 1.05)
 		(layers "F.Cu" "F.Paste" "F.Mask")
 		(roundrect_rratio 0.25)
 		(uuid "ecaddef7-b8da-499b-85da-e15dffbf13f7")
@@ -225,15 +235,15 @@
 		(uuid "81b927ee-71b8-4800-8c08-1b55fb0a89f1")
 	)
 	(pad "A9" smd roundrect
-		(at 2.08 4.64)
-		(size 0.6 1.15)
+		(at 2.08 4.59)
+		(size 0.6 1.05)
 		(layers "F.Cu" "F.Paste" "F.Mask")
 		(roundrect_rratio 0.25)
 		(uuid "1608d2b4-a10f-4863-831f-fbe488b1373d")
 	)
 	(pad "A12" smd roundrect
-		(at 2.88 4.64)
-		(size 0.6 1.15)
+		(at 2.88 4.59)
+		(size 0.6 1.05)
 		(layers "F.Cu" "F.Paste" "F.Mask")
 		(roundrect_rratio 0.25)
 		(uuid "1a166f7c-3fb7-4c11-94b9-f2335228a292")
@@ -271,7 +281,12 @@
 		(size 1 2.1)
 		(drill oval 0.6 1.7)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "F.Paste")
+		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu" "F.Paste"
+		)
 		(remove_unused_layers no)
 		(uuid "8a91acbf-ec21-4672-a140-401acef81336")
 	)
@@ -280,7 +295,12 @@
 		(size 1 1.8)
 		(drill oval 0.6 1.4)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "F.Paste")
+		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu" "F.Paste"
+		)
 		(remove_unused_layers no)
 		(uuid "0e9e7fc3-82dd-4230-a54e-4e2e721ba9a8")
 	)
@@ -289,7 +309,12 @@
 		(size 1 2.1)
 		(drill oval 0.6 1.7)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "F.Paste")
+		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu" "F.Paste"
+		)
 		(remove_unused_layers no)
 		(uuid "cc52166d-6009-4413-92bd-a4908f9f7369")
 	)
@@ -298,7 +323,12 @@
 		(size 1 1.8)
 		(drill oval 0.6 1.4)
 		(property pad_prop_heatsink)
-		(layers "*.Cu" "*.Mask" "F.Paste")
+		(layers "*.Cu" "*.Mask" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu" "F.Paste"
+		)
 		(remove_unused_layers no)
 		(uuid "c0251a4d-92dd-4b70-acfa-63d94a26fbf9")
 	)
