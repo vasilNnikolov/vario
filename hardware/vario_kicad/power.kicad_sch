@@ -2525,6 +2525,12 @@
 		(uuid "0b9bc805-11c6-4787-8fbc-5abfb7b3e35c")
 	)
 	(junction
+		(at 142.24 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0cf1f228-ae8e-4d0e-8bb3-2ea77f699dc8")
+	)
+	(junction
 		(at 166.37 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2932,6 +2938,16 @@
 	)
 	(wire
 		(pts
+			(xy 142.24 29.21) (xy 142.24 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4c37efc2-f485-4d4e-b1b6-5e41bcc29586")
+	)
+	(wire
+		(pts
 			(xy 116.84 66.04) (xy 116.84 69.85)
 		)
 		(stroke
@@ -2999,6 +3015,16 @@
 			(type default)
 		)
 		(uuid "5bb1a361-640f-479f-9f2c-8bdc379cf4f9")
+	)
+	(wire
+		(pts
+			(xy 135.89 29.21) (xy 142.24 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "608473de-a9cc-43e3-a7df-f33b9665d421")
 	)
 	(wire
 		(pts
@@ -3079,6 +3105,16 @@
 			(type default)
 		)
 		(uuid "715773ea-22c0-45a4-a9ab-db2dd555a040")
+	)
+	(wire
+		(pts
+			(xy 142.24 46.99) (xy 166.37 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "761417b8-6ad2-4c05-b7ff-9357db422ca6")
 	)
 	(wire
 		(pts
@@ -3382,7 +3418,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 46.99) (xy 166.37 46.99)
+			(xy 135.89 46.99) (xy 142.24 46.99)
 		)
 		(stroke
 			(width 0)
@@ -3562,6 +3598,16 @@
 	)
 	(wire
 		(pts
+			(xy 88.9 29.21) (xy 128.27 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fcd374a6-31ce-474d-8b74-0acf736d917f")
+	)
+	(wire
+		(pts
 			(xy 166.37 78.74) (xy 166.37 81.28)
 		)
 		(stroke
@@ -3608,7 +3654,7 @@
 	)
 	(rectangle
 		(start 18.415 96.52)
-		(end 92.075 160.02)
+		(end 99.06 160.02)
 		(stroke
 			(width 0)
 			(type default)
@@ -3638,9 +3684,9 @@
 		)
 		(uuid "4c9f50cc-760d-4682-aa79-e57d07ffd2a3")
 	)
-	(text "Max V_BATT voltage 4.3V\nmax adc voltage 2.15V"
+	(text "Max V_BATT voltage 5V when battery bypass resistor is soldered\nmax ADC voltage 2.5V"
 		(exclude_from_sim no)
-		(at 83.82 145.542 0)
+		(at 77.47 100.584 0)
 		(effects
 			(font
 				(size 0.762 0.762)
@@ -5053,7 +5099,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220k"
+		(property "Value" "100k"
 			(at 71.12 130.8099 0)
 			(effects
 				(font
@@ -5108,6 +5154,74 @@
 			(project "vario_kicad"
 				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/9ff7b2dd-70fe-4259-884c-1f1f10c7ad3d"
 					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 132.08 29.21 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "7dd102be-d084-4947-9762-125882cb3ad2")
+		(property "Reference" "R33"
+			(at 132.08 22.86 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "0R"
+			(at 132.08 25.4 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 132.08 27.432 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 132.08 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 132.08 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "3a5f12a9-f9ff-4bdb-8ec4-f1b4aa7d2518")
+		)
+		(pin "1"
+			(uuid "dd989b54-a01e-4670-88dd-67681818afff")
+		)
+		(instances
+			(project ""
+				(path "/50389aff-b244-451e-8e3a-c5addd2215e1/9ff7b2dd-70fe-4259-884c-1f1f10c7ad3d"
+					(reference "R33")
 					(unit 1)
 				)
 			)
@@ -5202,7 +5316,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220k"
+		(property "Value" "100k"
 			(at 71.12 146.0499 0)
 			(effects
 				(font
