@@ -71,7 +71,7 @@
 		(start -5 -1.5)
 		(end 5 1.5)
 		(stroke
-			(width 0.1)
+			(width 0.2)
 			(type default)
 		)
 		(fill none)
@@ -79,27 +79,29 @@
 		(uuid "7829547a-e6e7-47e0-87d6-daee02f5188c")
 	)
 	(fp_text user "-"
-		(at 1.5 1.4 0)
+		(at 1.15 1.3 0)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "d4e136f7-5e88-4aab-88be-9d6a0bf7fb84")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.1)
+				(size 1.2 1.2)
+				(thickness 0.2)
+				(bold yes)
 			)
 			(justify left bottom)
 		)
 	)
 	(fp_text user "+"
-		(at -3 1.4 0)
+		(at -2.85 1.3 0)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "e67ccd25-1471-48f5-8d8f-6319da37f377")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.1)
+				(size 1.2 1.2)
+				(thickness 0.2)
+				(bold yes)
 			)
 			(justify left bottom)
 		)
@@ -120,7 +122,11 @@
 		(at -3.5 0)
 		(size 1.524 1.524)
 		(drill 0.762)
-		(layers "*.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu" "In7.Cu" "In8.Cu"
+			"In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu" "In15.Cu" "In16.Cu"
+			"In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu" "In22.Cu" "In23.Cu"
+			"In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu" "In29.Cu" "In30.Cu"
+		)
 		(remove_unused_layers no)
 		(uuid "b626b686-bc8e-4a90-a7b9-787aeb8541b8")
 	)
@@ -128,7 +134,11 @@
 		(at 3.5 0)
 		(size 1.524 1.524)
 		(drill 0.762)
-		(layers "*.Cu" "*.Mask")
+		(layers "*.Cu" "*.Mask" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu" "In7.Cu" "In8.Cu"
+			"In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu" "In15.Cu" "In16.Cu"
+			"In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu" "In22.Cu" "In23.Cu"
+			"In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu" "In29.Cu" "In30.Cu"
+		)
 		(remove_unused_layers no)
 		(uuid "58e5dea0-5a9c-4a7f-98ab-7042280057d4")
 	)
