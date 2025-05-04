@@ -15,7 +15,8 @@ use panic_halt as _;
 use cortex_m::peripheral::syst::SystClkSource;
 use cortex_m::Peripherals;
 use cortex_m_rt::{entry, exception};
-use cortex_m_semihosting::hprint;
+use defmt::info;
+use defmt_rtt as _;
 
 #[entry]
 fn main() -> ! {
@@ -24,7 +25,7 @@ fn main() -> ! {
 
     // configures the system timer to trigger a SysTick exception every second
     syst.set_clock_source(SystClkSource::Core);
-    syst.set_reload(8_000_000); // period = 1s
+    syst.set_reload(16_000_000); // period = 1s
     syst.enable_counter();
     syst.enable_interrupt();
 
@@ -33,5 +34,5 @@ fn main() -> ! {
 
 #[exception]
 fn SysTick() {
-    hprint!(".");
+    info!("tick");
 }
