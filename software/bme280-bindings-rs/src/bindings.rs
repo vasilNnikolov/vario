@@ -37,15 +37,17 @@ pub const INT_FAST32_MIN: i32 = -2147483648;
 pub const UINT_FAST32_MAX: u32 = 4294967295;
 pub const INT_FAST64_MAX: u64 = 9223372036854775807;
 pub const INT_FAST64_MIN: i64 = -9223372036854775808;
-pub const INTPTR_MAX: u64 = 9223372036854775807;
-pub const INTPTR_MIN: i64 = -9223372036854775808;
+pub const INTPTR_MAX: u32 = 2147483647;
+pub const INTPTR_MIN: i32 = -2147483648;
+pub const UINTPTR_MAX: u32 = 4294967295;
 pub const INTMAX_MAX: u64 = 9223372036854775807;
 pub const INTMAX_MIN: i64 = -9223372036854775808;
-pub const PTRDIFF_MAX: u64 = 9223372036854775807;
-pub const PTRDIFF_MIN: i64 = -9223372036854775808;
+pub const PTRDIFF_MAX: u32 = 2147483647;
+pub const PTRDIFF_MIN: i32 = -2147483648;
 pub const SIG_ATOMIC_MAX: u32 = 2147483647;
-pub const WCHAR_MAX: u32 = 2147483647;
-pub const WINT_MAX: u32 = 4294967295;
+pub const SIZE_MAX: u32 = 4294967295;
+pub const WCHAR_MAX: u32 = 4294967295;
+pub const WINT_MAX: u32 = 2147483647;
 pub const TRUE: u8 = 1;
 pub const FALSE: u8 = 0;
 pub const BME280_INTF_RET_SUCCESS: u8 = 0;
@@ -133,38 +135,36 @@ pub const BME280_FILTER_POS: u8 = 2;
 pub type int_least8_t = ::core::ffi::c_schar;
 pub type int_least16_t = ::core::ffi::c_short;
 pub type int_least32_t = ::core::ffi::c_int;
-pub type int_least64_t = ::core::ffi::c_long;
+pub type int_least64_t = ::core::ffi::c_longlong;
 pub type uint_least8_t = ::core::ffi::c_uchar;
 pub type uint_least16_t = ::core::ffi::c_ushort;
 pub type uint_least32_t = ::core::ffi::c_uint;
-pub type uint_least64_t = ::core::ffi::c_ulong;
+pub type uint_least64_t = ::core::ffi::c_ulonglong;
 pub type int_fast8_t = ::core::ffi::c_schar;
 pub type int_fast16_t = ::core::ffi::c_short;
 pub type int_fast32_t = ::core::ffi::c_int;
-pub type int_fast64_t = ::core::ffi::c_long;
+pub type int_fast64_t = ::core::ffi::c_longlong;
 pub type uint_fast8_t = ::core::ffi::c_uchar;
 pub type uint_fast16_t = ::core::ffi::c_ushort;
 pub type uint_fast32_t = ::core::ffi::c_uint;
-pub type uint_fast64_t = ::core::ffi::c_ulong;
-pub type intmax_t = ::core::ffi::c_long;
-pub type uintmax_t = ::core::ffi::c_ulong;
-pub type wchar_t = ::core::ffi::c_int;
+pub type uint_fast64_t = ::core::ffi::c_ulonglong;
+pub type intmax_t = ::core::ffi::c_longlong;
+pub type uintmax_t = ::core::ffi::c_ulonglong;
+pub type wchar_t = ::core::ffi::c_uint;
 #[repr(C)]
-#[repr(align(16))]
 #[derive(Debug, Default, Copy, Clone)]
 pub struct max_align_t {
     pub __max_align_ll: ::core::ffi::c_longlong,
-    pub __bindgen_padding_0: u64,
-    pub __max_align_ld: u128,
+    pub __max_align_ld: f64,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
 const _: () = {
-    ["Size of max_align_t"][::core::mem::size_of::<max_align_t>() - 32usize];
-    ["Alignment of max_align_t"][::core::mem::align_of::<max_align_t>() - 16usize];
+    ["Size of max_align_t"][::core::mem::size_of::<max_align_t>() - 16usize];
+    ["Alignment of max_align_t"][::core::mem::align_of::<max_align_t>() - 8usize];
     ["Offset of field: max_align_t::__max_align_ll"]
         [::core::mem::offset_of!(max_align_t, __max_align_ll) - 0usize];
     ["Offset of field: max_align_t::__max_align_ld"]
-        [::core::mem::offset_of!(max_align_t, __max_align_ld) - 16usize];
+        [::core::mem::offset_of!(max_align_t, __max_align_ld) - 8usize];
 };
 #[doc = " SPI interface"]
 pub const bme280_intf_BME280_SPI_INTF: bme280_intf = 0;
@@ -375,20 +375,20 @@ pub struct bme280_dev {
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
 const _: () = {
-    ["Size of bme280_dev"][::core::mem::size_of::<bme280_dev>() - 88usize];
-    ["Alignment of bme280_dev"][::core::mem::align_of::<bme280_dev>() - 8usize];
+    ["Size of bme280_dev"][::core::mem::size_of::<bme280_dev>() - 68usize];
+    ["Alignment of bme280_dev"][::core::mem::align_of::<bme280_dev>() - 4usize];
     ["Offset of field: bme280_dev::chip_id"][::core::mem::offset_of!(bme280_dev, chip_id) - 0usize];
     ["Offset of field: bme280_dev::intf"][::core::mem::offset_of!(bme280_dev, intf) - 4usize];
     ["Offset of field: bme280_dev::intf_ptr"]
         [::core::mem::offset_of!(bme280_dev, intf_ptr) - 8usize];
     ["Offset of field: bme280_dev::intf_rslt"]
-        [::core::mem::offset_of!(bme280_dev, intf_rslt) - 16usize];
-    ["Offset of field: bme280_dev::read"][::core::mem::offset_of!(bme280_dev, read) - 24usize];
-    ["Offset of field: bme280_dev::write"][::core::mem::offset_of!(bme280_dev, write) - 32usize];
+        [::core::mem::offset_of!(bme280_dev, intf_rslt) - 12usize];
+    ["Offset of field: bme280_dev::read"][::core::mem::offset_of!(bme280_dev, read) - 16usize];
+    ["Offset of field: bme280_dev::write"][::core::mem::offset_of!(bme280_dev, write) - 20usize];
     ["Offset of field: bme280_dev::delay_us"]
-        [::core::mem::offset_of!(bme280_dev, delay_us) - 40usize];
+        [::core::mem::offset_of!(bme280_dev, delay_us) - 24usize];
     ["Offset of field: bme280_dev::calib_data"]
-        [::core::mem::offset_of!(bme280_dev, calib_data) - 48usize];
+        [::core::mem::offset_of!(bme280_dev, calib_data) - 28usize];
 };
 impl Default for bme280_dev {
     fn default() -> Self {

@@ -41,20 +41,9 @@ fn main() -> ! {
 
     let mut bld = BusyLoopDelayNs;
     let mut i = 0;
-    // let mut i2c_dev = ();
-    // // let calib_data = bme_b::bme280_calib_data::default();
-    // let void_ptr = &mut i2c_dev as *mut _ as *mut core::ffi::c_void;
-    // let _ = bme_b::bme280_dev {
-    //     chip_id: 0,
-    //     intf: bme_b::bme280_intf_BME280_I2C_INTF,
-    //     intf_ptr: void_ptr,
-    //     intf_rslt: 0,
-    //     read: None,
-    //     write: None,
-    //     delay_us: None,
-    //     calib_data,
-    // };
-    let _ = bme_b::BME280_12_BIT_SHIFT;
+    let mut bme_dev = bme_b::bme280_dev::default();
+    bme_dev.intf = bme_b::bme280_intf_BME280_I2C_INTF;
+
     loop {
         info!("Counter: {}", i);
         if i & 1 == 0 {
