@@ -4,6 +4,8 @@
 use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 
+// use bme280_bindings_rs;
+// use bme280_bindings_rs::bindings as bme_b;
 use cortex_m::asm;
 use cortex_m_rt::entry;
 use defmt::info;
@@ -39,6 +41,19 @@ fn main() -> ! {
 
     let mut bld = BusyLoopDelayNs;
     let mut i = 0;
+    // let mut i2c_dev = ();
+    // // let calib_data = bme_b::bme280_calib_data::default();
+    // let void_ptr = &mut i2c_dev as *mut _ as *mut core::ffi::c_void;
+    // let _ = bme_b::bme280_dev {
+    //     chip_id: 0,
+    //     intf: bme_b::bme280_intf_BME280_I2C_INTF,
+    //     intf_ptr: void_ptr,
+    //     intf_rslt: 0,
+    //     read: None,
+    //     write: None,
+    //     delay_us: None,
+    //     calib_data,
+    // };
     loop {
         info!("Counter: {}", i);
         if i & 1 == 0 {
