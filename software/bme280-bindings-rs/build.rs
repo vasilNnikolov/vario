@@ -1,7 +1,7 @@
 /// cleans artifacts from any previous builds of the c library, compiles it, and generates rust bindings to it with bindgen
 fn compile_link_c_lib() {
     use std::path::PathBuf;
-    let bindings_path = PathBuf::from("./src/lib1.rs");
+    let bindings_path = PathBuf::from("./src/bindings.rs");
     let _ = std::fs::remove_file(&bindings_path);
 
     let libdir_path = PathBuf::from("bosch-api").canonicalize().unwrap();
@@ -24,6 +24,7 @@ fn compile_link_c_lib() {
         .use_core()
         .fit_macro_constants(true)
         .clang_macro_fallback()
+        .derive_default(true)
         .clang_arg("-I/usr/lib/gcc/arm-none-eabi/13.2.1/include") // TODO set include some other way
         .header(headers_path.to_str().unwrap())
         .raw_line("#![allow(non_snake_case)]") // add these to avoid rust warnings

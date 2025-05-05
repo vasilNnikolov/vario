@@ -1,1 +1,2 @@
-pub mod lib1;
+#![no_std]
+pub mod bindings;

@@ -151,7 +151,7 @@ pub type uintmax_t = ::core::ffi::c_ulong;
 pub type wchar_t = ::core::ffi::c_int;
 #[repr(C)]
 #[repr(align(16))]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct max_align_t {
     pub __max_align_ll: ::core::ffi::c_longlong,
     pub __bindgen_padding_0: u64,
@@ -195,7 +195,7 @@ pub type bme280_delay_us_fptr_t =
     ::core::option::Option<unsafe extern "C" fn(period: u32, intf_ptr: *mut ::core::ffi::c_void)>;
 #[doc = " @brief Calibration data"]
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct bme280_calib_data {
     #[doc = " Calibration coefficient for the temperature sensor"]
     pub dig_t1: u16,
@@ -280,7 +280,7 @@ const _: () = {
         [::core::mem::offset_of!(bme280_calib_data, t_fine) - 36usize];
 };
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct bme280_data {
     #[doc = " Compensated pressure"]
     pub pressure: f64,
@@ -302,7 +302,7 @@ const _: () = {
 };
 #[doc = " @brief bme280 sensor structure which comprises of uncompensated temperature,\n pressure and humidity data"]
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct bme280_uncomp_data {
     #[doc = " Un-compensated pressure"]
     pub pressure: u32,
@@ -324,7 +324,7 @@ const _: () = {
 };
 #[doc = " @brief bme280 sensor settings structure which comprises of mode,\n oversampling and filter settings."]
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Default, Copy, Clone)]
 pub struct bme280_settings {
     #[doc = " Pressure oversampling"]
     pub osr_p: u8,
@@ -390,6 +390,15 @@ const _: () = {
     ["Offset of field: bme280_dev::calib_data"]
         [::core::mem::offset_of!(bme280_dev, calib_data) - 48usize];
 };
+impl Default for bme280_dev {
+    fn default() -> Self {
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
+        unsafe {
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            s.assume_init()
+        }
+    }
+}
 unsafe extern "C" {
     #[doc = " \\ingroup bme280ApiInit\n \\page bme280_api_bme280_init bme280_init\n \\code\n int8_t bme280_init(struct bme280_dev *dev);\n \\endcode\n @details This API reads the chip-id of the sensor which is the first step to\n verify the sensor and also calibrates the sensor\n As this API is the entry point, call this API before using other APIs.\n\n @param[in,out] dev : Structure instance of bme280_dev\n\n @return Result of API execution status.\n\n @retval   0 -> Success.\n @retval > 0 -> Warning.\n @retval < 0 -> Fail.\n"]
     pub fn bme280_init(dev: *mut bme280_dev) -> i8;
