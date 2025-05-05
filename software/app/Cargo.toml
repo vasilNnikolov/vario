@@ -16,6 +16,7 @@ embedded-hal = { version = "1.0.0", features = ["defmt-03"] }
 # cortex-m-semihosting = "0.5"
 panic-halt = "1.0.0"
 stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] }
+bme280-bindings-rs = { path = "../bme280-bindings-rs" }
 
 
 # Uncomment for the panic example.
@@ -34,11 +35,13 @@ stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] }
 
 # this lets you use `cargo fix`!
 [[bin]]
-name = "app"
+name = "vario"
+path = "src/vario/vario.rs"
 test = false
 bench = false
 
-[profile.release]
-codegen-units = 1 # better optimizations
-debug = true # symbols are nice and they don't increase the size on Flash
-lto = true # better optimizations
+[[bin]]
+name = "counters"
+path = "src/counters/main.rs"
+test = false
+bench = false

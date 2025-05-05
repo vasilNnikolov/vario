@@ -1,0 +1,3 @@
+[submodule "software/bme280-bindings-rs/bosch-api/BME280_SensorAPI"]
+	path = software/bme280-bindings-rs/bosch-api/BME280_SensorAPI
+	url = https://github.com/boschsensortec/BME280_SensorAPI
