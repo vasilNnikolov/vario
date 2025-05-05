@@ -283,22 +283,22 @@ const _: () = {
 #[derive(Debug, Default, Copy, Clone)]
 pub struct bme280_data {
     #[doc = " Compensated pressure"]
-    pub pressure: f64,
+    pub pressure: u32,
     #[doc = " Compensated temperature"]
-    pub temperature: f64,
+    pub temperature: i32,
     #[doc = " Compensated humidity"]
-    pub humidity: f64,
+    pub humidity: u32,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
 const _: () = {
-    ["Size of bme280_data"][::core::mem::size_of::<bme280_data>() - 24usize];
-    ["Alignment of bme280_data"][::core::mem::align_of::<bme280_data>() - 8usize];
+    ["Size of bme280_data"][::core::mem::size_of::<bme280_data>() - 12usize];
+    ["Alignment of bme280_data"][::core::mem::align_of::<bme280_data>() - 4usize];
     ["Offset of field: bme280_data::pressure"]
         [::core::mem::offset_of!(bme280_data, pressure) - 0usize];
     ["Offset of field: bme280_data::temperature"]
-        [::core::mem::offset_of!(bme280_data, temperature) - 8usize];
+        [::core::mem::offset_of!(bme280_data, temperature) - 4usize];
     ["Offset of field: bme280_data::humidity"]
-        [::core::mem::offset_of!(bme280_data, humidity) - 16usize];
+        [::core::mem::offset_of!(bme280_data, humidity) - 8usize];
 };
 #[doc = " @brief bme280 sensor structure which comprises of uncompensated temperature,\n pressure and humidity data"]
 #[repr(C)]

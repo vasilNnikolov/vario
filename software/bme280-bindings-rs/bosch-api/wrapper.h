@@ -8,5 +8,7 @@
 #define INT64_C(x)   (uint64_t)(x)
 #define UINT64_C(x)  (uint64_t)(x)
 
+#define BME280_32BIT_ENABLE 
+
 #include "./BME280_SensorAPI/bme280_defs.h"
 #include "./BME280_SensorAPI/bme280.h"

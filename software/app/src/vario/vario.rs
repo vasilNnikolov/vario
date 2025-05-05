@@ -42,7 +42,11 @@ fn main() -> ! {
     let mut bld = BusyLoopDelayNs;
     let mut i = 0;
     let mut bme_dev = bme_b::bme280_dev::default();
+    //TODO set read and write functions
     bme_dev.intf = bme_b::bme280_intf_BME280_I2C_INTF;
+    unsafe {
+        let _retcode = bme_b::bme280_init(&mut bme_dev as *mut _);
+    }
 
     loop {
         info!("Counter: {}", i);
