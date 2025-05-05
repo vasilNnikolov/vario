@@ -4,8 +4,8 @@
 use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 
-// use bme280_bindings_rs;
-// use bme280_bindings_rs::bindings as bme_b;
+use bme280_bindings_rs;
+use bme280_bindings_rs::bindings as bme_b;
 use cortex_m::asm;
 use cortex_m_rt::entry;
 use defmt::info;
@@ -54,6 +54,7 @@ fn main() -> ! {
     //     delay_us: None,
     //     calib_data,
     // };
+    let _ = bme_b::BME280_12_BIT_SHIFT;
     loop {
         info!("Counter: {}", i);
         if i & 1 == 0 {
