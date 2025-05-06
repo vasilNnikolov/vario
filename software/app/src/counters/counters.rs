@@ -1,14 +1,13 @@
-/// DOES NOT WORK
 #![no_std]
 #![no_main]
 
+// DOES NOT WORK
 use panic_halt as _;
 
-use cortex_m::asm;
 use cortex_m_rt::entry;
 use defmt::info;
 use defmt_rtt as _;
-use stm32l0::stm32l0x2::{self as pac, lptim::cfgr::COUNTMODE_R};
+use stm32l0::stm32l0x2 as pac;
 
 // TODO think of an abstraction to always call enable_flash and disable_flash when writing the counters
 

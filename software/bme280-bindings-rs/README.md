@@ -24,20 +24,20 @@ This crate contains bindings to the [BME280 API by Bosch](https://github.com/bos
   ```
 
 - ensure you have the right C compiler for your target (ex. `arm-none-eabi-gcc` for Cortex M0 devices)
-- set the required environment variables during compilation
+- set the required environment variables during compilation. this can be done in 2 ways:
+
   - by setting them in the cmd line
 
     ```bash
-    $(myproj/) BME280_CC='arm-none-eabi-gcc' BME280_AR='arm-none-eabi-ar' BME280_CFLAGS='' BME280_CC_INCLUDE='/usr/lib/gcc/arm-none-eabi/13.2.1/include' cargo build
+    $(myproj/) BME280_CFLAGS='' BME280_CC_INCLUDE='/usr/lib/gcc/arm-none-eabi/13.2.1/include' cargo build
     ```
+
   - by setting them in a `.cargo/config.toml` file
 
     ```toml
     # myproj/.cargo/config.toml
     [env]
     ...
-    BME280_CC='arm-none-eabi-gcc'
-    BME280_AR='arm-none-eabi-ar'
     BME280_CFLAGS=''
     BME280_CC_INCLUDE='/usr/lib/gcc/arm-none-eabi/13.2.1/include'
     ...

@@ -38,7 +38,5 @@ target = "thumbv6m-none-eabi"        # Cortex-M0 and Cortex-M0+
  
 [env]
 DEFMT_LOG = "trace"
-BME280_CC='arm-none-eabi-gcc'
-BME280_AR='arm-none-eabi-ar'
 BME280_CFLAGS=''
 BME280_CC_INCLUDE='/usr/lib/gcc/arm-none-eabi/13.2.1/include'
