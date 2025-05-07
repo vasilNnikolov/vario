@@ -35,13 +35,9 @@ bme280-bindings-rs = { path = "../bme280-bindings-rs" }
 
 # this lets you use `cargo fix`!
 [[bin]]
-name = "vario"
-path = "src/vario/vario.rs"
-test = false
-bench = false
+name = "busy_loop_blinky"
+path = "src/busy_loop_blinky/main.rs"
 
 [[bin]]
 name = "counters"
 path = "src/counters/counters.rs"
-test = false
-bench = false

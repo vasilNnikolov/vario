@@ -12,21 +12,6 @@ use defmt::info;
 use defmt_rtt as _;
 use stm32l0::stm32l0x2 as pac;
 
-fn log_resets(rcc: &pac::RCC) {
-    let low_power_reset = rcc.csr.read().porrstf().bit_is_set();
-    info!("POR true/false: {}", low_power_reset);
-}
-
-struct BusyLoopDelayNs;
-
-impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
-    fn delay_ns(&mut self, ns: u32) {
-        for _ in 0..(ns * 8) {
-            asm::nop();
-        }
-    }
-}
-
 #[entry]
 fn main() -> ! {
     info!("Start");
