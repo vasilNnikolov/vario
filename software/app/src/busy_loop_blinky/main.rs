@@ -7,7 +7,8 @@ use panic_halt as _;
 use cortex_m_rt::entry;
 use defmt::info;
 use defmt_rtt as _;
-use stm32l0::stm32l0x2 as pac;
+
+use bsp::pac;
 
 struct BusyLoopDelayNs;
 
