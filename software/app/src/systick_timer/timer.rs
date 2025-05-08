@@ -10,18 +10,18 @@ use stm32l0::stm32l0x2 as pac;
 pub mod systick {
     use super::*;
 
-    pub const TICKRATE: u32 = 16_000_000;
+    pub const SYSTICK_FREQ: u32 = 16_000_000;
     /// must be modified ONLY in the SysTick exception handler
-    static mut SYST_TICKS: u64 = 0;
+    static mut SYSTICK_TICKS: u64 = 0;
 
     pub fn get_systic_ticks(_cs: critical_section::CriticalSection<'_>) -> u64 {
-        unsafe { SYST_TICKS }
+        unsafe { SYSTICK_TICKS }
     }
 
     #[exception]
     fn SysTick() {
         critical_section::with(|_| unsafe {
-            SYST_TICKS = SYST_TICKS.wrapping_add(1);
+            SYSTICK_TICKS = SYSTICK_TICKS.wrapping_add(1);
         })
     }
 

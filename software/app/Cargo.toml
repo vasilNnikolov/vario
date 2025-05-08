@@ -47,3 +47,7 @@ path = "src/systick_timer/timer.rs"
 [[bin]]
 name = "counters"
 path = "src/counters/counters.rs"
+
+[[bin]]
+name = "tim6_delay"
+path = "src/tim6/main.rs"
