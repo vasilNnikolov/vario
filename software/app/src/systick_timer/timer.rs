@@ -1,49 +1,50 @@
 #![no_std]
 #![no_main]
 
-use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 
-use bme280_bindings_rs;
-use bme280_bindings_rs::bindings as bme_b;
-use cortex_m::asm;
-use cortex_m_rt::entry;
+use core::sync::atomic::{AtomicU32, Ordering};
+use cortex_m_rt::{entry, exception};
 use defmt::info;
 use defmt_rtt as _;
 use stm32l0::stm32l0x2 as pac;
 
+static SYST_TICKS: AtomicU32 = AtomicU32::new(0);
+
+fn init_systick(systick: &mut pac::SYST, reload_value: u32) {
+    if reload_value > 0x00ffffff {
+        defmt::error!(
+            "the SYST reload value must be <= 0x00ffffff, tried to set {}",
+            reload_value
+        );
+    }
+    systick.set_reload(reload_value);
+    systick.clear_current();
+    systick.set_clock_source(cortex_m::peripheral::syst::SystClkSource::Core);
+    systick.enable_interrupt();
+    systick.enable_counter();
+}
+
 #[entry]
 fn main() -> ! {
     info!("Start");
-    let _core_p = cortex_m::Peripherals::take().unwrap();
+    let mut core_p = cortex_m::Peripherals::take().unwrap();
     let p = pac::Peripherals::take().unwrap();
 
-    log_resets(&p.RCC);
-    p.RCC.iopenr.modify(|_, w| w.iopaen().bit(true));
-    p.GPIOA.moder.modify(|_, w| w.mode8().output());
-    p.GPIOA.otyper.modify(|_, w| w.ot8().push_pull());
-    p.RCC.ahbenr.modify(|_, w| w.mifen().set_bit());
-
-    let mut bld = BusyLoopDelayNs;
-    let mut i = 0;
-    let mut bme_dev = bme_b::bme280_dev::default();
-    //TODO set read and write functions
-    bme_dev.intf = bme_b::bme280_intf_BME280_I2C_INTF;
-    unsafe {
-        let _retcode = bme_b::bme280_init(&mut bme_dev as *mut _);
-    }
+    init_systick(&mut core_p.SYST, 2_000_000);
 
     loop {
-        info!("Counter: {}", i);
-        if i & 1 == 0 {
-            // turn on
-            p.GPIOA.bsrr.write(|w| w.bs8().set_bit());
-        } else {
-            // turn off
-            p.GPIOA.bsrr.write(|w| w.br8().set_bit());
-        }
-
-        i += 1;
-        bld.delay_ms(1000);
+        info!(
+            "SysTick has ticked {} times",
+            SYST_TICKS.load(Ordering::Relaxed)
+        );
+        cortex_m::asm::wfi();
     }
+}
+
+#[exception]
+fn SysTick() {
+    cortex_m::interrupt::free(|_| {
+        SYST_TICKS.store(SYST_TICKS.load(Ordering::Relaxed) + 1, Ordering::Relaxed)
+    })
 }
