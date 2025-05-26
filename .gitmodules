@@ -1,3 +1,6 @@
 [submodule "software/bme280-bindings-rs/bosch-api/BME280_SensorAPI"]
 	path = software/bme280-bindings-rs/bosch-api/BME280_SensorAPI
 	url = https://github.com/boschsensortec/BME280_SensorAPI
+[submodule "software/stm32l0-cpac/STM32CubeL0"]
+	path = software/stm32l0-cpac/STM32CubeL0
+	url = https://github.com/STMicroelectronics/STM32CubeL0
