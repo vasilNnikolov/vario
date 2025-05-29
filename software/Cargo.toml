@@ -1,0 +1,3 @@
+[workspace]
+resolver = "3"
+members = ["app", "stm32l0-cpac", "bme280-bindings-rs"]

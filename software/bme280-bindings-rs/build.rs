@@ -1,6 +1,9 @@
 use std::path::PathBuf;
 
 fn compile_link_c_lib() {
+    println!("cargo:rerun-if-changed=./src");
+    println!("cargo:rerun-if-changed=./build.rs");
+    println!("cargo:rerun-if-changed=./bosch-api");
     let bindings_path = PathBuf::from("./src/bindings.rs");
 
     let libdir_path = PathBuf::from("bosch-api").canonicalize().unwrap();

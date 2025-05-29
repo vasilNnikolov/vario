@@ -4,24 +4,24 @@ use cortex_m_rt::exception;
 use defmt::info;
 pub use stm32l0::stm32l0x2 as pac;
 
-pub mod rcc_setup {
-    use super::*;
+// pub mod rcc_setup {
+//     use super::*;
 
-    pub fn start_HSE(p: &mut pac::Peripherals, dp: &mut cortex_m::Peripherals) {
-        unsafe {
-            pac::NVIC::unmask(pac::interrupt::RCC);
+//     pub fn start_HSE(p: &mut pac::Peripherals, dp: &mut cortex_m::Peripherals) {
+//         unsafe {
+//             pac::NVIC::unmask(pac::interrupt::RCC);
 
-            let nvic = &mut *(pac::NVIC::PTR as *mut pac::NVIC);
-            nvic.set_priority(pac::interrupt::RCC, 0);
-        }
-        p.RCC.cier.read()
-    }
+//             let nvic = &mut *(pac::NVIC::PTR as *mut pac::NVIC);
+//             nvic.set_priority(pac::interrupt::RCC, 0);
+//         }
+//         p.RCC.cier.read()
+//     }
 
-    pub fn rcc_init(p: &mut pac::Peripherals, dp: &mut cortex_m::Peripherals) {
-        // start HSE
-        // p.RCC.cr.modify(|_,w| w.pllon().clear_bit().rtcpre());
-    }
-}
+//     pub fn rcc_init(p: &mut pac::Peripherals, dp: &mut cortex_m::Peripherals) {
+//         // start HSE
+//         // p.RCC.cr.modify(|_,w| w.pllon().clear_bit().rtcpre());
+//     }
+// }
 
 // pub struct Pin {
 //     /// port (A,B,..) is 4 MSB, pin number is 4 LSB

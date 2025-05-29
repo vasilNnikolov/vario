@@ -1,3 +1,5 @@
+#![no_std]
+
 pub mod c_bindings;
 use c_bindings::*;
 
