@@ -6,7 +6,7 @@ use cortex_m_rt::entry;
 use defmt::info;
 use defmt_rtt as _;
 use stm32l0::stm32l0x2 as pac;
-use stm32l0::stm32l0x2::interrupt;
+// use stm32l0::stm32l0x2::interrupt;
 
 /// TIM6 is configured to run at 16MHz, and overflow at its max, 0xffff
 /// Therefore, it will overflow approx. every 4ms
@@ -52,6 +52,7 @@ fn main() -> ! {
     info!("Start");
     let mut core_p = cortex_m::Peripherals::take().unwrap();
     let p = pac::Peripherals::take().unwrap();
+    info!("Start");
 
     loop {}
 }

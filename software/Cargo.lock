@@ -15,7 +15,6 @@ dependencies = [
 name = "app"
 version = "0.1.0"
 dependencies = [
- "bme280-bindings-rs",
  "cortex-m",
  "cortex-m-rt",
  "critical-section",

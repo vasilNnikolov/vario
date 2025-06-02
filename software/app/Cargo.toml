@@ -15,7 +15,7 @@ embedded-hal = { version = "1.0.0", features = ["defmt-03"] }
 panic-halt = "1.0.0"
 stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] }
 
-bme280-bindings-rs = { path = "../bme280-bindings-rs" }
+# bme280-bindings-rs = { path = "../bme280-bindings-rs" }
 
 
 # Uncomment for the panic example.
@@ -51,3 +51,5 @@ path = "src/counters/counters.rs"
 [[bin]]
 name = "tim6_delay"
 path = "src/tim6/main.rs"
+
+

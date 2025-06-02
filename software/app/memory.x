@@ -4,7 +4,7 @@ MEMORY
   /* TODO Adjust these memory regions to match your device memory layout */
   /* These values correspond to the LM3S6965, one of the few devices QEMU can emulate */
   /* Values for STM32L071CB */
-  FLASH : ORIGIN = 0x00000000, LENGTH = 128K
+  FLASH : ORIGIN = 0x08000000, LENGTH = 128K
   RAM : ORIGIN = 0x20000000, LENGTH = 20K
 }
 
