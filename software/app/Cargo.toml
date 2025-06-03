@@ -15,7 +15,14 @@ embedded-hal = { version = "1.0.0", features = ["defmt-03"] }
 panic-halt = "1.0.0"
 stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] }
 
+# TODO check how to link externally compiled C lib
 # bme280-bindings-rs = { path = "../bme280-bindings-rs" }
+
+
+[profile.release]
+codegen-units = 1 # better optimizations
+debug = true # symbols are nice and they don't increase the size on Flash
+lto = true # better optimizations
 
 [lib]
 name = "bsp"
@@ -37,8 +44,3 @@ path = "src/counters/counters.rs"
 [[bin]]
 name = "tim6_delay"
 path = "src/tim6/main.rs"
-
-[profile.release]
-codegen-units = 1 # better optimizations
-debug = true # symbols are nice and they don't increase the size on Flash
-lto = true # better optimizations

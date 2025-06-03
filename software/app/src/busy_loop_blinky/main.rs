@@ -27,20 +27,22 @@ fn main() -> ! {
     let _core_p = cortex_m::Peripherals::take().unwrap();
     let p = pac::Peripherals::take().unwrap();
 
-    // // the middle LED (LED2 in kicad) is PB13
+    // the middle LED (LED2 in kicad) is PB13
     // p.RCC.iopenr.modify(|_, w| w.iopben().set_bit());
     // p.GPIOB.moder.modify(|_, w| w.mode13().output());
     // p.GPIOB.otyper.modify(|_, w| w.ot13().push_pull());
 
     let mut bld = BusyLoopDelayNs;
     let mut i = 0;
-    info!("Start2");
     loop {
         info!("Counter: {}", i);
+        info!("LED ON");
         // p.GPIOA.bsrr.write(|w| w.bs8().set_bit());
         bld.delay_ms(1000);
+        info!("LED OFF");
         // // p.GPIOA.bsrr.write(|w| w.br8().set_bit());
         // bld.delay_ms(5);
+        bld.delay_ms(1000);
         i += 1;
     }
 }
