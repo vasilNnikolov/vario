@@ -1,8 +1,6 @@
 site_name: My Docs
 nav:
   - Home: "index.md"
-  - Hardware: "hw.md"
-  - Software: "sw.md"
   
 markdown_extensions: 
   - tables
