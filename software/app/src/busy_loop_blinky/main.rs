@@ -16,7 +16,6 @@ impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
     fn delay_ns(&mut self, ns: u32) {
         const CPU_FREQ: u32 = 2_000_000;
         let d_cycles = ns as u64 * CPU_FREQ as u64 / 1_000_000_000 as u64;
-        info!("delaying by {} cycles", d_cycles);
         cortex_m::asm::delay(d_cycles as u32);
     }
 }
@@ -27,7 +26,7 @@ fn main() -> ! {
     let _core_p = cortex_m::Peripherals::take().unwrap();
     let p = pac::Peripherals::take().unwrap();
 
-    // the middle LED (LED2 in kicad) is PB13
+    // // the middle LED (LED2 in kicad) is PB13
     // p.RCC.iopenr.modify(|_, w| w.iopben().set_bit());
     // p.GPIOB.moder.modify(|_, w| w.mode13().output());
     // p.GPIOB.otyper.modify(|_, w| w.ot13().push_pull());
@@ -37,11 +36,10 @@ fn main() -> ! {
     loop {
         info!("Counter: {}", i);
         info!("LED ON");
-        // p.GPIOA.bsrr.write(|w| w.bs8().set_bit());
+        // p.GPIOB.bsrr.write(|w| w.bs8().set_bit());
         bld.delay_ms(1000);
         info!("LED OFF");
-        // // p.GPIOA.bsrr.write(|w| w.br8().set_bit());
-        // bld.delay_ms(5);
+        // p.GPIOB.bsrr.write(|w| w.br8().set_bit());
         bld.delay_ms(1000);
         i += 1;
     }
