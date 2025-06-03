@@ -2,7 +2,6 @@
 #![no_main]
 use panic_halt as _;
 
-use bme280_bindings_rs;
 use cortex_m_rt::{entry, exception};
 use defmt::info;
 use defmt_rtt as _;
@@ -48,7 +47,6 @@ fn main() -> ! {
     let p = pac::Peripherals::take().unwrap();
 
     systick::init_systick(&mut core_p.SYST, 16_000_000);
-    let dev = bme280_bindings_rs::bindings::bme280_dev::default();
 
     loop {
         let ticks = critical_section::with(|cs| systick::get_systic_ticks(cs));
