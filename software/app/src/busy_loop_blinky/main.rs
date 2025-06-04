@@ -26,21 +26,38 @@ fn main() -> ! {
     let _core_p = cortex_m::Peripherals::take().unwrap();
     let p = pac::Peripherals::take().unwrap();
 
-    // // the middle LED (LED2 in kicad) is PB13
-    // p.RCC.iopenr.modify(|_, w| w.iopben().set_bit());
-    // p.GPIOB.moder.modify(|_, w| w.mode13().output());
-    // p.GPIOB.otyper.modify(|_, w| w.ot13().push_pull());
+    p.RCC.iopenr.modify(|_, w| w.iopben().set_bit());
+
+    // LEDs are PB12,13,14
+    let gpiob = &p.GPIOB;
+
+    gpiob.moder.modify(|_, w| w.mode12().output());
+    gpiob.otyper.modify(|_, w| w.ot12().clear_bit());
+    gpiob.pupdr.modify(|_, w| w.pupd12().floating());
+
+    gpiob.moder.modify(|_, w| w.mode13().output());
+    gpiob.otyper.modify(|_, w| w.ot13().clear_bit());
+    gpiob.pupdr.modify(|_, w| w.pupd13().floating());
+
+    gpiob.moder.modify(|_, w| w.mode14().output());
+    gpiob.otyper.modify(|_, w| w.ot14().clear_bit());
+    gpiob.pupdr.modify(|_, w| w.pupd14().floating());
 
     let mut bld = BusyLoopDelayNs;
     let mut i = 0;
     loop {
         info!("Counter: {}", i);
-        info!("LED ON");
-        // p.GPIOB.bsrr.write(|w| w.bs8().set_bit());
-        bld.delay_ms(1000);
-        info!("LED OFF");
-        // p.GPIOB.bsrr.write(|w| w.br8().set_bit());
-        bld.delay_ms(1000);
+        p.GPIOB.bsrr.write(|w| w.br12().set_bit());
+        p.GPIOB.bsrr.write(|w| w.bs13().set_bit());
+        p.GPIOB.bsrr.write(|w| w.br14().set_bit());
+
+        bld.delay_ms(100);
+
+        p.GPIOB.bsrr.write(|w| w.bs12().set_bit());
+        p.GPIOB.bsrr.write(|w| w.br13().set_bit());
+        p.GPIOB.bsrr.write(|w| w.bs14().set_bit());
+
+        bld.delay_ms(100);
         i += 1;
     }
 }
