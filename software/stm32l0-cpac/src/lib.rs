@@ -1,6 +1,13 @@
 #![no_std]
+use cpac_macros::generate_module;
 
 pub mod c_bindings;
+
+generate_module!("./src/c_bindings.rs", RccTypeDef, "RCC");
+
+const A: RCC::RccTypeDef = RCC::RccTypeDef { null: () };
+//
+//
 //
 //
 // use c_bindings::*;
