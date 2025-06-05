@@ -7,6 +7,10 @@ use defmt::info;
 use defmt_rtt as _;
 use stm32l0::stm32l0x2 as pac;
 
+use panic_halt as _;
+
+use defmt_rtt as _;
+
 pub mod systick {
     use super::*;
 
@@ -20,6 +24,7 @@ pub mod systick {
 
     #[exception]
     fn SysTick() {
+        info!("SysTick exception handler");
         critical_section::with(|_| unsafe {
             SYSTICK_TICKS = SYSTICK_TICKS.wrapping_add(1);
         })
@@ -48,15 +53,10 @@ fn main() -> ! {
 
     systick::init_systick(&mut core_p.SYST, 16_000_000);
 
+    info!("Begin loop");
     loop {
         let ticks = critical_section::with(|cs| systick::get_systic_ticks(cs));
         info!("SysTick has ticked {} times", ticks);
-        // add busy loop to check systick is indeed increasing
-        if ticks > 10 {
-            for _ in 0..16_000_000 {
-                cortex_m::asm::nop();
-            }
-        }
-        cortex_m::asm::wfi();
+        cortex_m::asm::delay(2_000_000);
     }
 }
