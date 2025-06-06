@@ -10,6 +10,7 @@ use syn::{
 struct MacroInput {
     file_name: LitStr,
     struct_name: Ident,
+    module_name: Ident,
 }
 
 impl Parse for MacroInput {
@@ -21,19 +22,22 @@ impl Parse for MacroInput {
         let struct_name: Ident = input
             .parse()
             .inspect_err(|_| eprintln!("Could not parse struct_name out of macro input"))?;
+        input.parse::<Token![,]>()?;
+        let module_name: Ident = input.parse()?;
         Ok(MacroInput {
             file_name,
             struct_name,
+            module_name,
         })
     }
 }
 
 #[proc_macro]
 pub fn find_struct(input: TokenStream) -> TokenStream {
-    // Parse the input tokens into a `MacroInput` struct
     let MacroInput {
         file_name,
         struct_name,
+        module_name,
     } = parse_macro_input!(input as MacroInput);
 
     // Read the file contents
@@ -50,7 +54,12 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
         if let syn::Item::Struct(ref struct_item) = item {
             if struct_item.ident == struct_name {
                 // Return the struct definition as a TokenStream
-                return TokenStream::from(quote! { #struct_item });
+                return TokenStream::from(quote! {
+                    pub mod #module_name {
+                        #struct_item
+                        pub const MODCONST: u8=1;
+                    }
+                });
             }
         }
     }

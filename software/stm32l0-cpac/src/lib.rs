@@ -3,7 +3,32 @@ use cpac_macros::find_struct;
 
 pub mod c_bindings;
 
-find_struct!("c_bindings.rs", RCC_TypeDef);
+find_struct!("c_bindings.rs", RCC_TypeDef, mymod);
+
+const A: mymod::RCC_TypeDef = mymod::RCC_TypeDef {
+    CR: 0,
+    ICSCR: 0,
+    CRRCR: 0,
+    CFGR: 0,
+    CIER: 0,
+    CIFR: 0,
+    CICR: 0,
+    IOPRSTR: 0,
+    AHBRSTR: 0,
+    APB2RSTR: 0,
+    APB1RSTR: 0,
+    IOPENR: 0,
+    AHBENR: 0,
+    APB2ENR: 0,
+    APB1ENR: 0,
+    IOPSMENR: 0,
+    AHBSMENR: 0,
+    APB2SMENR: 0,
+    APB1SMENR: 0,
+    CCIPR: 0,
+    CSR: 0,
+};
+const B = mymod::MODCONST;
 
 // generate_module!("src/c_bindings.rs", RCC_TypeDef, "RCC");
 
