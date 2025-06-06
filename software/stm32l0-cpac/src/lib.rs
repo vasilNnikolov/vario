@@ -1,11 +1,13 @@
 #![no_std]
-use cpac_macros::generate_module;
+use cpac_macros::find_struct;
 
 pub mod c_bindings;
 
-generate_module!("./src/c_bindings.rs", RccTypeDef, "RCC");
+find_struct!("c_bindings.rs", RCC_TypeDef);
 
-const A: RCC::RccTypeDef = RCC::RccTypeDef { null: () };
+// generate_module!("src/c_bindings.rs", RCC_TypeDef, "RCC");
+
+// const A: RCC::RccTypeDef = RCC::RccTypeDef { null: () };
 //
 //
 //
