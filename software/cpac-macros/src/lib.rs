@@ -1,5 +1,3 @@
-use std::any::Any;
-
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{
@@ -13,6 +11,9 @@ struct MacroInput {
     file_name: LitStr,
     /// name of the struct you want to find
     struct_name: Ident,
+
+    /// a string that is at the beginning of all constants. Ex if `constant_start: "RCC_"`, then all constants staring with `RCC_` will be added into `module_name`
+    constant_start: LitStr,
     // /// name of the <STRUCT>_BASE u32 constant that shows the location of the peripheral
     // base_name: Ident,
     /// name of the generated module
@@ -24,10 +25,13 @@ impl Parse for MacroInput {
         let file_name: LitStr = input.parse().inspect_err(|_| {
             eprintln!("Could not parse the file name out of the proc macro input")
         })?;
+
         input.parse::<Token![,]>()?;
         let struct_name: Ident = input
             .parse()
             .inspect_err(|_| eprintln!("Could not parse struct_name out of macro input"))?;
+        input.parse::<Token![,]>()?;
+        let constant_start: LitStr = input.parse()?;
         input.parse::<Token![,]>()?;
         // let base_name: Ident = input.parse()?;
         // input.parse::<Token![,]>()?;
@@ -36,6 +40,7 @@ impl Parse for MacroInput {
             file_name,
             struct_name,
             // base_name,
+            constant_start,
             module_name,
         })
     }
@@ -47,6 +52,7 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
         file_name,
         struct_name,
         // base_name,
+        constant_start,
         module_name,
     } = parse_macro_input!(input as MacroInput);
 
@@ -73,6 +79,15 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
     );
     let struct_item = structs_with_matching_name[0];
 
+    let constants_starting_with_str: Vec<_> = syntax_tree
+        .items
+        .iter()
+        .filter(|&item| match item {
+            syn::Item::Const(c) => c.ident.to_string().starts_with(&constant_start.value()),
+            _ => false,
+        })
+        .collect();
+
     TokenStream::from(quote! {
         pub mod #module_name {
             #struct_item
@@ -85,7 +100,8 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
                     }
                 }
             }
-            pub const MODCONST: u8=1;
+
+            #(#constants_starting_with_str)*
         }
     })
 }

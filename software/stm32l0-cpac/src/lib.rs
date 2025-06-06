@@ -1,9 +1,9 @@
 #![no_std]
 use cpac_macros::find_struct;
 
-pub mod c_bindings;
+// pub mod c_bindings;
 
-find_struct!("c_bindings.rs", RCC_TypeDef, mymod);
+find_struct!("c_bindings.rs", RCC_TypeDef, "RCC", mymod);
 
 const A: mymod::RCC_TypeDef = mymod::RCC_TypeDef {
     CR: 0,
@@ -28,18 +28,11 @@ const A: mymod::RCC_TypeDef = mymod::RCC_TypeDef {
     CCIPR: 0,
     CSR: 0,
 };
-const B = mymod::MODCONST;
-
-// generate_module!("src/c_bindings.rs", RCC_TypeDef, "RCC");
-
-// const A: RCC::RccTypeDef = RCC::RccTypeDef { null: () };
-//
-//
-//
-//
-// use c_bindings::*;
+const C: u32 = mymod::RCC_AHBENR_CRCEN;
+const D: u32 = mymod::RCC_AHBENR_CRCEN_Msk;
 
 // /// #TODO some peripherals, ex GPIO, have one type, GPIO_TypeDef, but multiple instances (GPIO_A, GPIO_B, etc.)
+//
 // macro_rules! peripheral {
 //     ($name:ty, $addr:expr) => {
 //         impl $name {
