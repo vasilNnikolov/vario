@@ -11,11 +11,10 @@ struct MacroInput {
     file_name: LitStr,
     /// name of the struct you want to find
     struct_name: Ident,
-
+    /// name of the <STRUCT>_BASE u32 constant that shows the location of the peripheral
+    base_name: Ident,
     /// a string that is at the beginning of all constants. Ex if `constant_start: "RCC_"`, then all constants staring with `RCC_` will be added into `module_name`
     constant_start: LitStr,
-    // /// name of the <STRUCT>_BASE u32 constant that shows the location of the peripheral
-    // base_name: Ident,
     /// name of the generated module
     module_name: Ident,
 }
@@ -25,21 +24,24 @@ impl Parse for MacroInput {
         let file_name: LitStr = input.parse().inspect_err(|_| {
             eprintln!("Could not parse the file name out of the proc macro input")
         })?;
-
         input.parse::<Token![,]>()?;
+
         let struct_name: Ident = input
             .parse()
             .inspect_err(|_| eprintln!("Could not parse struct_name out of macro input"))?;
         input.parse::<Token![,]>()?;
+
+        let base_name: Ident = input.parse()?;
+        input.parse::<Token![,]>()?;
+
         let constant_start: LitStr = input.parse()?;
         input.parse::<Token![,]>()?;
-        // let base_name: Ident = input.parse()?;
-        // input.parse::<Token![,]>()?;
+
         let module_name: Ident = input.parse()?;
         Ok(MacroInput {
             file_name,
             struct_name,
-            // base_name,
+            base_name,
             constant_start,
             module_name,
         })
@@ -51,7 +53,7 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
     let MacroInput {
         file_name,
         struct_name,
-        // base_name,
+        base_name,
         constant_start,
         module_name,
     } = parse_macro_input!(input as MacroInput);
@@ -95,7 +97,7 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
             impl #struct_name {
                 pub fn new_static_ref() -> &'static mut Self {
                     unsafe {
-                        let ptr = 0x1234 as *mut Self;
+                        let ptr = #base_name as *mut Self;
                         &mut *ptr
                     }
                 }
