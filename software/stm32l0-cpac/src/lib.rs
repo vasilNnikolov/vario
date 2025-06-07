@@ -1,11 +1,11 @@
 #![no_std]
-use cpac_macros::find_struct;
+use cpac_macros::peripheral;
 
-// pub mod c_bindings;
+pub mod c_bindings;
 
-find_struct!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC", mymod);
+peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC", rcc);
 
-const A: mymod::RCC_TypeDef = mymod::RCC_TypeDef {
+const A: rcc::RCC_TypeDef = rcc::RCC_TypeDef {
     CR: 0,
     ICSCR: 0,
     CRRCR: 0,
@@ -29,8 +29,8 @@ const A: mymod::RCC_TypeDef = mymod::RCC_TypeDef {
     CSR: 0,
 };
 
-const C: u32 = mymod::RCC_AHBENR_CRCEN;
-const D: u32 = mymod::RCC_AHBENR_CRCEN_Msk;
+const C: u32 = rcc::RCC_AHBENR_CRCEN;
+const D: u32 = rcc::RCC_AHBENR_CRCEN_Msk;
 
 // /// #TODO some peripherals, ex GPIO, have one type, GPIO_TypeDef, but multiple instances (GPIO_A, GPIO_B, etc.)
 //

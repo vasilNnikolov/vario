@@ -1,3 +1,5 @@
+use core::panic;
+
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{
@@ -6,6 +8,7 @@ use syn::{
     parse_macro_input,
 };
 
+use volatile_register::RW;
 struct MacroInput {
     /// path to the generated bindings file, inside "OUT_DIR". If the file is generated in env!("OUT_DIR")/a.rs, this should be "a.rs"
     file_name: LitStr,
@@ -49,7 +52,7 @@ impl Parse for MacroInput {
 }
 
 #[proc_macro]
-pub fn find_struct(input: TokenStream) -> TokenStream {
+pub fn peripheral(input: TokenStream) -> TokenStream {
     let MacroInput {
         file_name,
         struct_name,
@@ -66,12 +69,19 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
     let syntax_tree = syn::parse_file(&file_content).expect("Unable to parse file content");
 
     // get structs whose name matches struct_name
-    let structs_with_matching_name: Vec<_> = syntax_tree
+    let mut structs_with_matching_name: Vec<_> = syntax_tree
         .items
         .iter()
-        .filter(|&item| match item {
-            syn::Item::Struct(s) => s.ident == struct_name,
-            _ => false,
+        .filter_map(|item| {
+            if let syn::Item::Struct(s) = item {
+                if s.ident == struct_name {
+                    Some(s.clone())
+                } else {
+                    None
+                }
+            } else {
+                None
+            }
         })
         .collect();
 
@@ -79,7 +89,13 @@ pub fn find_struct(input: TokenStream) -> TokenStream {
         structs_with_matching_name.len() == 1,
         "There are multiple structs whose ident is {struct_name}"
     );
-    let struct_item = structs_with_matching_name[0];
+    let struct_item = &mut (structs_with_matching_name[0]);
+
+    // wrap each field in volatile_register::RW
+    for f in struct_item.fields.iter_mut() {
+        let original_type = f.ty.clone();
+        f.ty = syn::parse_quote! { RW<#original_type> };
+    }
 
     let constants_starting_with_str: Vec<_> = syntax_tree
         .items
