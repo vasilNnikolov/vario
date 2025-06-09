@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 cpac-macros = { path = "../cpac-macros" }
+volatile-register = "0.2.2"
 
 
 

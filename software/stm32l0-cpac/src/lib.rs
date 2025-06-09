@@ -5,32 +5,10 @@ pub mod c_bindings;
 
 peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC", rcc);
 
-const A: rcc::RCC_TypeDef = rcc::RCC_TypeDef {
-    CR: 0,
-    ICSCR: 0,
-    CRRCR: 0,
-    CFGR: 0,
-    CIER: 0,
-    CIFR: 0,
-    CICR: 0,
-    IOPRSTR: 0,
-    AHBRSTR: 0,
-    APB2RSTR: 0,
-    APB1RSTR: 0,
-    IOPENR: 0,
-    AHBENR: 0,
-    APB2ENR: 0,
-    APB1ENR: 0,
-    IOPSMENR: 0,
-    AHBSMENR: 0,
-    APB2SMENR: 0,
-    APB1SMENR: 0,
-    CCIPR: 0,
-    CSR: 0,
-};
-
-const C: u32 = rcc::RCC_AHBENR_CRCEN;
-const D: u32 = rcc::RCC_AHBENR_CRCEN_Msk;
+fn test_a() {
+    let mut rcc = rcc::RCC_TypeDef::new_static_ref();
+    let a = rcc.CR.read();
+}
 
 // /// #TODO some peripherals, ex GPIO, have one type, GPIO_TypeDef, but multiple instances (GPIO_A, GPIO_B, etc.)
 //

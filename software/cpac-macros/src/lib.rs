@@ -91,10 +91,13 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
     );
     let struct_item = &mut (structs_with_matching_name[0]);
 
+    // remove all original attributes
+    struct_item.attrs = vec![];
+
     // wrap each field in volatile_register::RW
     for f in struct_item.fields.iter_mut() {
         let original_type = f.ty.clone();
-        f.ty = syn::parse_quote! { RW<#original_type> };
+        f.ty = syn::parse_quote! { ::volatile_register::RW<#original_type> };
     }
 
     let constants_starting_with_str: Vec<_> = syntax_tree
@@ -108,6 +111,7 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
 
     TokenStream::from(quote! {
         pub mod #module_name {
+            #[repr(C)]
             #struct_item
 
             impl #struct_name {
