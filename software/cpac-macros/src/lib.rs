@@ -8,7 +8,6 @@ use syn::{
     parse_macro_input,
 };
 
-use volatile_register::RW;
 struct MacroInput {
     /// path to the generated bindings file, inside "OUT_DIR". If the file is generated in env!("OUT_DIR")/a.rs, this should be "a.rs"
     file_name: LitStr,

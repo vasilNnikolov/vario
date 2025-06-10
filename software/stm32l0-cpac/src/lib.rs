@@ -4,10 +4,13 @@ use cpac_macros::peripheral;
 pub mod c_bindings;
 
 peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC", rcc);
+peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC", adc);
 
 fn test_a() {
     let mut rcc = rcc::RCC_TypeDef::new_static_ref();
     let a = rcc.CR.read();
+    let mut adc = adc::ADC_TypeDef::new_static_ref();
+    let _ = adc.RESERVED5.read();
 }
 
 // /// #TODO some peripherals, ex GPIO, have one type, GPIO_TypeDef, but multiple instances (GPIO_A, GPIO_B, etc.)
