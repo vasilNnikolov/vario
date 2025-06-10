@@ -13,7 +13,8 @@ defmt = "0.3.10"
 defmt-rtt = "0.4.1"
 embedded-hal = { version = "1.0.0", features = ["defmt-03"] }
 panic-halt = "1.0.0"
-stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] }
+stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] } # here for the 'rt' feature, TODO maybe this should be in the cpac
+stm32l0-cpac = { path = "../stm32l0-cpac" }
 
 # TODO check how to link externally compiled C lib
 # bme280-bindings-rs = { path = "../bme280-bindings-rs" }
@@ -28,10 +29,13 @@ lto = true # better optimizations
 name = "bsp"
 path = "src/lib.rs"
 
-# this lets you use `cargo fix`!
 [[bin]]
 name = "busy_loop_blinky"
 path = "src/busy_loop_blinky/main.rs"
+
+[[bin]]
+name = "blinky_cpac"
+path = "src/blinky_cpac/main.rs"
 
 [[bin]]
 name = "systick"

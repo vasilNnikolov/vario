@@ -1,5 +1,6 @@
 #![no_std]
 use cpac_macros::peripheral;
+pub use volatile_register;
 
 pub mod c_bindings;
 
