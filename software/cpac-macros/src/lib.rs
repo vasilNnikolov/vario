@@ -92,21 +92,39 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
 
     // remove all original attributes
     struct_item.attrs = vec![];
-
     // wrap each field in volatile_register::RW
     for f in struct_item.fields.iter_mut() {
         let original_type = f.ty.clone();
         f.ty = syn::parse_quote! { ::volatile_register::RW<#original_type> };
     }
 
+    let prefix = constant_start.value();
     let constants_starting_with_str: Vec<_> = syntax_tree
         .items
-        .iter()
-        .filter(|&item| match item {
-            syn::Item::Const(c) => c.ident.to_string().starts_with(&constant_start.value()),
-            _ => false,
+        .into_iter()
+        .filter_map(|item| {
+            if let syn::Item::Const(mut c) = item {
+                if c.ident.to_string().starts_with(&prefix) {
+                    let changed_ident = syn::Ident::new(
+                        c.ident.to_string().strip_prefix(&prefix).unwrap(),
+                        c.ident.span(),
+                    );
+                    c.ident = changed_ident;
+                    Some(c)
+                } else {
+                    None
+                }
+            } else {
+                None
+            }
         })
         .collect();
+
+    // the prefix was removed from the _BASE constant, so we need to remove it for the quote
+    let changed_base_ident = syn::Ident::new(
+        base_name.to_string().strip_prefix(&prefix).unwrap(),
+        base_name.span().into(),
+    );
 
     TokenStream::from(quote! {
         pub mod #module_name {
@@ -116,7 +134,7 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
             impl #struct_name {
                 pub fn new_static_ref() -> &'static mut Self {
                     unsafe {
-                        let ptr = #base_name as *mut Self;
+                        let ptr = #changed_base_ident as *mut Self;
                         &mut *ptr
                     }
                 }

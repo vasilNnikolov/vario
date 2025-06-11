@@ -4,27 +4,16 @@ pub use volatile_register;
 
 pub mod c_bindings;
 
-peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC", rcc);
-peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC", adc);
+peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
+peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 
 fn test_a() {
-    let mut rcc = rcc::RCC_TypeDef::new_static_ref();
-    let a = rcc.CR.read();
-    let mut adc = adc::ADC_TypeDef::new_static_ref();
-    let _ = adc.RESERVED5.read();
-}
+    let mut r = rcc::RCC_TypeDef::new_static_ref();
+    let _ = rcc::AHBENR_CRCEN;
 
-// /// #TODO some peripherals, ex GPIO, have one type, GPIO_TypeDef, but multiple instances (GPIO_A, GPIO_B, etc.)
-//
-// macro_rules! peripheral {
-//     ($name:ty, $addr:expr) => {
-//         impl $name {
-//             pub fn new_ref() -> &'static mut $name {
-//                 unsafe { &mut *($addr as *mut $name) }
-//             }
-//         }
-//     };
-// }
+    let mut a = adc::ADC_TypeDef::new_static_ref();
+    let _ = a.RESERVED5.read();
+}
 
 // peripheral!(c_bindings::FLASH_TypeDef, c_bindings::FLASH_R_BASE);
 // peripheral!(c_bindings::CRC_TypeDef, c_bindings::CRC_BASE);
@@ -32,11 +21,3 @@ fn test_a() {
 // peripheral!(PWR_TypeDef, PWR_BASE);
 // peripheral!(c_bindings::RCC_TypeDef, c_bindings::RCC_BASE);
 // peripheral!(CRS_TypeDef, CRS_BASE);
-
-// fn test_x() {
-//     let a = c_bindings::RCC_TypeDef::new_ref();
-//     a.CR |= c_bindings::RCC_CR_PLLRDY_Msk;
-//     let flash = c_bindings::FLASH_TypeDef::new_ref();
-//     while (a.CIFR & c_bindings::RCC_CIFR_CSSLSEF_Msk) >> c_bindings::RCC_CIFR_CSSLSEF_Pos == 0 {}
-//     let pwr = PWR_TypeDef::new_ref();
-// }
