@@ -4,12 +4,13 @@
 use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 
+use bsp::pac;
 use cortex_m_rt::entry;
 use defmt::info;
 use defmt_rtt as _;
-use stm32l0 as _; // do not remove, neede for compilation
+use stm32l0 as _; // do not remove, needed for compilation and filling in interrupts
 
-use cpac::volatile_register;
+use cpac::modify_reg;
 use stm32l0_cpac as cpac;
 
 struct BusyLoopDelayNs;
@@ -22,23 +23,55 @@ impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
     }
 }
 
-// pub unsafe fn set_val<T: Copy>(reg: &mut volatile_register::RW<T>, val: T, pos: u32, msk: u32) {
-//     reg.modify(|mut x| {
-//         x |= ()
-//     });
-// }
-
 #[entry]
 fn main() -> ! {
     info!("Start");
-    let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+    let p = pac::Peripherals::take().unwrap();
+    p.RCC.iopenr.modify(|_, w| w.iopben().set_bit());
+    // let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+    // modify_reg(
+    //     &mut rcc.IOPENR,
+    //     cpac::rcc::IOPENR_IOPBEN_Msk,
+    //     cpac::rcc::IOPENR_IOPBEN_Pos,
+    //     1,
+    // );
 
-    let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
-    unsafe {
-        rcc.IOPENR.modify(|mut x| {
-            x |= (1 << cpac::rcc::RCC_IOPENR_IOPBEN_Pos) & cpac::rcc::RCC_IOPENR_IOPBEN_Msk;
-            x
-        })
+    let gpiob = &p.GPIOB;
+    gpiob.moder.modify(|_, w| w.mode12().output());
+    gpiob.otyper.modify(|_, w| w.ot12().clear_bit());
+    gpiob.pupdr.modify(|_, w| w.pupd12().floating());
+
+    // let gpio_b = cpac::gpio_b::GPIO_TypeDef::new_static_ref();
+    // // set output mode
+    // modify_reg(
+    //     &mut gpio_b.MODER,
+    //     cpac::gpio_b::MODER_MODE12,
+    //     cpac::gpio_b::MODER_MODE12_Pos,
+    //     0b11,
+    // );
+    // // set output type to push-pull
+    // modify_reg(&mut gpio_b.OTYPER, cpac::gpio_b::OTYPER_OT_12, 12, 0b0);
+    // // set no pull-up & no pull-down
+    // modify_reg(
+    //     &mut gpio_b.PUPDR,
+    //     cpac::gpio_b::PUPDR_PUPD12,
+    //     cpac::gpio_b::PUPDR_PUPD12_Pos,
+    //     0b00,
+    // );
+
+    let mut bld = BusyLoopDelayNs;
+    let mut i = 0;
+    loop {
+        info!("Counter: {}", i);
+        // turn PB12 on
+        p.GPIOB.bsrr.write(|w| w.br12().set_bit());
+        // modify_reg(&mut gpio_b.BSRR, cpac::gpio_b::BSRR_BS_12, 12, 0b1);
+        bld.delay_ms(100);
+
+        // turn PB12 off
+        p.GPIOB.bsrr.write(|w| w.bs12().set_bit());
+        // modify_reg(&mut gpio_b.BSRR, cpac::gpio_b::BSRR_BR_12, 28, 0b1);
+        bld.delay_ms(100);
+        i += 1;
     }
-    loop {}
 }

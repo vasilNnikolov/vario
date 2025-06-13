@@ -8,6 +8,8 @@ cpac-macros = { path = "../cpac-macros" }
 volatile-register = "0.2.2"
 
 
-
 [build-dependencies]
 bindgen = "0.71.0"
+
+[features]
+safe-modify-reg = []

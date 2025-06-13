@@ -67,6 +67,7 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
 
     let syntax_tree = syn::parse_file(&file_content).expect("Unable to parse file content");
 
+    // TODO put those 2 statements in a for loop
     // get structs whose name matches struct_name
     let mut structs_with_matching_name: Vec<_> = syntax_tree
         .items
@@ -89,6 +90,28 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
         "There are multiple structs whose ident is {struct_name}"
     );
     let struct_item = &mut (structs_with_matching_name[0]);
+
+    // get constant whose name is equal to `base_name`
+    let mut consts_with_matching_name: Vec<_> = syntax_tree
+        .items
+        .iter()
+        .filter_map(|item| {
+            if let syn::Item::Const(c) = item {
+                if c.ident == base_name {
+                    Some(c.clone())
+                } else {
+                    None
+                }
+            } else {
+                None
+            }
+        })
+        .collect();
+    assert!(
+        consts_with_matching_name.len() == 1,
+        "There are multiple consts whose ident is {base_name}"
+    );
+    let const_item = &mut (consts_with_matching_name[0]);
 
     // remove all original attributes
     struct_item.attrs = vec![];
@@ -120,27 +143,25 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
         })
         .collect();
 
-    // the prefix was removed from the _BASE constant, so we need to remove it for the quote
-    let changed_base_ident = syn::Ident::new(
-        base_name.to_string().strip_prefix(&prefix).unwrap(),
-        base_name.span().into(),
-    );
-
     TokenStream::from(quote! {
         pub mod #module_name {
             #[repr(C)]
             #struct_item
 
+            /// constant representing the base of the peripheral
+            #const_item
+
             impl #struct_name {
                 pub fn new_static_ref() -> &'static mut Self {
                     unsafe {
-                        let ptr = #changed_base_ident as *mut Self;
+                        let ptr = #base_name as *mut Self;
                         &mut *ptr
                     }
                 }
             }
 
             #(#constants_starting_with_str)*
+
         }
     })
 }
