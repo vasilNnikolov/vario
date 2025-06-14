@@ -33,7 +33,7 @@ peripheral!("c_bindings.rs", GPIO_TypeDef, GPIOB_BASE, "GPIO_", gpio_b);
 pub fn modify_reg(reg: &mut volatile_register::RW<u32>, clear_mask: u32, pos: u32, value: u32) {
     #[cfg(feature = "safe-modify-reg")]
     unsafe {
-        reg.modify(|x| (x & (!clear_mask)) | (value << pos) & (!clear_mask))
+        reg.modify(|x| (x & (!clear_mask)) | ((value << pos) & (!clear_mask)))
     }
     #[cfg(not(feature = "safe-modify-reg"))]
     unsafe {
