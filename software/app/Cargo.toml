@@ -13,9 +13,8 @@ defmt = "0.3.10"
 defmt-rtt = "0.4.1"
 embedded-hal = { version = "1.0.0", features = ["defmt-03"] }
 panic-halt = "1.0.0"
-stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] } # here for the 'rt' feature, TODO maybe this should be in the cpac
-stm32l0-cpac = { path = "../stm32l0-cpac" , features = []}
-# stm32l0-cpac = { path = "../stm32l0-cpac" , features = ["safe-modify-reg"]}
+stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] } # here for the 'rt' feature and interrupts, TODO think of a way to put these in the CPAC
+stm32l0-cpac = { path = "../stm32l0-cpac" , features = ["safe-modify-reg"]}
 
 # TODO check how to link externally compiled C lib
 # bme280-bindings-rs = { path = "../bme280-bindings-rs" }
