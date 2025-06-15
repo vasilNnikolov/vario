@@ -4,10 +4,9 @@
 use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 
+use bsp as _; // do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
 use cortex_m_rt::entry;
 use defmt::info;
-use defmt_rtt as _;
-use stm32l0 as _; // do not remove, needed for compilation and filling in interrupts
 
 use cpac::{gpio_b, modify_reg, rcc};
 use stm32l0_cpac as cpac;

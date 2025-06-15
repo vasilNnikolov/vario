@@ -2,6 +2,7 @@
 
 use cortex_m_rt::exception;
 use defmt::info;
+use defmt_rtt as _;
 pub use stm32l0::stm32l0x2 as pac;
 
 #[exception]
