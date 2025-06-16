@@ -10,7 +10,7 @@ fn main() {
         .clang_macro_fallback()
         .derive_default(true)
         .clang_arg("-I./STM32CubeL0/Drivers/CMSIS/Include")
-        .clang_arg("-I/usr/lib/gcc/arm-none-eabi/13.2.1/include")
+        .clang_arg("-I/usr/lib/gcc/arm-none-eabi/13.2.1/include") // TODO think of a way to not hardcode the path
         .header("./STM32CubeL0/Drivers/CMSIS/Device/ST/STM32L0xx/Include/stm32l072xx.h")
         .generate_comments(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))

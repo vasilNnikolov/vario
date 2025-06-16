@@ -61,7 +61,7 @@ fn main() -> ! {
 
         // turn PB12 off
         modify_reg(&mut gpio_b.BSRR, gpio_b::BSRR_BR_12, 28, 1);
-        bld.delay_ms(100);
+        bld.delay_ms(1000);
         i += 1;
     }
 }
