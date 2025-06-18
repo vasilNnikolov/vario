@@ -5,15 +5,50 @@ use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 
 use bsp as _; // do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
-use cortex_m_rt::entry;
+
+use cortex_m_rt::{entry, exception};
 use defmt::info;
 
 use cpac::{gpio_b, modify_field, rcc};
 use stm32l0_cpac as cpac;
-
-struct BusyLoopDelayNs;
+use systick::{get_systic_ticks, init_systick};
 
 const CPU_FREQ: u32 = 16_000_000;
+
+pub mod systick {
+    use super::*;
+
+    /// must be modified ONLY in the SysTick exception handler
+    static mut SYSTICK_TICKS: u64 = 0;
+
+    pub fn get_systic_ticks() -> u64 {
+        unsafe { SYSTICK_TICKS }
+    }
+
+    #[exception]
+    fn SysTick() {
+        unsafe {
+            SYSTICK_TICKS = SYSTICK_TICKS.wrapping_add(1);
+        }
+    }
+
+    pub fn init_systick(reload_value: u32) {
+        if reload_value > 0x00ffffff {
+            defmt::error!(
+                "the SYST reload value must be <= 0x00ffffff, tried to set {}",
+                reload_value
+            );
+        }
+        let st = cpac::systick::SysTick_Type::new_static_ref();
+        modify_field(&mut st.LOAD, cpac::systick::LOAD_RELOAD_Msk, reload_value);
+        modify_field(&mut st.VAL, cpac::systick::VAL_CURRENT_Msk, 0);
+        modify_field(&mut st.CTRL, cpac::systick::CTRL_CLKSOURCE_Msk, 1);
+        modify_field(&mut st.CTRL, cpac::systick::CTRL_TICKINT_Msk, 1);
+        modify_field(&mut st.CTRL, cpac::systick::CTRL_ENABLE_Msk, 1);
+    }
+}
+struct BusyLoopDelayNs;
+
 impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
     fn delay_ns(&mut self, ns: u32) {
         let d_cycles = ns as u64 * CPU_FREQ as u64 / 1_000_000_000 as u64;
@@ -48,6 +83,7 @@ fn init_HSE() {
 fn main() -> ! {
     info!("Start");
     init_HSE();
+    init_systick(CPU_FREQ - 1);
     let rcc = rcc::RCC_TypeDef::new_static_ref();
     modify_field(&mut rcc.IOPENR, rcc::IOPENR_IOPBEN_Msk, 1);
 
@@ -63,14 +99,14 @@ fn main() -> ! {
     let mut bld = BusyLoopDelayNs;
     let mut i = 0;
     loop {
-        info!("Counter: {}", i);
         // turn PB12 on
         modify_field(&mut gpio_b.BSRR, gpio_b::BSRR_BS_12, 1);
         bld.delay_ms(100);
 
         // turn PB12 off
         modify_field(&mut gpio_b.BSRR, gpio_b::BSRR_BR_12, 1);
-        bld.delay_ms(100);
+        bld.delay_ms(900);
         i += 1;
+        info!("Counter {}, Uptime {}s", i, get_systic_ticks());
     }
 }

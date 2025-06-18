@@ -7,6 +7,13 @@ pub mod c_bindings;
 peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
 peripheral!("c_bindings.rs", GPIO_TypeDef, GPIOA_BASE, "GPIO_", gpio_a);
 peripheral!("c_bindings.rs", GPIO_TypeDef, GPIOB_BASE, "GPIO_", gpio_b);
+peripheral!(
+    "c_bindings.rs",
+    SysTick_Type,
+    SysTick_BASE,
+    "SysTick_",
+    systick
+);
 // peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
 // peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 
