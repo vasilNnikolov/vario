@@ -14,6 +14,13 @@ peripheral!(
     "SysTick_",
     systick
 );
+peripheral!(
+    "c_bindings.rs",
+    DBGMCU_TypeDef,
+    DBGMCU_BASE,
+    "DBGMCU_",
+    dbgmcu
+);
 // peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
 // peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 
