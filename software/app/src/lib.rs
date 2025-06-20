@@ -73,4 +73,5 @@ pub mod clocks {
         }
         info!("switched to HSE");
     }
+    pub fn init_lse() {}
 }

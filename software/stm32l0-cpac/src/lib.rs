@@ -21,6 +21,7 @@ peripheral!(
     "DBGMCU_",
     dbgmcu
 );
+peripheral!("c_bindings.rs", RTC_TypeDef, RTC_BASE, "RTC_", rtc);
 // peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
 // peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 

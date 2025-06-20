@@ -26,6 +26,7 @@ impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
 
 #[inline(always)]
 fn enter_sleep() {
+    // TODO investigate further
     cortex_m::asm::dsb();
     cortex_m::asm::wfi();
     cortex_m::asm::isb();
@@ -38,7 +39,6 @@ fn init_dbg() {
     modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STOP_Msk, 1);
     let rcc = rcc::RCC_TypeDef::new_static_ref();
     modify_field(&mut rcc.AHBENR, cpac::rcc::AHBENR_DMA1EN, 1);
-    // modify_field(&mut rcc.AHBENR, cpac::rcc:AHBENR_DMA1EN, 1);
 }
 
 #[entry]
@@ -64,18 +64,15 @@ fn main() -> ! {
     bld.delay_ms(100);
     let mut i = 0;
     loop {
-        // turn PB12 on
-        modify_field(&mut gpio_b.BSRR, gpio_b::BSRR_BS_12, 1);
-        enter_sleep();
-
-        // turn PB12 off
-        modify_field(&mut gpio_b.BSRR, gpio_b::BSRR_BR_12, 1);
-        enter_sleep();
+        if i % 2 == 0 {
+            // turn PB12 on
+            modify_field(&mut gpio_b.BSRR, gpio_b::BSRR_BS_12, 1);
+        } else {
+            // turn PB12 off
+            modify_field(&mut gpio_b.BSRR, gpio_b::BSRR_BR_12, 1);
+        }
         i += 1;
-        info!(
-            "Counter {}, Uptime {}s",
-            i,
-            bsp::systick::get_systic_ticks()
-        );
+        info!("Uptime {}s", bsp::systick::get_systic_ticks());
+        enter_sleep();
     }
 }
