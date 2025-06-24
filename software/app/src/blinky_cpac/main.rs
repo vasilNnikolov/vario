@@ -45,10 +45,12 @@ fn init_dbg() {
 fn main() -> ! {
     info!("Start");
     bsp::clocks::init_HSE();
+    bsp::clocks::init_lse_RTC();
     bsp::systick::init_systick(CPU_FREQ - 1);
 
     init_dbg();
     let rcc = rcc::RCC_TypeDef::new_static_ref();
+    let rtc = cpac::rtc::RTC_TypeDef::new_static_ref();
     modify_field(&mut rcc.IOPENR, rcc::IOPENR_IOPBEN_Msk, 1);
 
     let gpio_b = cpac::gpio_b::GPIO_TypeDef::new_static_ref();
@@ -73,6 +75,10 @@ fn main() -> ! {
         }
         i += 1;
         info!("Uptime {}s", bsp::systick::get_systic_ticks());
+        let date_reg = cpac::read_field(&mut rtc.DR, u32::MAX);
+        let time_reg = cpac::read_field(&mut rtc.TR, u32::MAX);
+        info!("date reg: {=u32:x}", date_reg);
+        info!("time reg: {=u32:x}", time_reg);
         enter_sleep();
     }
 }

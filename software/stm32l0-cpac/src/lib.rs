@@ -22,6 +22,7 @@ peripheral!(
     dbgmcu
 );
 peripheral!("c_bindings.rs", RTC_TypeDef, RTC_BASE, "RTC_", rtc);
+peripheral!("c_bindings.rs", PWR_TypeDef, PWR_BASE, "PWR_", pwr);
 // peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
 // peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 
@@ -62,4 +63,11 @@ pub fn modify_field(reg: &mut volatile_register::RW<u32>, field_mask: u32, value
     }
 
     unsafe { reg.modify(|x| (x & (!field_mask)) | (value << pos)) }
+}
+
+#[inline(always)]
+pub fn read_field(reg: &volatile_register::RW<u32>, field_mask: u32) -> u32 {
+    let pos = field_mask.trailing_zeros(); // zero-cost abstraction if clear_mask is a constant
+
+    (reg.read() & field_mask) >> pos
 }

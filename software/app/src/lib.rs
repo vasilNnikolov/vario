@@ -1,7 +1,7 @@
 #![no_std]
 
 use cortex_m_rt::exception;
-use cpac::modify_field;
+use cpac::{modify_field, read_field};
 use defmt::info;
 use defmt_rtt as _;
 pub use stm32l0::stm32l0x2 as pac; // do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
@@ -50,7 +50,9 @@ pub mod systick {
 
 pub mod clocks {
     use super::*;
+    use cpac::pwr;
     use cpac::rcc;
+    use cpac::rtc;
     pub fn init_HSE() {
         let rcc = rcc::RCC_TypeDef::new_static_ref();
         modify_field(&mut rcc.CR, rcc::CR_HSEON_Msk, 1);
@@ -73,5 +75,75 @@ pub mod clocks {
         }
         info!("switched to HSE");
     }
-    pub fn init_lse() {}
+
+    fn decimalToBcd(num: u8) -> u32 {
+        (((num / 10) << 4) | (num % 10)) as u32
+    }
+
+    pub fn init_lse_RTC() {
+        let rcc = rcc::RCC_TypeDef::new_static_ref();
+        modify_field(&mut rcc.APB1ENR, rcc::APB1ENR_PWREN_Msk, 1);
+
+        let pwr = pwr::PWR_TypeDef::new_static_ref();
+        modify_field(&mut pwr.CR, pwr::CR_DBP_Msk, 1);
+        // modify_field(&mut rcc.CSR, rcc::CSR_LSEDRV_Msk, 0b01);
+
+        modify_field(&mut rcc.CSR, rcc::CSR_LSEON_Msk, 1);
+
+        loop {
+            let lse_rdy = (rcc.CSR.read() & rcc::CSR_LSERDY_Msk) >> rcc::CSR_LSERDY_Pos;
+            info!("LSE RDY: {}", lse_rdy);
+            if lse_rdy == 1 {
+                break;
+            }
+            cortex_m::asm::delay(1000);
+        }
+        info!("LSE started");
+
+        modify_field(&mut rcc.CSR, rcc::CSR_RTCSEL_Msk, 0b01); // LSE
+        modify_field(&mut rcc.CSR, rcc::CSR_RTCEN_Msk, 1);
+
+        let rtc = cpac::rtc::RTC_TypeDef::new_static_ref();
+        modify_field(&mut rtc.WPR, rtc::WPR_KEY_Msk, 0xCA);
+        modify_field(&mut rtc.WPR, rtc::WPR_KEY_Msk, 0x53);
+
+        // calendar initialization
+
+        modify_field(&mut rtc.ISR, rtc::ISR_INIT_Msk, 1);
+        info!("polling INITF bit");
+        while read_field(&rtc.ISR, rtc::ISR_INITF_Msk) == 0 {}
+        info!("INITF bit = 1");
+
+        modify_field(&mut rtc.TR, rtc::TR_PM_Msk, 0);
+        let time_value = decimalToBcd(12) << rtc::TR_HU_Pos
+            | decimalToBcd(34) << rtc::TR_MNU_Pos
+            | decimalToBcd(56) << rtc::TR_SU_Pos;
+
+        let time_mask = rtc::TR_HT_Msk
+            | rtc::TR_HU_Msk
+            | rtc::TR_MNT_Msk
+            | rtc::TR_MNU_Msk
+            | rtc::TR_ST_Msk
+            | rtc::TR_SU_Msk;
+
+        modify_field(&mut rtc.TR, time_mask, time_value as u32);
+
+        let date_value = decimalToBcd(25) << rtc::DR_YU_Pos
+            | decimalToBcd(6) << rtc::DR_MU_Pos
+            | decimalToBcd(24) << rtc::DR_DU_Pos;
+
+        let date_mask = rtc::DR_YT_Msk
+            | rtc::DR_YU_Msk
+            | rtc::DR_MT_Msk
+            | rtc::DR_MU_Msk
+            | rtc::DR_DT_Msk
+            | rtc::DR_DU_Msk;
+
+        modify_field(&mut rtc.DR, date_mask, date_value as u32);
+
+        modify_field(&mut rtc.ISR, rtc::ISR_INIT_Msk, 0);
+
+        modify_field(&mut rtc.WPR, rtc::WPR_KEY_Msk, 0xFF);
+        info!("RTC initialized to 25.06.2025T12:34:56s");
+    }
 }
