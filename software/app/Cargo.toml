@@ -44,3 +44,6 @@ path = "src/systick_timer/timer.rs"
 [[bin]]
 name = "tim6_delay"
 path = "src/tim6/main.rs"
+
+[build-dependencies]
+chrono = "0.4.41"

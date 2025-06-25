@@ -48,6 +48,8 @@ pub mod systick {
     }
 }
 
+include!(concat!(env!("OUT_DIR"), "/compiled_time.rs"));
+
 pub mod clocks {
     use super::*;
     use cpac::pwr;
@@ -114,10 +116,12 @@ pub mod clocks {
         while read_field(&rtc.ISR, rtc::ISR_INITF_Msk) == 0 {}
         info!("INITF bit = 1");
 
+        // assert!(1 <= weekday && weekday <= 7);
+
         modify_field(&mut rtc.TR, rtc::TR_PM_Msk, 0);
-        let time_value = decimalToBcd(12) << rtc::TR_HU_Pos
-            | decimalToBcd(34) << rtc::TR_MNU_Pos
-            | decimalToBcd(56) << rtc::TR_SU_Pos;
+        let time_value = decimalToBcd(HOUR) << rtc::TR_HU_Pos
+            | decimalToBcd(MINUTE) << rtc::TR_MNU_Pos
+            | decimalToBcd(SECOND) << rtc::TR_SU_Pos;
 
         let time_mask = rtc::TR_HT_Msk
             | rtc::TR_HU_Msk
@@ -128,12 +132,14 @@ pub mod clocks {
 
         modify_field(&mut rtc.TR, time_mask, time_value as u32);
 
-        let date_value = decimalToBcd(25) << rtc::DR_YU_Pos
-            | decimalToBcd(6) << rtc::DR_MU_Pos
-            | decimalToBcd(24) << rtc::DR_DU_Pos;
+        let date_value = decimalToBcd(YEAR) << rtc::DR_YU_Pos
+            | WEEKDAY << rtc::DR_WDU_Pos
+            | decimalToBcd(MONTH) << rtc::DR_MU_Pos
+            | decimalToBcd(DAY) << rtc::DR_DU_Pos;
 
         let date_mask = rtc::DR_YT_Msk
             | rtc::DR_YU_Msk
+            | rtc::DR_WDU_Msk
             | rtc::DR_MT_Msk
             | rtc::DR_MU_Msk
             | rtc::DR_DT_Msk
