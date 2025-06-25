@@ -82,7 +82,11 @@ pub mod clocks {
         (((num / 10) << 4) | (num % 10)) as u32
     }
 
-    pub fn init_lse_RTC() {
+    pub enum RTCOUT {
+        ON_512Hz,
+        ON_1Hz,
+    }
+    pub fn init_lse_RTC(rtc_out: RTCOUT) {
         let rcc = rcc::RCC_TypeDef::new_static_ref();
         modify_field(&mut rcc.APB1ENR, rcc::APB1ENR_PWREN_Msk, 1);
 
@@ -106,17 +110,16 @@ pub mod clocks {
         modify_field(&mut rcc.CSR, rcc::CSR_RTCEN_Msk, 1);
 
         let rtc = cpac::rtc::RTC_TypeDef::new_static_ref();
+
+        // enable writes to RTC registers
         modify_field(&mut rtc.WPR, rtc::WPR_KEY_Msk, 0xCA);
         modify_field(&mut rtc.WPR, rtc::WPR_KEY_Msk, 0x53);
 
         // calendar initialization
-
         modify_field(&mut rtc.ISR, rtc::ISR_INIT_Msk, 1);
         info!("polling INITF bit");
         while read_field(&rtc.ISR, rtc::ISR_INITF_Msk) == 0 {}
         info!("INITF bit = 1");
-
-        // assert!(1 <= weekday && weekday <= 7);
 
         modify_field(&mut rtc.TR, rtc::TR_PM_Msk, 0);
         let time_value = decimalToBcd(HOUR) << rtc::TR_HU_Pos
@@ -146,10 +149,24 @@ pub mod clocks {
             | rtc::DR_DU_Msk;
 
         modify_field(&mut rtc.DR, date_mask, date_value as u32);
+        info!(
+            "RTC initialized to {}.{}.20{}T{}H{}M{}s, weekday {}",
+            DAY, MONTH, YEAR, HOUR, MINUTE, SECOND, WEEKDAY
+        );
 
+        // set RTC OUT on pin PC13
+
+        let cosel_value = if let RTCOUT::ON_512Hz = rtc_out { 0 } else { 1 };
+
+        modify_field(&mut rtc.CR, rtc::CR_OSEL_Msk, 0);
+        modify_field(&mut rtc.CR, rtc::CR_COSEL_Msk, cosel_value);
+        modify_field(&mut rtc.CR, rtc::CR_COE_Msk, 1);
+        modify_field(&mut rtc.OR, rtc::OR_RTC_OUT_RMP, 0);
+
+        // stop the init mode
         modify_field(&mut rtc.ISR, rtc::ISR_INIT_Msk, 0);
 
+        // enable write protection back
         modify_field(&mut rtc.WPR, rtc::WPR_KEY_Msk, 0xFF);
-        info!("RTC initialized to 25.06.2025T12:34:56s");
     }
 }
