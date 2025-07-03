@@ -45,5 +45,9 @@ path = "src/systick_timer/timer.rs"
 name = "tim6_delay"
 path = "src/tim6/main.rs"
 
+[[bin]]
+name = "vario"
+path = "src/vario/main.rs"
+
 [build-dependencies]
 chrono = "0.4.41"

@@ -23,6 +23,13 @@ peripheral!(
 );
 peripheral!("c_bindings.rs", RTC_TypeDef, RTC_BASE, "RTC_", rtc);
 peripheral!("c_bindings.rs", PWR_TypeDef, PWR_BASE, "PWR_", pwr);
+peripheral!(
+    "c_bindings.rs",
+    SYSCFG_TypeDef,
+    SYSCFG_BASE,
+    "SYSCFG_",
+    syscfg
+);
 // peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
 // peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 

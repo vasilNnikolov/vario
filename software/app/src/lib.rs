@@ -7,6 +7,7 @@ use defmt_rtt as _;
 pub use stm32l0::stm32l0x2 as pac; // do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
 pub use stm32l0_cpac as cpac;
 
+pub const CPU_FREQ: u32 = 16_000_000;
 #[exception]
 unsafe fn DefaultHandler(irq_num: i16) {
     info!(
@@ -168,5 +169,37 @@ pub mod clocks {
 
         // enable write protection back
         modify_field(&mut rtc.WPR, rtc::WPR_KEY_Msk, 0xFF);
+    }
+}
+
+/// not accurate
+struct BusyLoopDelayNs;
+
+impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
+    fn delay_ns(&mut self, ns: u32) {
+        let d_cycles = ns as u64 * CPU_FREQ as u64 / 1_000_000_000 as u64;
+        cortex_m::asm::delay(d_cycles as u32);
+    }
+}
+
+/// module to handle the push switches
+/// SW1 on pin PB5, SW2 on PA0, SW3 on PB6
+pub mod switches {
+    use super::*;
+    pub fn init_switches() {
+        let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+        modify_field(&mut rcc.IOPENR, cpac::rcc::IOPENR_IOPBEN_Msk, 1);
+
+        let pb = cpac::gpio_b::GPIO_TypeDef::new_static_ref();
+
+        // SW1
+        modify_field(&mut pb.MODER, cpac::gpio_b::MODER_MODE5, 0b00); // set to input
+        modify_field(&mut pb.PUPDR, cpac::gpio_b::PUPDR_PUPD5, 0b00); // set no pull-up, no pull-down
+    }
+
+    pub fn get_sw1() -> bool {
+        let pb = cpac::gpio_b::GPIO_TypeDef::new_static_ref();
+
+        read_field(&pb.IDR, cpac::gpio_b::IDR_ID5_Msk) == 1
     }
 }
