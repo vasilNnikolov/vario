@@ -78,3 +78,10 @@ pub fn read_field(reg: &volatile_register::RW<u32>, field_mask: u32) -> u32 {
 
     (reg.read() & field_mask) >> pos
 }
+
+// macro_rules! mf {
+//     ($peripheral:ty, $reg:ty, $mask:expr, $value:expr) => {{
+//         let mut p = $peripheral::new_static_ref();
+//         modify_field(&mut p.$)
+//     }};
+// }

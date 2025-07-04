@@ -27,13 +27,12 @@ fn set_compile_time() {
         &dest_path,
         format!(
             "pub const YEAR: u8= {};
-            pub const MONTH: u8 = {};
-            pub const DAY: u8 = {};
-            pub const WEEKDAY: u32 = {};
-            pub const HOUR: u8 = {};
-            pub const MINUTE: u8 = {};
-            pub const SECOND: u8 = {};
-            ",
+pub const MONTH: u8 = {};
+pub const DAY: u8 = {};
+pub const WEEKDAY: u32 = {};
+pub const HOUR: u8 = {};
+pub const MINUTE: u8 = {};
+pub const SECOND: u8 = {};",
             now.year() % 100,
             now.month(),
             now.day(),

@@ -38,14 +38,6 @@ name = "blinky_cpac"
 path = "src/blinky_cpac/main.rs"
 
 [[bin]]
-name = "systick"
-path = "src/systick_timer/timer.rs"
-
-[[bin]]
-name = "tim6_delay"
-path = "src/tim6/main.rs"
-
-[[bin]]
 name = "vario"
 path = "src/vario/main.rs"
 

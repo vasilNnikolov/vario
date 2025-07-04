@@ -41,11 +41,14 @@ pub mod systick {
             );
         }
         let st = cpac::systick::SysTick_Type::new_static_ref();
-        modify_field(&mut st.LOAD, cpac::systick::LOAD_RELOAD_Msk, reload_value);
-        modify_field(&mut st.VAL, cpac::systick::VAL_CURRENT_Msk, 0);
-        modify_field(&mut st.CTRL, cpac::systick::CTRL_CLKSOURCE_Msk, 1);
-        modify_field(&mut st.CTRL, cpac::systick::CTRL_TICKINT_Msk, 1);
-        modify_field(&mut st.CTRL, cpac::systick::CTRL_ENABLE_Msk, 1);
+        {
+            use cpac::systick::*;
+            modify_field(&mut st.LOAD, VAL_CURRENT_Msk, reload_value);
+            modify_field(&mut st.VAL, VAL_CURRENT_Msk, 0);
+            modify_field(&mut st.CTRL, CTRL_CLKSOURCE_Msk, 1);
+            modify_field(&mut st.CTRL, CTRL_TICKINT_Msk, 1);
+            modify_field(&mut st.CTRL, CTRL_ENABLE_Msk, 1);
+        }
     }
 }
 
@@ -79,13 +82,13 @@ pub mod clocks {
         info!("switched to HSE");
     }
 
-    fn decimalToBcd(num: u8) -> u32 {
+    fn decimal_to_bcd(num: u8) -> u32 {
         (((num / 10) << 4) | (num % 10)) as u32
     }
 
     pub enum RTCOUT {
-        ON_512Hz,
-        ON_1Hz,
+        On512Hz,
+        On1Hz,
     }
     pub fn init_lse_RTC(rtc_out: RTCOUT) {
         let rcc = rcc::RCC_TypeDef::new_static_ref();
@@ -123,9 +126,9 @@ pub mod clocks {
         info!("INITF bit = 1");
 
         modify_field(&mut rtc.TR, rtc::TR_PM_Msk, 0);
-        let time_value = decimalToBcd(HOUR) << rtc::TR_HU_Pos
-            | decimalToBcd(MINUTE) << rtc::TR_MNU_Pos
-            | decimalToBcd(SECOND) << rtc::TR_SU_Pos;
+        let time_value = decimal_to_bcd(HOUR) << rtc::TR_HU_Pos
+            | decimal_to_bcd(MINUTE) << rtc::TR_MNU_Pos
+            | decimal_to_bcd(SECOND) << rtc::TR_SU_Pos;
 
         let time_mask = rtc::TR_HT_Msk
             | rtc::TR_HU_Msk
@@ -136,10 +139,10 @@ pub mod clocks {
 
         modify_field(&mut rtc.TR, time_mask, time_value as u32);
 
-        let date_value = decimalToBcd(YEAR) << rtc::DR_YU_Pos
+        let date_value = decimal_to_bcd(YEAR) << rtc::DR_YU_Pos
             | WEEKDAY << rtc::DR_WDU_Pos
-            | decimalToBcd(MONTH) << rtc::DR_MU_Pos
-            | decimalToBcd(DAY) << rtc::DR_DU_Pos;
+            | decimal_to_bcd(MONTH) << rtc::DR_MU_Pos
+            | decimal_to_bcd(DAY) << rtc::DR_DU_Pos;
 
         let date_mask = rtc::DR_YT_Msk
             | rtc::DR_YU_Msk
@@ -157,7 +160,7 @@ pub mod clocks {
 
         // set RTC OUT on pin PC13
 
-        let cosel_value = if let RTCOUT::ON_512Hz = rtc_out { 0 } else { 1 };
+        let cosel_value = if let RTCOUT::On512Hz = rtc_out { 0 } else { 1 };
 
         modify_field(&mut rtc.CR, rtc::CR_OSEL_Msk, 0);
         modify_field(&mut rtc.CR, rtc::CR_COSEL_Msk, cosel_value);

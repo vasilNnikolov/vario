@@ -32,7 +32,7 @@ fn init_dbg() {
 fn main() -> ! {
     info!("Start");
     bsp::clocks::init_HSE();
-    bsp::clocks::init_lse_RTC(bsp::clocks::RTCOUT::ON_1Hz);
+    bsp::clocks::init_lse_RTC(bsp::clocks::RTCOUT::On1Hz);
     bsp::systick::init_systick(bsp::CPU_FREQ - 1);
     bsp::switches::init_switches();
 
