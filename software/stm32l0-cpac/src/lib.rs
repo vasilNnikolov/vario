@@ -3,7 +3,6 @@ use cpac_macros::peripheral;
 pub use volatile_register;
 
 pub mod c_bindings;
-
 peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
 peripheral!("c_bindings.rs", GPIO_TypeDef, GPIOA_BASE, "GPIO_", gpio_a);
 peripheral!("c_bindings.rs", GPIO_TypeDef, GPIOB_BASE, "GPIO_", gpio_b);
@@ -30,7 +29,7 @@ peripheral!(
     "SYSCFG_",
     syscfg
 );
-// peripheral!("c_bindings.rs", RCC_TypeDef, RCC_BASE, "RCC_", rcc);
+peripheral!("c_bindings.rs", EXTI_TypeDef, EXTI_BASE, "EXTI_", exti);
 // peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 
 /// modifies a register.
@@ -78,10 +77,3 @@ pub fn read_field(reg: &volatile_register::RW<u32>, field_mask: u32) -> u32 {
 
     (reg.read() & field_mask) >> pos
 }
-
-// macro_rules! mf {
-//     ($peripheral:ty, $reg:ty, $mask:expr, $value:expr) => {{
-//         let mut p = $peripheral::new_static_ref();
-//         modify_field(&mut p.$)
-//     }};
-// }

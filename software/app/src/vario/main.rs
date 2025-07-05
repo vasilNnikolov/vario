@@ -63,8 +63,8 @@ fn main() -> ! {
         info!("date reg: {=u32:x}", date_reg);
         info!("time reg: {=u32:x}", time_reg);
 
-        let sw1_state = bsp::switches::get_sw1();
-        info!("SW1 state: {}", sw1_state);
+        let sw1_var = bsp::switches::read_sw1();
+        info!("SW1 variable: {}", sw1_var);
         enter_sleep();
     }
 }
