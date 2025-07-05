@@ -3,9 +3,9 @@ use core::panic;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{
-    Ident, LitStr, Token,
+    Ident, LitStr, Token, Type, TypeArray,
     parse::{Parse, ParseStream},
-    parse_macro_input,
+    parse_macro_input, parse_quote,
 };
 
 struct MacroInput {
@@ -115,10 +115,10 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
 
     // remove all original attributes
     struct_item.attrs = vec![];
+
     // wrap each field in volatile_register::RW
     for f in struct_item.fields.iter_mut() {
-        let original_type = f.ty.clone();
-        f.ty = syn::parse_quote! { ::volatile_register::RW<#original_type> };
+        f.ty = transform_type(&f.ty);
     }
 
     let prefix = constant_start.value();
@@ -164,4 +164,13 @@ pub fn peripheral(input: TokenStream) -> TokenStream {
 
         }
     })
+}
+
+fn transform_type(ty: &Type) -> Type {
+    match ty {
+        Type::Array(TypeArray { elem, len, .. }) => {
+            parse_quote! { [::volatile_register::RW<#elem>; #len] }
+        }
+        _ => parse_quote! { ::volatile_register::RW<#ty> },
+    }
 }
