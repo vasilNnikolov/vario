@@ -9,13 +9,104 @@ pub use stm32l0::stm32l0x2 as pac; // do not remove, the stm32l0 crate is needed
 pub use stm32l0_cpac as cpac;
 
 pub const CPU_FREQ: u32 = 16_000_000;
+
 #[exception]
 unsafe fn DefaultHandler(irq_num: i16) {
     info!(
-        "The interrupt with number {} went to DefaultHandler",
+        "The interrupt with number {} went to DefaultHandler, looping",
         irq_num
     );
     loop {}
+}
+
+#[inline(always)]
+pub fn enter_sleep() {
+    // TODO investigate further
+    cortex_m::asm::dsb();
+    cortex_m::asm::wfi();
+    cortex_m::asm::isb();
+}
+
+fn init_dbg() {
+    let dbgmcu = cpac::dbgmcu::DBGMCU_TypeDef::new_static_ref();
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_SLEEP_Msk, 1);
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STANDBY_Msk, 1);
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STOP_Msk, 1);
+
+    let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+    modify_field(&mut rcc.AHBENR, cpac::rcc::AHBENR_DMA1EN, 1);
+}
+
+pub fn init() {
+    clocks::init_hse();
+    clocks::init_lse_rtc(clocks::RTCOut::On1Hz);
+    leds::init_leds();
+    systick::init_systick(CPU_FREQ - 1);
+    switches::init_switches();
+
+    init_dbg();
+}
+
+pub mod leds {
+    use super::*;
+    pub fn init_leds() {
+        let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+        modify_field(&mut rcc.IOPENR, cpac::rcc::IOPENR_IOPBEN_Msk, 1);
+
+        {
+            use cpac::gpio_b::*;
+            let gpio_b = GPIO_TypeDef::new_static_ref();
+            modify_field(&mut gpio_b.MODER, MODER_MODE12, 0b01); // set output mode
+            modify_field(&mut gpio_b.OTYPER, OTYPER_OT_12, 0b0); // set output type to push-pull
+            modify_field(&mut gpio_b.PUPDR, PUPDR_PUPD12, 0b00); // set no pull-up & no pull-down
+
+            modify_field(&mut gpio_b.MODER, MODER_MODE13, 0b01); // set output mode
+            modify_field(&mut gpio_b.OTYPER, OTYPER_OT_13, 0b0); // set output type to push-pull
+            modify_field(&mut gpio_b.PUPDR, PUPDR_PUPD13, 0b00); // set no pull-up & no pull-down
+
+            modify_field(&mut gpio_b.MODER, MODER_MODE14, 0b01); // set output mode
+            modify_field(&mut gpio_b.OTYPER, OTYPER_OT_14, 0b0); // set output type to push-pull
+            modify_field(&mut gpio_b.PUPDR, PUPDR_PUPD14, 0b00); // set no pull-up & no pull-down
+        }
+    }
+
+    /// enum representing the LEDs on the board
+    pub enum LED {
+        /// connected to PB12
+        LED1,
+        /// connected to PB13
+        LED2,
+        /// connected to PB14
+        LED3,
+    }
+
+    pub fn set_led(led: LED, is_on: bool) {
+        use cpac::gpio_b::*;
+        let gpio_b = GPIO_TypeDef::new_static_ref();
+        match led {
+            LED::LED1 => {
+                modify_field(
+                    &mut gpio_b.BSRR,
+                    if is_on { BSRR_BS_12 } else { BSRR_BR_12 },
+                    1,
+                );
+            }
+            LED::LED2 => {
+                modify_field(
+                    &mut gpio_b.BSRR,
+                    if is_on { BSRR_BS_13 } else { BSRR_BR_13 },
+                    1,
+                );
+            }
+            LED::LED3 => {
+                modify_field(
+                    &mut gpio_b.BSRR,
+                    if is_on { BSRR_BS_14 } else { BSRR_BR_14 },
+                    1,
+                );
+            }
+        }
+    }
 }
 
 pub mod systick {
@@ -29,10 +120,10 @@ pub mod systick {
 
     #[exception]
     fn SysTick() {
-        // info!("systick");
-        unsafe {
+        critical_section::with(|_cs| unsafe {
+            info!("systick interrupt");
             SYSTICK_TICKS = SYSTICK_TICKS.wrapping_add(1);
-        }
+        })
     }
 
     pub fn init_systick(reload_value: u32) {
@@ -61,7 +152,7 @@ pub mod clocks {
     use cpac::pwr;
     use cpac::rcc;
     use cpac::rtc;
-    pub fn init_HSE() {
+    pub fn init_hse() {
         let rcc = rcc::RCC_TypeDef::new_static_ref();
         modify_field(&mut rcc.CR, rcc::CR_HSEON_Msk, 1);
         loop {
@@ -88,11 +179,11 @@ pub mod clocks {
         (((num / 10) << 4) | (num % 10)) as u32
     }
 
-    pub enum RTCOUT {
+    pub enum RTCOut {
         On512Hz,
         On1Hz,
     }
-    pub fn init_lse_RTC(rtc_out: RTCOUT) {
+    pub fn init_lse_rtc(rtc_out: RTCOut) {
         let rcc = rcc::RCC_TypeDef::new_static_ref();
         modify_field(&mut rcc.APB1ENR, rcc::APB1ENR_PWREN_Msk, 1);
 
@@ -162,7 +253,7 @@ pub mod clocks {
 
         // set RTC OUT on pin PC13
 
-        let cosel_value = if let RTCOUT::On512Hz = rtc_out { 0 } else { 1 };
+        let cosel_value = if let RTCOut::On512Hz = rtc_out { 0 } else { 1 };
 
         modify_field(&mut rtc.CR, rtc::CR_OSEL_Msk, 0);
         modify_field(&mut rtc.CR, rtc::CR_COSEL_Msk, cosel_value);
@@ -177,16 +268,6 @@ pub mod clocks {
     }
 }
 
-/// not accurate
-struct BusyLoopDelayNs;
-
-impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
-    fn delay_ns(&mut self, ns: u32) {
-        let d_cycles = ns as u64 * CPU_FREQ as u64 / 1_000_000_000 as u64;
-        cortex_m::asm::delay(d_cycles as u32);
-    }
-}
-
 /// module to handle the push switches
 /// SW1 on pin PB5, SW2 on PA0, SW3 on PB6
 pub mod switches {
@@ -195,7 +276,7 @@ pub mod switches {
     use super::*;
     static mut SW1: bool = false;
     // static mut SW2: bool;
-    // static mut SW3: bool;
+    static mut SW3: bool = false;
 
     pub fn init_switches() {
         let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
@@ -209,6 +290,10 @@ pub mod switches {
             // SW1
             modify_field(&mut pb.MODER, MODER_MODE5, 0b00); // set to input
             modify_field(&mut pb.PUPDR, PUPDR_PUPD5, 0b00); // set no pull-up, no pull-down
+
+            // SW3
+            modify_field(&mut pb.MODER, MODER_MODE6, 0b00); // set to input
+            modify_field(&mut pb.PUPDR, PUPDR_PUPD6, 0b00); // set no pull-up, no pull-down
         }
         // connect PB5 to EXTI5
         {
@@ -217,12 +302,23 @@ pub mod switches {
             modify_field(&mut syscfg.EXTICR[1], EXTICR2_EXTI5_Msk, 0b0001);
         }
 
+        // connect PB6 to EXTI6
+        {
+            use cpac::syscfg::*;
+            let syscfg = SYSCFG_TypeDef::new_static_ref();
+            modify_field(&mut syscfg.EXTICR[1], EXTICR2_EXTI6_Msk, 0b0001);
+        }
+
         {
             use cpac::exti::*;
             let exti = EXTI_TypeDef::new_static_ref();
             modify_field(&mut exti.RTSR, RTSR_RT5_Msk, 1);
             modify_field(&mut exti.FTSR, FTSR_FT5_Msk, 1);
             modify_field(&mut exti.IMR, IMR_IM5_Msk, 1);
+
+            modify_field(&mut exti.RTSR, RTSR_RT6_Msk, 1);
+            modify_field(&mut exti.FTSR, FTSR_FT6_Msk, 1);
+            modify_field(&mut exti.IMR, IMR_IM6_Msk, 1);
         }
 
         unsafe {
@@ -230,14 +326,12 @@ pub mod switches {
         };
     }
 
-    pub fn read_sw1_pb5() -> bool {
-        let pb = cpac::gpio_b::GPIO_TypeDef::new_static_ref();
-
-        read_field(&pb.IDR, cpac::gpio_b::IDR_ID5_Msk) == 1
-    }
-
     pub fn read_sw1() -> bool {
         unsafe { SW1 }
+    }
+
+    pub fn read_sw3() -> bool {
+        unsafe { SW3 }
     }
 
     #[interrupt]
@@ -248,9 +342,10 @@ pub mod switches {
     #[inline(always)]
     fn exti4_15_handler() {
         critical_section::with(|_cs| {
-            info!("exti");
+            info!("exti4_15 interrupt");
             let exti = cpac::exti::EXTI_TypeDef::new_static_ref();
             let gpio_b = cpac::gpio_b::GPIO_TypeDef::new_static_ref();
+
             if read_field(&exti.PR, cpac::exti::PR_PIF5_Msk) == 1 {
                 // clear pending bit, PR reg is rc_w1
                 modify_field(&mut exti.PR, cpac::exti::PR_PIF5_Msk, 1);
@@ -261,6 +356,27 @@ pub mod switches {
                     unsafe { SW1 = true }
                 }
             }
+
+            if read_field(&exti.PR, cpac::exti::PR_PIF6_Msk) == 1 {
+                // clear pending bit, PR reg is rc_w1
+                modify_field(&mut exti.PR, cpac::exti::PR_PIF6_Msk, 1);
+
+                if read_field(&gpio_b.IDR, cpac::gpio_b::IDR_ID6_Msk) == 0 {
+                    unsafe { SW3 = false }
+                } else {
+                    unsafe { SW3 = true }
+                }
+            }
         })
+    }
+}
+
+/// not accurate
+struct BusyLoopDelayNs;
+
+impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
+    fn delay_ns(&mut self, ns: u32) {
+        let d_cycles = ns as u64 * CPU_FREQ as u64 / 1_000_000_000 as u64;
+        cortex_m::asm::delay(d_cycles as u32);
     }
 }

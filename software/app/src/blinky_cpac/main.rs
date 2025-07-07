@@ -44,8 +44,8 @@ fn init_dbg() {
 #[entry]
 fn main() -> ! {
     info!("Start");
-    bsp::clocks::init_HSE();
-    bsp::clocks::init_lse_RTC(bsp::clocks::RTCOUT::On1Hz);
+    bsp::clocks::init_hse();
+    bsp::clocks::init_lse_rtc(bsp::clocks::RTCOut::On1Hz);
     bsp::systick::init_systick(CPU_FREQ - 1);
 
     init_dbg();
