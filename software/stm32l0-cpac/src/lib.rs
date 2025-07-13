@@ -58,7 +58,7 @@ pub fn modify_reg(reg: &mut volatile_register::RW<u32>, clear_mask: u32, pos: u3
 /// if the `safe-modify-reg` feature is enabled, the function will check if `value` is fully inside `clear_mask`, and if not, will panic
 #[inline(always)]
 pub fn modify_field(reg: &mut volatile_register::RW<u32>, field_mask: u32, value: u32) {
-    let pos = field_mask.trailing_zeros(); // zero-cost abstraction if clear_mask is a constant
+    let pos = field_mask.trailing_zeros(); // zero-cost abstraction if field_mask is a constant
 
     #[cfg(feature = "safe-modify-reg")]
     if (value << pos) & (!field_mask) != 0 {

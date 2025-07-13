@@ -1,0 +1,97 @@
+#![no_std]
+
+use core::{
+    cell::RefCell,
+    ops::{Deref, DerefMut},
+};
+use cortex_m_rt::exception;
+use cpac::modify_field;
+use critical_section::Mutex;
+use defmt::info;
+use defmt_rtt as _;
+use heapless::Deque;
+
+// dev note
+// do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
+pub use stm32l0::stm32l0x2 as pac;
+pub use stm32l0_cpac as cpac;
+
+pub mod clocks;
+pub mod leds;
+
+/// module to handle the push switches
+/// SW1 on pin PB5, SW2 on PA0, SW3 on PB6
+pub mod switches;
+pub mod systick;
+
+pub const CPU_FREQ: u32 = 16_000_000;
+
+const EVT_QUEUE_SIZE: usize = 8;
+type QueueType = Deque<i16, EVT_QUEUE_SIZE>;
+pub static EVT_Q: Mutex<RefCell<Option<QueueType>>> = Mutex::new(RefCell::new(None));
+
+#[exception]
+unsafe fn DefaultHandler(irq_num: i16) {
+    defmt::debug!(
+        "IRQ or event with number {} went to DefaultHandler",
+        irq_num
+    );
+    critical_section::with(|cs| {
+        let mut maybe_queue = EVT_Q
+            .borrow(cs)
+            .try_borrow_mut()
+            .expect("try_borrow_mut of the event queue failed, logical error");
+
+        match maybe_queue.deref_mut() {
+            Some(q) => {
+                if let Err(i) = q.push_back(irq_num) {
+                    defmt::error!("Could not push event with number {} to the event queue", i)
+                }
+            }
+            None => {
+                defmt::error!("no event queue initialized");
+            }
+        }
+    });
+}
+
+#[inline(always)]
+pub fn enter_sleep() {
+    // TODO investigate further
+    cortex_m::asm::dsb();
+    cortex_m::asm::wfi();
+    cortex_m::asm::isb();
+}
+
+fn init_dbg() {
+    let dbgmcu = cpac::dbgmcu::DBGMCU_TypeDef::new_static_ref();
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_SLEEP_Msk, 1);
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STANDBY_Msk, 1);
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STOP_Msk, 1);
+
+    let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+    modify_field(&mut rcc.AHBENR, cpac::rcc::AHBENR_DMA1EN, 1);
+}
+
+pub fn init() {
+    clocks::init_hse();
+    clocks::init_lse_rtc(clocks::RTCOut::On1Hz);
+    leds::init_leds();
+    systick::init_systick(CPU_FREQ - 1);
+    switches::init_switches();
+    init_dbg();
+    critical_section::with(|cs| EVT_Q.replace(cs, Some(QueueType::new())));
+}
+
+// introduces the `build_time` module
+include!(concat!(env!("OUT_DIR"), "/compiled_time.rs"));
+
+/// not accurate
+struct BusyLoopDelayNs;
+
+impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
+    fn delay_ns(&mut self, ns: u32) {
+        let d_cycles = ns as u64 * CPU_FREQ as u64 / 1_000_000_000 as u64;
+        cortex_m::asm::delay(d_cycles as u32);
+    }
+}
