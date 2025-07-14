@@ -1,7 +1,19 @@
 use crate::cpac;
 use crate::pac::interrupt;
 use crate::pac::NVIC;
-use cpac::modify_field;
+use cpac::{modify_field, read_field};
+use defmt::info;
+
+static mut SW1: bool = false;
+static mut SW3: bool = false;
+
+pub fn read_sw1() -> bool {
+    unsafe { SW1 }
+}
+
+pub fn read_sw3() -> bool {
+    unsafe { SW3 }
+}
 
 pub fn init_switches() {
     let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
@@ -49,4 +61,31 @@ pub fn init_switches() {
     unsafe {
         NVIC::unmask(interrupt::EXTI4_15);
     };
+}
+#[interrupt]
+fn EXTI4_15() {
+    exti4_15_handler();
+}
+
+#[inline(always)]
+fn exti4_15_handler() {
+    critical_section::with(|_cs| {
+        info!("exti4_15 interrupt");
+        let exti = cpac::exti::EXTI_TypeDef::new_static_ref();
+        let gpio_b = cpac::gpio_b::GPIO_TypeDef::new_static_ref();
+
+        if read_field(&exti.PR, cpac::exti::PR_PIF5_Msk) == 1 {
+            // clear pending bit, PR reg is rc_w1
+            modify_field(&mut exti.PR, cpac::exti::PR_PIF5_Msk, 1);
+
+            unsafe { SW1 = read_field(&gpio_b.IDR, cpac::gpio_b::IDR_ID5_Msk) == 1 }
+        }
+
+        if read_field(&exti.PR, cpac::exti::PR_PIF6_Msk) == 1 {
+            // clear pending bit, PR reg is rc_w1
+            modify_field(&mut exti.PR, cpac::exti::PR_PIF6_Msk, 1);
+
+            unsafe { SW3 = read_field(&gpio_b.IDR, cpac::gpio_b::IDR_ID6_Msk) == 1 }
+        }
+    })
 }

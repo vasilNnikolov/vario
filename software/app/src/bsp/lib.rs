@@ -1,15 +1,9 @@
 #![no_std]
 
-use core::{
-    cell::RefCell,
-    ops::{Deref, DerefMut},
-};
 use cortex_m_rt::exception;
 use cpac::modify_field;
-use critical_section::Mutex;
 use defmt::info;
 use defmt_rtt as _;
-use heapless::Deque;
 
 // dev note
 // do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
@@ -26,33 +20,13 @@ pub mod systick;
 
 pub const CPU_FREQ: u32 = 16_000_000;
 
-const EVT_QUEUE_SIZE: usize = 8;
-type QueueType = Deque<i16, EVT_QUEUE_SIZE>;
-pub static EVT_Q: Mutex<RefCell<Option<QueueType>>> = Mutex::new(RefCell::new(None));
-
 #[exception]
 unsafe fn DefaultHandler(irq_num: i16) {
     defmt::debug!(
-        "IRQ or event with number {} went to DefaultHandler",
+        "IRQ or event with number {} went to DefaultHandler, looping",
         irq_num
     );
-    critical_section::with(|cs| {
-        let mut maybe_queue = EVT_Q
-            .borrow(cs)
-            .try_borrow_mut()
-            .expect("try_borrow_mut of the event queue failed, logical error");
-
-        match maybe_queue.deref_mut() {
-            Some(q) => {
-                if let Err(i) = q.push_back(irq_num) {
-                    defmt::error!("Could not push event with number {} to the event queue", i)
-                }
-            }
-            None => {
-                defmt::error!("no event queue initialized");
-            }
-        }
-    });
+    loop {}
 }
 
 #[inline(always)]
@@ -80,11 +54,7 @@ pub fn init() {
     systick::init_systick(CPU_FREQ - 1);
     switches::init_switches();
     init_dbg();
-    critical_section::with(|cs| EVT_Q.replace(cs, Some(QueueType::new())));
 }
-
-// introduces the `build_time` module
-include!(concat!(env!("OUT_DIR"), "/compiled_time.rs"));
 
 /// not accurate
 struct BusyLoopDelayNs;

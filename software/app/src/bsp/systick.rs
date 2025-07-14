@@ -1,4 +1,6 @@
 use super::*;
+
+/// number of times the SysTick peripheral has ticked
 /// must be modified ONLY in the SysTick exception handler
 static mut SYSTICK_TICKS: u64 = 0;
 

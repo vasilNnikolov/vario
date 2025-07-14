@@ -1,5 +1,8 @@
-use crate::build_time::*;
+// introduces the `build_time` module generated in `build.rs`
+include!(concat!(env!("OUT_DIR"), "/compiled_time.rs"));
+
 use crate::cpac;
+use build_time::*;
 use cpac::{modify_field, pwr, rcc, read_field, rtc};
 use defmt::info;
 
