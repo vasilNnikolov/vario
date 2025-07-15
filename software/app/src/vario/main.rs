@@ -1,8 +1,6 @@
 #![no_std]
 #![no_main]
 
-use core::ops::DerefMut;
-
 use panic_halt as _;
 
 use cortex_m_rt::entry;
@@ -18,6 +16,7 @@ fn main() -> ! {
 
     let mut i = 0;
     let rtc = cpac::rtc::RTC_TypeDef::new_static_ref();
+
     loop {
         info!("Uptime {}s", bsp::systick::get_systic_ticks());
 

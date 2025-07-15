@@ -14,8 +14,11 @@ defmt-rtt = "0.4.1"
 embedded-hal = { version = "1.0.0", features = ["defmt-03"] }
 heapless = "0.8.0"
 panic-halt = "1.0.0"
+stm32-usbd = "0.7.0"
 stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] } # here for the 'rt' feature and interrupts, TODO think of a way to put these in the CPAC
 stm32l0-cpac = { path = "../stm32l0-cpac" , features = ["safe-modify-reg"]}
+usb-device = "0.3.2"
+usbd-serial = "0.2.2"
 
 # TODO check how to link externally compiled C lib
 # bme280-bindings-rs = { path = "../bme280-bindings-rs" }

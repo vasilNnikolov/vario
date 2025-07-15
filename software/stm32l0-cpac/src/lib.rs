@@ -30,6 +30,7 @@ peripheral!(
     syscfg
 );
 peripheral!("c_bindings.rs", EXTI_TypeDef, EXTI_BASE, "EXTI_", exti);
+peripheral!("c_bindings.rs", USB_TypeDef, USB_BASE, "USB_", usb);
 // peripheral!("c_bindings.rs", ADC_TypeDef, ADC_BASE, "ADC_", adc);
 
 /// modifies a register.
