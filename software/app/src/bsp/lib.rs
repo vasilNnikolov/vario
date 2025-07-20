@@ -18,6 +18,7 @@ pub mod leds;
 pub mod switches;
 pub mod systick;
 
+pub mod usb;
 pub const CPU_FREQ: u32 = 16_000_000;
 
 #[exception]
