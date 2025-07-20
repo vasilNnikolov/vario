@@ -1,13 +1,14 @@
 #![no_std]
 #![no_main]
 
+use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 
 use cortex_m_rt::entry;
 use defmt::info;
 
 use bsp;
-use stm32l0_cpac as cpac;
+use stm32l0_cpac::{self as cpac, modify_field, read_field};
 
 use stm32_usbd;
 use usb_device::prelude::*;
@@ -26,13 +27,33 @@ unsafe impl stm32_usbd::UsbPeripheral for USBPeripheral {
     const EP_MEMORY_ACCESS_2X16: bool = true;
 
     fn enable() {
-        // see https://github.com/stm32-rs/stm32f0xx-hal/blob/master/src/usb.rs
+        // USB clock
+        let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+        modify_field(&mut rcc.CRRCR, cpac::rcc::CRRCR_HSI48ON_Msk, 1);
+        while read_field(&rcc.CRRCR, cpac::rcc::CRRCR_HSI48RDY_Msk) != 1 {
+            info!("waiting for hsi48 to be ready");
+        }
+
+        modify_field(&mut rcc.CCIPR, cpac::rcc::CCIPR_HSI48SEL_Msk, 1);
+        // see https://github.com/stm32-rs/stm32f0xx-hal/blob/master/src/us
+
+        modify_field(&mut rcc.APB1ENR, cpac::rcc::APB1ENR_USBEN_Msk, 1);
+        modify_field(&mut rcc.APB1RSTR, cpac::rcc::APB1RSTR_USBRST_Msk, 1);
+        // the rest hopefully handled by the `std32_usbd` crate???
     }
 
-    fn startup_delay() {}
+    fn startup_delay() {
+        cortex_m::asm::delay(200);
+    }
 }
 
-fn init_usb() {
+#[entry]
+fn main() -> ! {
+    info!("Start");
+    bsp::init();
+
+    let rtc = cpac::rtc::RTC_TypeDef::new_static_ref();
+
     let usb_bus = stm32_usbd::UsbBus::new(USBPeripheral {});
 
     let mut serial = usbd_serial::SerialPort::new(&usb_bus);
@@ -43,25 +64,8 @@ fn init_usb() {
         .device_class(usbd_serial::USB_CLASS_CDC)
         .build();
 
-    // At this point the USB peripheral is enabled and a connected host will attempt to enumerate
-    // it.
-    loop {
-        // Must be called more often than once every 10ms to handle events and stay USB compilant,
-        // or from a device-specific interrupt handler.
-        if usb_dev.poll(&mut [&mut serial]) {
-            // Call class-specific methods here
-            // serial.read(...);
-        }
-    }
-}
-
-#[entry]
-fn main() -> ! {
-    info!("Start");
-    bsp::init();
-
-    let mut i = 0;
-    let rtc = cpac::rtc::RTC_TypeDef::new_static_ref();
+    let mut usb_buffer = [0u8; 128];
+    let mut bld = bsp::BusyLoopDelayNs {};
 
     loop {
         info!("Uptime {}s", bsp::systick::get_systic_ticks());
@@ -77,7 +81,20 @@ fn main() -> ! {
         let sw3 = bsp::switches::read_sw3();
         bsp::leds::set_led(bsp::leds::LED::LED3, sw3);
 
+        // only handle USB events if sw1 is pressed
+        while bsp::switches::read_sw1() {
+            if usb_dev.poll(&mut [&mut serial]) {
+                match serial.read(&mut usb_buffer) {
+                    Ok(n_bytes) => {
+                        info!("{} bytes read from the usb", n_bytes);
+                    }
+                    Err(e) => {
+                        defmt::error!("Could not read from the USB: {}", e);
+                    }
+                }
+            }
+            bld.delay_ms(1);
+        }
         bsp::enter_sleep();
-        i += 1;
     }
 }

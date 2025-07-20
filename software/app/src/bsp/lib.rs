@@ -57,7 +57,7 @@ pub fn init() {
 }
 
 /// not accurate
-struct BusyLoopDelayNs;
+pub struct BusyLoopDelayNs;
 
 impl embedded_hal::delay::DelayNs for BusyLoopDelayNs {
     fn delay_ns(&mut self, ns: u32) {
