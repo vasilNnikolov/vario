@@ -57,6 +57,8 @@ pub fn init() {
     init_dbg();
 }
 
+pub fn go_to_stop_mode() {}
+
 /// not accurate
 pub struct BusyLoopDelayNs;
 

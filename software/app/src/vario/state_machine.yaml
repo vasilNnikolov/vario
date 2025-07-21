@@ -1,0 +1,26 @@
+states:
+  - RunMode:
+    - Normal
+    - UsbTransfer
+    - TransitionToStop[timeout]
+  - StopMode
+
+transitions:
+  - RunMode:
+    - Normal:
+      - SW1_pressed: UsbTransfer
+    - UsbTransfer:
+      - SW1_released: Normal
+    'Any':
+      - SW2_pressed: TransitionToStop[now]
+    TransitionToStop:
+      - SW2_released: Normal
+      - TransitionToStopTimeout: StopMode
+  - StopMode:
+    - WKUP1: RunMode, Normal
+
+        
+
+
+
+start: RunMode, Normal
