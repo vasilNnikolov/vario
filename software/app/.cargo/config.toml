@@ -22,7 +22,7 @@ rustflags = [
 target = "thumbv6m-none-eabi"        # Cortex-M0 and Cortex-M0+
 
 [env]
-DEFMT_LOG = "trace" # needed so all defmt macros are compiled
+DEFMT_LOG = "info" # needed so all defmt macros are compiled
 
 # # needed for the bme280-bindings-rs package
 # BME280_CFLAGS='' #

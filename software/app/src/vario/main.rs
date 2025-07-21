@@ -7,22 +7,26 @@ use usb_device::prelude::*;
 use usbd_serial;
 
 use cortex_m_rt::entry;
-use defmt::info;
+use defmt::{info, warn};
 
 use bsp::cpac;
 
+#[derive(Debug, defmt::Format)]
 pub enum State {
     /// board is in STOP low power mode
-    StopMode,
+    StandbyMode,
     /// board is in normal (not low power) mode
     RunMode(RunMode),
 }
 
+#[derive(Debug, defmt::Format)]
 pub enum RunMode {
     Normal,
     UsbTransfer,
     /// when the systick has ticked past the argument, the TransitionToStop ends, and the board goes into StopMode
-    TransitionToStop(u64),
+    TransitionToStandby(u64),
+    /// when the systick has ticked past the argument, the TransitionToStart ends, and the board goes into NormalMode
+    TransitionToStart(u64),
 }
 
 #[entry]
@@ -47,7 +51,7 @@ fn main() -> ! {
     // let mut bld = bsp::BusyLoopDelayNs {};
 
     loop {
-        info!("Uptime {}s", bsp::systick::get_systic_ticks());
+        info!("State: {}; Uptime {}s", s, bsp::systick::get_systic_ticks());
 
         let date_reg = cpac::read_field(&mut rtc.DR, u32::MAX);
         let time_reg = cpac::read_field(&mut rtc.TR, u32::MAX);
@@ -62,36 +66,74 @@ fn main() -> ! {
         let sw3 = bsp::switches::read_sw3();
         bsp::leds::set_led(bsp::leds::LED::LED3, sw3);
 
-        // match s {
-        //     State::RunMode(ref rm) => match *rm {
-        //         RunMode::Normal => {}
-        //         RunMode::UsbTransfer => {}
-        //         RunMode::TransitionToStop(i) => {
-        //             if bsp::systick::get_systic_ticks() > i {
-        //                 s = State::StopMode;
-        //             }
-        //         }
-        //     },
-        //     State::StopMode => {
-        //         // exiting sends us at the beginning of the program
-        //         bsp::go_to_stop_mode();
-        //     }
-        // }
+        match s {
+            State::RunMode(ref rm) => match *rm {
+                RunMode::Normal => {
+                    if sw2 {
+                        warn!("going to RunMode, TransitionToStop");
+                        s = State::RunMode(RunMode::TransitionToStandby(
+                            bsp::systick::get_systic_ticks() + 5,
+                        ));
+                    } else if sw1 {
+                        warn!("going to RunMode, UsbTransfer");
+                        s = State::RunMode(RunMode::UsbTransfer);
+                    }
+                }
+                RunMode::UsbTransfer => {
+                    if sw2 {
+                        warn!("going to RunMode, TransitionToStop");
+                        s = State::RunMode(RunMode::TransitionToStandby(
+                            bsp::systick::get_systic_ticks() + 5,
+                        ));
+                    } else if !sw1 {
+                        warn!("going into RunMode, Normal");
+                        s = State::RunMode(RunMode::Normal);
+                    }
 
-        // // only handle USB events if sw1 is pressed
-        // while bsp::switches::read_sw1() {
-        //     if usb_dev.poll(&mut [&mut serial]) {
-        //         match serial.read(&mut usb_buffer) {
-        //             Ok(n_bytes) => {
-        //                 info!("{} bytes read from the usb", n_bytes);
-        //             }
-        //             Err(e) => {
-        //                 defmt::error!("Could not read from the USB: {}", e);
-        //             }
-        //         }
-        //     }
-        //     bld.delay_ms(1);
-        // }
+                    // // only handle USB events if sw1 is pressed
+                    // while bsp::switches::read_sw1() {
+                    //     if usb_dev.poll(&mut [&mut serial]) {
+                    //         match serial.read(&mut usb_buffer) {
+                    //             Ok(n_bytes) => {
+                    //                 warn!("{} bytes read from the usb", n_bytes);
+                    //             }
+                    //             Err(e) => {
+                    //                 defmt::error!("Could not read from the USB: {}", e);
+                    //             }
+                    //         }
+                    //     }
+                    //     bld.delay_ms(1);
+                    // }
+                }
+                RunMode::TransitionToStandby(i) => {
+                    if bsp::systick::get_systic_ticks() > i {
+                        warn!("going to StopMode");
+                        s = State::StandbyMode;
+                    } else if !sw2 {
+                        warn!("going to RunMode, Normal");
+                        s = State::RunMode(RunMode::Normal);
+                    }
+                }
+                RunMode::TransitionToStart(i) => {
+                    if bsp::systick::get_systic_ticks() > i {
+                        warn!("going to RunMode, Normal");
+                        s = State::RunMode(RunMode::Normal);
+                    } else if !sw2 {
+                        warn!("going to StopMode");
+                        s = State::StandbyMode;
+                    }
+                }
+            },
+            State::StandbyMode => {
+                // exiting sends us at the beginning of the program
+                bsp::configure_standby_mode();
+                // // going into Stop mode implicitly resets the state back to the initial state, which must be TransitionToStart
+                // s = State::RunMode(RunMode::TransitionToStart(
+                //     bsp::systick::get_systic_ticks() + 5,
+                // ));
+            }
+        }
+
         bsp::enter_sleep();
     }
 }
