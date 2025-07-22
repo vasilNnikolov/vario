@@ -20,6 +20,15 @@ pub fn init_leds() {
         modify_field(&mut gpio_b.OTYPER, OTYPER_OT_14, 0b0); // set output type to push-pull
         modify_field(&mut gpio_b.PUPDR, PUPDR_PUPD14, 0b00); // set no pull-up & no pull-down
     }
+
+    let mut bld = crate::BusyLoopDelayNs {};
+    use embedded_hal::delay::DelayNs;
+    for i in 0..3 * 8 {
+        set_led(LED::LED1, ((i >> 0) & 1) == 1);
+        set_led(LED::LED2, ((i >> 1) & 1) == 1);
+        set_led(LED::LED3, ((i >> 2) & 1) == 1);
+        bld.delay_ms(100);
+    }
 }
 
 /// enum representing the LEDs on the board

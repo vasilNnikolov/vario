@@ -131,6 +131,7 @@ fn main() -> ! {
                 // s = State::RunMode(RunMode::TransitionToStart(
                 //     bsp::systick::get_systic_ticks() + 5,
                 // ));
+                cortex_m::asm::wfi();
             }
         }
 

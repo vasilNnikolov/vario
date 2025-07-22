@@ -22,7 +22,7 @@ pub const CPU_FREQ: u32 = 16_000_000;
 
 #[exception]
 unsafe fn DefaultHandler(irq_num: i16) {
-    defmt::debug!(
+    defmt::error!(
         "IRQ or event with number {} went to DefaultHandler, looping",
         irq_num
     );
@@ -40,7 +40,7 @@ pub fn enter_sleep() {
 fn init_dbg() {
     let dbgmcu = cpac::dbgmcu::DBGMCU_TypeDef::new_static_ref();
     modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_SLEEP_Msk, 1);
-    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STOP_Msk, 1);
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STOP_Msk, 0);
     modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STANDBY_Msk, 0);
 
     let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
