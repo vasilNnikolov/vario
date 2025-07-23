@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 
+use cortex_m::asm::wfi;
 use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 use usb_device::prelude::*;
@@ -9,7 +10,10 @@ use usbd_serial;
 use cortex_m_rt::entry;
 use defmt::{info, warn};
 
-use bsp::cpac;
+use bsp::{
+    cpac::{self, read_field},
+    systick,
+};
 
 #[derive(Debug, defmt::Format)]
 pub enum State {
@@ -27,6 +31,21 @@ pub enum RunMode {
     TransitionToStandby(u64),
     /// when the systick has ticked past the argument, the TransitionToStart ends, and the board goes into NormalMode
     TransitionToStart(u64),
+}
+
+// #[entry]
+fn main2() -> ! {
+    info!("Start");
+    bsp::init();
+    loop {
+        let systick = bsp::systick::get_systic_ticks();
+        info!("systick: {}", systick);
+
+        if systick > 5 {
+            bsp::configure_standby_mode();
+        }
+        wfi();
+    }
 }
 
 #[entry]
@@ -66,13 +85,17 @@ fn main() -> ! {
         let sw3 = bsp::switches::read_sw3();
         bsp::leds::set_led(bsp::leds::LED::LED3, sw3);
 
+        let pwr = cpac::pwr::PWR_TypeDef::new_static_ref();
+        let standby_flag = read_field(&pwr.CSR, cpac::pwr::CSR_SBF_Msk);
+        info!("standby flag: {}", standby_flag);
+
         match s {
             State::RunMode(ref rm) => match *rm {
                 RunMode::Normal => {
                     if sw2 {
                         warn!("going to RunMode, TransitionToStop");
                         s = State::RunMode(RunMode::TransitionToStandby(
-                            bsp::systick::get_systic_ticks() + 5,
+                            bsp::systick::get_systic_ticks() + 3,
                         ));
                     } else if sw1 {
                         warn!("going to RunMode, UsbTransfer");
@@ -83,7 +106,7 @@ fn main() -> ! {
                     if sw2 {
                         warn!("going to RunMode, TransitionToStop");
                         s = State::RunMode(RunMode::TransitionToStandby(
-                            bsp::systick::get_systic_ticks() + 5,
+                            bsp::systick::get_systic_ticks() + 3,
                         ));
                     } else if !sw1 {
                         warn!("going into RunMode, Normal");
@@ -125,16 +148,23 @@ fn main() -> ! {
                 }
             },
             State::StandbyMode => {
-                // exiting sends us at the beginning of the program
+                bsp::leds::set_led(bsp::leds::LED::LED2, false);
+                let mut bld = bsp::BusyLoopDelayNs {};
+                bld.delay_ms(1000);
                 bsp::configure_standby_mode();
-                // // going into Stop mode implicitly resets the state back to the initial state, which must be TransitionToStart
-                // s = State::RunMode(RunMode::TransitionToStart(
-                //     bsp::systick::get_systic_ticks() + 5,
-                // ));
-                cortex_m::asm::wfi();
+                wfi();
+                // // exiting sends us at the beginning of the program
+                // bsp::configure_standby_mode();
+
+                // // // going into Stop mode implicitly resets the state back to the initial state, which must be TransitionToStart
+                // // s = State::RunMode(RunMode::TransitionToStart(
+                // //     bsp::systick::get_systic_ticks() + 5,
+                // // ));
+                // cortex_m::asm::wfi();
             }
         }
 
+        // wfi();
         bsp::enter_sleep();
     }
 }

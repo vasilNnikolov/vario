@@ -53,11 +53,14 @@ pub fn init() {
     leds::init_leds();
     systick::init_systick(CPU_FREQ - 1);
     switches::init_switches();
+    let pwr = cpac::pwr::PWR_TypeDef::new_static_ref();
+    modify_field(&mut pwr.CR, cpac::pwr::CR_CWUF_Msk, 1);
+    modify_field(&mut pwr.CR, cpac::pwr::CR_CSBF_Msk, 1);
     // init_dbg();
 }
 
 pub fn configure_standby_mode() {
-    info!("entering stop mode");
+    info!("entering standby mode");
     let mut cp = unsafe { pac::CorePeripherals::steal() };
     cp.SCB.set_sleepdeep();
     cp.SCB.clear_sleeponexit();
@@ -66,6 +69,7 @@ pub fn configure_standby_mode() {
     modify_field(&mut pwr.CR, cpac::pwr::CR_PDDS_Msk, 1);
     modify_field(&mut pwr.CSR, cpac::pwr::CSR_WUF_Msk, 0);
     modify_field(&mut pwr.CSR, cpac::pwr::CSR_EWUP1_Msk, 1);
+    modify_field(&mut pwr.CR, cpac::pwr::CR_DBP_Msk, 0);
 }
 
 /// not accurate

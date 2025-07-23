@@ -74,6 +74,12 @@ pub fn init_switches() {
         modify_field(&mut exti.IMR, IMR_IM0_Msk, 1);
     }
 
+    // disable WKUP1
+    let pwr = cpac::pwr::PWR_TypeDef::new_static_ref();
+    modify_field(&mut pwr.CR, cpac::pwr::CR_DBP_Msk, 1);
+    modify_field(&mut pwr.CSR, cpac::pwr::CSR_EWUP1_Msk, 0);
+    modify_field(&mut pwr.CR, cpac::pwr::CR_DBP_Msk, 0);
+
     unsafe {
         NVIC::unmask(interrupt::EXTI4_15);
         NVIC::unmask(interrupt::EXTI0_1);
@@ -117,6 +123,7 @@ fn exti0_1_handler() {
     critical_section::with(|_cs| {
         info!("exti0_1 interrupt");
         let exti = cpac::exti::EXTI_TypeDef::new_static_ref();
+
         let gpio_a = cpac::gpio_a::GPIO_TypeDef::new_static_ref();
 
         if read_field(&exti.PR, cpac::exti::PR_PIF0_Msk) == 1 {

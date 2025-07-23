@@ -23,11 +23,12 @@ pub fn init_leds() {
 
     let mut bld = crate::BusyLoopDelayNs {};
     use embedded_hal::delay::DelayNs;
+
     for i in 0..3 * 8 {
         set_led(LED::LED1, ((i >> 0) & 1) == 1);
         set_led(LED::LED2, ((i >> 1) & 1) == 1);
         set_led(LED::LED3, ((i >> 2) & 1) == 1);
-        bld.delay_ms(100);
+        bld.delay_ms(30);
     }
 }
 
