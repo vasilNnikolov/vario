@@ -10,10 +10,7 @@ use usbd_serial;
 use cortex_m_rt::entry;
 use defmt::{info, warn};
 
-use bsp::{
-    cpac::{self, read_field},
-    systick,
-};
+use bsp::cpac::{self, read_field};
 
 #[derive(Debug, defmt::Format)]
 pub enum State {
@@ -149,8 +146,10 @@ fn main() -> ! {
             },
             State::StandbyMode => {
                 bsp::leds::set_led(bsp::leds::LED::LED2, false);
-                let mut bld = bsp::BusyLoopDelayNs {};
-                bld.delay_ms(1000);
+                // let mut bld = bsp::BusyLoopDelayNs {};
+                // for _ in 0..5_000 {
+                //     bld.delay_ms(1);
+                // }
                 bsp::configure_standby_mode();
                 wfi();
                 // // exiting sends us at the beginning of the program

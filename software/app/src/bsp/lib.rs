@@ -4,6 +4,7 @@ use cortex_m_rt::exception;
 use cpac::modify_field;
 use defmt::info;
 use defmt_rtt as _;
+use leds::power_down_sequence;
 // dev note
 // do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
 pub use stm32l0::stm32l0x2 as pac;
@@ -53,10 +54,7 @@ pub fn init() {
     leds::init_leds();
     systick::init_systick(CPU_FREQ - 1);
     switches::init_switches();
-    let pwr = cpac::pwr::PWR_TypeDef::new_static_ref();
-    modify_field(&mut pwr.CR, cpac::pwr::CR_CWUF_Msk, 1);
-    modify_field(&mut pwr.CR, cpac::pwr::CR_CSBF_Msk, 1);
-    // init_dbg();
+    init_dbg();
 }
 
 pub fn configure_standby_mode() {
@@ -70,6 +68,7 @@ pub fn configure_standby_mode() {
     modify_field(&mut pwr.CSR, cpac::pwr::CSR_WUF_Msk, 0);
     modify_field(&mut pwr.CSR, cpac::pwr::CSR_EWUP1_Msk, 1);
     modify_field(&mut pwr.CR, cpac::pwr::CR_DBP_Msk, 0);
+    power_down_sequence();
 }
 
 /// not accurate

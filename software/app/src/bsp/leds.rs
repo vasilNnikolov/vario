@@ -32,6 +32,19 @@ pub fn init_leds() {
     }
 }
 
+pub fn power_down_sequence() {
+    let mut bld = crate::BusyLoopDelayNs {};
+    use embedded_hal::delay::DelayNs;
+
+    let N = 8 * 3;
+    for i in 0..N {
+        set_led(LED::LED1, ((i >> 0) & 1) == 0);
+        set_led(LED::LED2, ((i >> 1) & 1) == 0);
+        set_led(LED::LED3, ((i >> 2) & 1) == 0);
+        bld.delay_ms(100 + (i / N) * 200);
+    }
+}
+
 /// enum representing the LEDs on the board
 pub enum LED {
     /// connected to PB12
