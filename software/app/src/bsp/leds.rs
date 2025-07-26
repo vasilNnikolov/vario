@@ -41,7 +41,7 @@ pub fn power_down_sequence() {
         set_led(LED::LED1, ((i >> 0) & 1) == 0);
         set_led(LED::LED2, ((i >> 1) & 1) == 0);
         set_led(LED::LED3, ((i >> 2) & 1) == 0);
-        bld.delay_ms(100 + (i / N) * 200);
+        bld.delay_ms(50 + (100 * i / N));
     }
 }
 

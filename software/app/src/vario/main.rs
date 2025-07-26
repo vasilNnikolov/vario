@@ -2,7 +2,6 @@
 #![no_main]
 
 use cortex_m::asm::wfi;
-use embedded_hal::delay::DelayNs;
 use panic_halt as _;
 use usb_device::prelude::*;
 use usbd_serial;
@@ -82,10 +81,6 @@ fn main() -> ! {
         let sw3 = bsp::switches::read_sw3();
         bsp::leds::set_led(bsp::leds::LED::LED3, sw3);
 
-        let pwr = cpac::pwr::PWR_TypeDef::new_static_ref();
-        let standby_flag = read_field(&pwr.CSR, cpac::pwr::CSR_SBF_Msk);
-        info!("standby flag: {}", standby_flag);
-
         match s {
             State::RunMode(ref rm) => match *rm {
                 RunMode::Normal => {
@@ -145,25 +140,11 @@ fn main() -> ! {
                 }
             },
             State::StandbyMode => {
-                bsp::leds::set_led(bsp::leds::LED::LED2, false);
-                // let mut bld = bsp::BusyLoopDelayNs {};
-                // for _ in 0..5_000 {
-                //     bld.delay_ms(1);
-                // }
                 bsp::configure_standby_mode();
                 wfi();
-                // // exiting sends us at the beginning of the program
-                // bsp::configure_standby_mode();
-
-                // // // going into Stop mode implicitly resets the state back to the initial state, which must be TransitionToStart
-                // // s = State::RunMode(RunMode::TransitionToStart(
-                // //     bsp::systick::get_systic_ticks() + 5,
-                // // ));
-                // cortex_m::asm::wfi();
             }
         }
 
-        // wfi();
         bsp::enter_sleep();
     }
 }

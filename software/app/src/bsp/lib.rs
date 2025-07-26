@@ -1,7 +1,7 @@
 #![no_std]
 
 use cortex_m_rt::exception;
-use cpac::modify_field;
+use cpac::{modify_field, read_field};
 use defmt::info;
 use defmt_rtt as _;
 use leds::power_down_sequence;
@@ -49,6 +49,17 @@ fn init_dbg() {
 }
 
 pub fn init() {
+    let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+    modify_field(&mut rcc.APB1ENR, cpac::rcc::APB1ENR_PWREN_Msk, 1);
+
+    let pwr = cpac::pwr::PWR_TypeDef::new_static_ref();
+    let _standby_flag = read_field(&pwr.CSR, cpac::pwr::CSR_SBF_Msk);
+    let _wkup_flag = read_field(&pwr.CSR, cpac::pwr::CSR_WUF_Msk);
+
+    // clear wkup and standby flags
+    modify_field(&mut pwr.CR, cpac::pwr::CR_CSBF_Msk, 1);
+    modify_field(&mut pwr.CR, cpac::pwr::CR_CWUF_Msk, 1);
+
     clocks::init_hse();
     clocks::init_lse_rtc(clocks::RTCOut::On1Hz);
     leds::init_leds();
@@ -58,6 +69,7 @@ pub fn init() {
 }
 
 pub fn configure_standby_mode() {
+    power_down_sequence();
     info!("entering standby mode");
     let mut cp = unsafe { pac::CorePeripherals::steal() };
     cp.SCB.set_sleepdeep();
@@ -68,7 +80,6 @@ pub fn configure_standby_mode() {
     modify_field(&mut pwr.CSR, cpac::pwr::CSR_WUF_Msk, 0);
     modify_field(&mut pwr.CSR, cpac::pwr::CSR_EWUP1_Msk, 1);
     modify_field(&mut pwr.CR, cpac::pwr::CR_DBP_Msk, 0);
-    power_down_sequence();
 }
 
 /// not accurate
