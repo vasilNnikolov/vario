@@ -4,7 +4,6 @@ use cortex_m_rt::exception;
 use cpac::{modify_field, read_field};
 use defmt::info;
 use defmt_rtt as _;
-use leds::power_down_sequence;
 // dev note
 // do not remove, the stm32l0 crate is needed for compilation and filling in interrupts
 pub use stm32l0::stm32l0x2 as pac;
@@ -32,19 +31,23 @@ unsafe fn DefaultHandler(irq_num: i16) {
 
 #[inline(always)]
 pub fn enter_sleep() {
-    // TODO investigate further
+    // see https://github.com/probe-rs/probe-rs/issues/350
     cortex_m::asm::dsb();
     cortex_m::asm::wfi();
     cortex_m::asm::isb();
 }
 
 fn init_dbg() {
+    let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+    modify_field(&mut rcc.APB2ENR, cpac::rcc::APB2ENR_DBGEN_Msk, 1);
+
     let dbgmcu = cpac::dbgmcu::DBGMCU_TypeDef::new_static_ref();
     modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_SLEEP_Msk, 1);
-    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STOP_Msk, 0);
-    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STANDBY_Msk, 0);
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STOP_Msk, 1);
+    modify_field(&mut dbgmcu.CR, cpac::dbgmcu::CR_DBG_STANDBY_Msk, 1);
 
-    let rcc = cpac::rcc::RCC_TypeDef::new_static_ref();
+    // necessary for debugging to work in sleep mode
+    // see https://github.com/probe-rs/probe-rs/issues/350
     modify_field(&mut rcc.AHBENR, cpac::rcc::AHBENR_DMA1EN, 1);
 }
 
@@ -69,7 +72,7 @@ pub fn init() {
 }
 
 pub fn configure_standby_mode() {
-    power_down_sequence();
+    crate::leds::powerdown_led_sequence();
     info!("entering standby mode");
     let mut cp = unsafe { pac::CorePeripherals::steal() };
     cp.SCB.set_sleepdeep();

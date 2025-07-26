@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 
+use bsp::leds::{set_led, LED};
 use cortex_m::asm::wfi;
 use panic_halt as _;
 use usb_device::prelude::*;
@@ -9,7 +10,7 @@ use usbd_serial;
 use cortex_m_rt::entry;
 use defmt::{info, warn};
 
-use bsp::cpac::{self, read_field};
+use bsp::cpac;
 
 #[derive(Debug, defmt::Format)]
 pub enum State {
@@ -29,26 +30,12 @@ pub enum RunMode {
     TransitionToStart(u64),
 }
 
-// #[entry]
-fn main2() -> ! {
-    info!("Start");
-    bsp::init();
-    loop {
-        let systick = bsp::systick::get_systic_ticks();
-        info!("systick: {}", systick);
-
-        if systick > 5 {
-            bsp::configure_standby_mode();
-        }
-        wfi();
-    }
-}
-
 #[entry]
 fn main() -> ! {
-    let mut s: State = State::RunMode(RunMode::Normal);
+    let mut s: State = State::RunMode(RunMode::TransitionToStart(3));
     info!("Start");
     bsp::init();
+    bsp::leds::board_start_led_sequence();
 
     let rtc = cpac::rtc::RTC_TypeDef::new_static_ref();
 
@@ -132,6 +119,11 @@ fn main() -> ! {
                 RunMode::TransitionToStart(i) => {
                     if bsp::systick::get_systic_ticks() > i {
                         warn!("going to RunMode, Normal");
+
+                        let mut bld = bsp::BusyLoopDelayNs {};
+                        use embedded_hal::delay::DelayNs;
+
+                        bsp::leds::run_mode_led_sequence();
                         s = State::RunMode(RunMode::Normal);
                     } else if !sw2 {
                         warn!("going to StopMode");

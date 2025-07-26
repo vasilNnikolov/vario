@@ -38,6 +38,9 @@ pub fn init_switches() {
         // SW3
         modify_field(&mut pb.MODER, MODER_MODE6_Msk, 0b00); // set to input
         modify_field(&mut pb.PUPDR, PUPDR_PUPD6_Msk, 0b00); // set no pull-up, no pull-down
+
+        unsafe { SW1 = read_field(&mut pb.IDR, IDR_ID5_Msk) == 1 }
+        unsafe { SW3 = read_field(&mut pb.IDR, IDR_ID6_Msk) == 1 }
     }
     // SW2
     {
@@ -45,6 +48,8 @@ pub fn init_switches() {
         let pa = GPIO_TypeDef::new_static_ref();
         modify_field(&mut pa.MODER, MODER_MODE0_Msk, 0b00); // set to input
         modify_field(&mut pa.PUPDR, PUPDR_PUPD0_Msk, 0b00); // set no pull-up, no pull-down
+
+        unsafe { SW2 = read_field(&mut pa.IDR, IDR_ID0_Msk) == 1 }
     }
 
     {

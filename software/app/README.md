@@ -19,3 +19,10 @@ For reference, see the [ST-Link user manual](./docs/um1075-stlinkv2-incircuit-de
 - power the MCU externally (with USB or battery)
 - connect the board VCC to ST-Link VDD (pin 19)
 
+## TODOs
+
+- try interrupt flow send IRQ evt through channel => process evt in main loop => change state
+
+## Issues
+
+- [weird behavior with `probe-rs`](https://github.com/probe-rs/probe-rs/issues/350)
