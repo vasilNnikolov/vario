@@ -850,6 +850,16 @@
 		)
 		(uuid "7597a63b-a528-43f7-ae6e-efad2d6ee48e")
 	)
+	(text "Should be 10k, the WKUP1 pin (PA0) has a non-configurable pull-down of ~40k"
+		(exclude_from_sim no)
+		(at 161.544 97.282 0)
+		(effects
+			(font
+				(size 0.762 0.762)
+			)
+		)
+		(uuid "fcf2659e-c769-4ee6-a90a-20f1139d6c65")
+	)
 	(hierarchical_label "SWITCH_OUT"
 		(shape input)
 		(at 162.56 100.33 0)
