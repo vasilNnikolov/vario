@@ -1,5 +1,13 @@
 [target.thumbv6m-none-eabi]
-runner = "probe-rs run --chip STM32L072CB"
+# without the --no-catch-reset option, I get the error
+# ```
+# Firmware exited unexpectedly: Exception
+# Core 0
+#     Frame 0: __INTERRUPTS @ 0x080000c0> @ 0x00000000080000c0
+
+#     Frame 1: Reset @ 0x00000000
+# ```
+runner = "probe-rs run --chip STM32L072CB --no-catch-reset" 
 
 rustflags = [
   # Previously, the linker arguments --nmagic and -Tlink.x were set here.

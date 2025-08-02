@@ -120,9 +120,6 @@ fn main() -> ! {
                     if bsp::systick::get_systic_ticks() > i {
                         warn!("going to RunMode, Normal");
 
-                        let mut bld = bsp::BusyLoopDelayNs {};
-                        use embedded_hal::delay::DelayNs;
-
                         bsp::leds::run_mode_led_sequence();
                         s = State::RunMode(RunMode::Normal);
                     } else if !sw2 {
