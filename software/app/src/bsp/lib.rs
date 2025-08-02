@@ -66,6 +66,7 @@ pub fn init() {
     clocks::init_hse();
     clocks::init_lse_rtc(clocks::RTCOut::On1Hz);
     leds::init_leds();
+    // the systick will tick once per second
     systick::init_systick(CPU_FREQ - 1);
     switches::init_switches();
     init_dbg();

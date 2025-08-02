@@ -1,7 +1,7 @@
 use super::*;
 
 /// number of times the SysTick peripheral has ticked
-/// must be modified ONLY in the SysTick exception handler
+/// SAFETY:  must be modified ONLY in the SysTick exception handler
 static mut SYSTICK_TICKS: u64 = 0;
 
 pub fn get_systic_ticks() -> u64 {
@@ -10,10 +10,9 @@ pub fn get_systic_ticks() -> u64 {
 
 #[exception]
 fn SysTick() {
-    info!("systick interrupt");
-    critical_section::with(|_cs| unsafe {
+    unsafe {
         SYSTICK_TICKS = SYSTICK_TICKS.wrapping_add(1);
-    })
+    }
 }
 
 pub fn init_systick(reload_value: u32) {

@@ -82,12 +82,7 @@ fn main() -> ! {
                     }
                 }
                 RunMode::UsbTransfer => {
-                    if sw2 {
-                        warn!("going to RunMode, TransitionToStop");
-                        s = State::RunMode(RunMode::TransitionToStandby(
-                            bsp::systick::get_systic_ticks() + 3,
-                        ));
-                    } else if !sw1 {
+                    if !sw1 {
                         warn!("going into RunMode, Normal");
                         s = State::RunMode(RunMode::Normal);
                     }
