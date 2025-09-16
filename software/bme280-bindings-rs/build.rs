@@ -1,10 +1,12 @@
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn compile_link_c_lib() {
     println!("cargo:rerun-if-changed=./src");
     println!("cargo:rerun-if-changed=./build.rs");
     println!("cargo:rerun-if-changed=./bosch-api");
-    let bindings_path = PathBuf::from("./src/bindings.rs");
+
+    let out_dir = std::env::var("OUT_DIR").unwrap();
+    let bindings_path = Path::new(&out_dir).join("bindings.rs");
 
     let libdir_path = PathBuf::from("bosch-api").canonicalize().unwrap();
 
@@ -31,8 +33,8 @@ fn compile_link_c_lib() {
 
     let libdir_path = PathBuf::from("bosch-api").canonicalize().unwrap();
 
-    // TODO see which env variables are set in the bme280 headers and expose them as features or sth
     // generate the rust bindings for the c library
+    // TODO see which env variables are set in the bme280 headers and expose them as features or sth
     let headers_path = libdir_path.join("wrapper.h");
     let bindings = bindgen::Builder::default()
         .use_core()
@@ -41,9 +43,6 @@ fn compile_link_c_lib() {
         .derive_default(true)
         .clang_arg(format!("-I{}", cc_include_path)) // TODO set include some other way
         .header(headers_path.to_str().unwrap())
-        .raw_line("#![allow(non_snake_case)]") // add these to avoid rust warnings
-        .raw_line("#![allow(non_camel_case_types)]")
-        .raw_line("#![allow(non_upper_case_globals)]")
         .generate_comments(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
