@@ -13,7 +13,8 @@ pub struct Queue<T: Send, const N: usize> {
     in_use: AtomicBool,
 }
 
-unsafe impl<T: Send, const N: usize> Sync for Queue<T, N> {}
+unsafe impl<T, const N: usize> Sync for Queue<T, N> where T: Send {}
+unsafe impl<T, const N: usize> Send for Queue<T, N> where T: Send {}
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum QueueErrKind {
@@ -48,7 +49,6 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
                 let res = function(&self);
 
                 // unlock the queue
-                // TODO reason if this can be relaxed
                 self.in_use.store(false, Ordering::Release);
 
                 Ok(res)
@@ -76,8 +76,11 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
         }
     }
 
-    pub fn pop(&self) -> QueueResult<Option<&T>> {
+    pub fn pop_ref(&self) -> QueueResult<Option<&T>> {
         unsafe { self.with_lock(|this| this.pop_unchecked()) }
+    }
+
+    pub fn pop(&self) -> QueueResult<Option<T>> {
     }
 
     /// get a pointer to the fist pushed element
@@ -90,15 +93,16 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
     }
 
     /// **SAFETY**: do not call if queue is not locked
-    unsafe fn push_unchecked(&self, x: T) -> bool {
+    /// returns `None` if the push succeeded, `Some(x)` if it failed (Queue full)
+    unsafe fn push_unchecked(&self, x: T) -> Option<T> {
         unsafe {
             let len = *self.len.get();
             if len < N {
                 *self.storage[(*self.head.get() + *self.len.get()) % N].get() = MaybeUninit::new(x);
                 *self.len.get() += 1;
-                true
+                None
             } else if len == N {
-                false
+                Some(x)
             } else {
                 panic!(
                     "Logical error (runtime length {} bigger than the constant length {})",
@@ -108,36 +112,37 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
         }
     }
 
-    /// the result is true if the push succeeded, false if it didn't ()
-    pub fn push(&self, x: T) -> QueueResult<bool> {
+    /// Returns `Ok(None)` if the push succeeded, `Ok(Some(x))` if the push failed because the queue is full, and `Err` otherwise
+    pub fn push(&self, x: T) -> QueueResult<Option<T>> {
         unsafe { self.with_lock(|this| this.push_unchecked(x)) }
     }
 }
 
 impl<T: Send + Copy, const N: usize> Queue<T, N> {
-    ///
     fn pop_full(&self) -> QueueResult<Option<T>> {
-        self.pop().map(|x| x.map(|r| r.clone()))
+        self.pop_ref().map(|x| x.map(|r| r.clone()))
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use core::time::Duration;
+
     use super::*;
     extern crate std;
 
     #[test]
     fn no_push() {
         let q: Queue<u32, 5> = Queue::new();
-        assert_eq!(q.pop(), Ok(None));
+        assert_eq!(q.pop_ref(), Ok(None));
     }
 
     #[test]
     fn push_pop_no_overflow() {
-        let mut q: Queue<u32, 5> = Queue::new();
-        assert_eq!(q.push(0), Ok(true));
-        assert_eq!(q.push(1), Ok(true));
-        assert_eq!(q.push(2), Ok(true));
+        let q: Queue<u32, 5> = Queue::new();
+        assert_eq!(q.push(0), Ok(None));
+        assert_eq!(q.push(1), Ok(None));
+        assert_eq!(q.push(2), Ok(None));
         assert_eq!(q.pop_full(), Ok(Some(0)));
         assert_eq!(q.pop_full(), Ok(Some(1)));
         assert_eq!(q.pop_full(), Ok(Some(2)));
@@ -146,14 +151,14 @@ mod tests {
 
     #[test]
     fn push_pop_overflow() {
-        let mut q: Queue<u32, 5> = Queue::new();
-        assert_eq!(q.push(0), Ok(true));
-        assert_eq!(q.push(1), Ok(true));
-        assert_eq!(q.push(2), Ok(true));
-        assert_eq!(q.push(3), Ok(true));
-        assert_eq!(q.push(4), Ok(true));
-        assert_eq!(q.push(5), Ok(false)); // tries to overflow the queue
-        assert_eq!(q.push(55), Ok(false));
+        let q: Queue<u32, 5> = Queue::new();
+        assert_eq!(q.push(0), Ok(None));
+        assert_eq!(q.push(1), Ok(None));
+        assert_eq!(q.push(2), Ok(None));
+        assert_eq!(q.push(3), Ok(None));
+        assert_eq!(q.push(4), Ok(None));
+        assert_eq!(q.push(5), Ok(Some(5))); // tries to overflow the queue
+        assert_eq!(q.push(55), Ok(Some(55)));
 
         assert_eq!(q.pop_full(), Ok(Some(0)));
         assert_eq!(q.pop_full(), Ok(Some(1)));
@@ -167,16 +172,42 @@ mod tests {
 
     #[test]
     /// spawn N threads, all attempting to make accesses to the same queue
-    /// TODO think how to stress test for correctness
+    /// thread index `i` sends numbers `i*K` to `(i+1)*K`. In the end,the receiver should receive all numbers from `0` to `N*K`
     fn stress_test() {
         use std::thread;
-        let N_THREADS = 10;
+        use std::vec::Vec;
+        const N_THREADS: u32 = 10;
+        const K: u32 = 1000;
         let q: Queue<u32, 100> = Queue::new();
+        let refq = &q;
         thread::scope(|s| {
-            for _ in 0..N_THREADS {
-                let handle = s.spawn(|| {
-                    let _ = q.push(5);
+            let mut handles: Vec<_> = Vec::new();
+            for i in 0..N_THREADS {
+                let handle = s.spawn(move || {
+                    for num in i * K..(i + 1) * K {
+                        loop {
+                            match refq.push(num) {
+                                Ok(None) => break,
+                                _ => {
+                                    // avoid busy looping
+                                    thread::sleep(Duration::from_millis(1));
+                                }
+                            }
+                        }
+                    }
                 });
+                handles.push(handle);
+            }
+
+            // create consumer thread
+            s.spawn(|| {
+                loop {
+                    match refq.pop_ref()
+                }
+            })
+
+            for h in handles {
+                h.join();
             }
         })
     }
