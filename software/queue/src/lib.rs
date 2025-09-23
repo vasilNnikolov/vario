@@ -1,7 +1,8 @@
 #![no_std]
 use core::cell::UnsafeCell;
 use core::mem::MaybeUninit;
-use core::panic;
+use core::{panic, ptr};
+
 // use std::sync::atomic::AtomicBool;
 use core::sync::atomic::{AtomicBool, Ordering};
 
@@ -22,7 +23,7 @@ pub enum QueueErrKind {
 }
 type QueueResult<T> = Result<T, QueueErrKind>;
 
-impl<T: Send + Copy, const N: usize> Queue<T, N> {
+impl<T: Send, const N: usize> Queue<T, N> {
     pub const fn new() -> Self {
         Queue {
             storage: [const { UnsafeCell::new(MaybeUninit::uninit()) }; N],
@@ -37,7 +38,7 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
     /// **SAFETY**: the passed `function` should NOT mess with `self.in_use`
     unsafe fn with_lock<'a, F, R>(&'a self, function: F) -> QueueResult<R>
     where
-        F: Fn(&'a Self) -> R,
+        F: FnOnce(&'a Self) -> R,
         R: 'a,
     {
         match self
@@ -60,14 +61,17 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
         }
     }
 
-    /// **SAFETY**: do not run if the queue is not locked
-    unsafe fn pop_unchecked(&self) -> Option<&T> {
+    /// # Safety
+    /// do not run if the queue is not locked
+    unsafe fn pop_unchecked(&self) -> Option<T> {
         let len = unsafe { *self.len.get() };
         if len == 0 {
             None
         } else {
             unsafe {
-                let ret_value = &(*self.head_ptr());
+                // the clone is needed so the value is moved out of the memory buffer of the queue
+                // let _ = *(self.head_ptr());
+                let ret_value = ptr::read(self.head_ptr());
                 *self.len.get() -= 1;
                 *self.head.get() += 1;
                 *self.head.get() %= N;
@@ -76,18 +80,16 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
         }
     }
 
-    pub fn pop_ref(&self) -> QueueResult<Option<&T>> {
+    pub fn pop(&self) -> QueueResult<Option<T>> {
         unsafe { self.with_lock(|this| this.pop_unchecked()) }
     }
 
-    pub fn pop(&self) -> QueueResult<Option<T>> {
-    }
-
     /// get a pointer to the fist pushed element
-    /// **SAFETY**: do not call if there is no such element, or if the queue is not locked
+    /// # Safety
+    /// do not call if there is no such element, or if the queue is not locked
     unsafe fn head_ptr(&self) -> *mut T {
         unsafe {
-            let x = *(self.storage[*self.head.get()].get());
+            let x = ptr::read(self.storage[*self.head.get()].get());
             &mut x.assume_init() as *mut T
         }
     }
@@ -98,7 +100,10 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
         unsafe {
             let len = *self.len.get();
             if len < N {
-                *self.storage[(*self.head.get() + *self.len.get()) % N].get() = MaybeUninit::new(x);
+                ptr::write(
+                    self.storage[(*self.head.get() + *self.len.get()) % N].get(),
+                    MaybeUninit::new(x),
+                );
                 *self.len.get() += 1;
                 None
             } else if len == N {
@@ -118,23 +123,15 @@ impl<T: Send + Copy, const N: usize> Queue<T, N> {
     }
 }
 
-impl<T: Send + Copy, const N: usize> Queue<T, N> {
-    fn pop_full(&self) -> QueueResult<Option<T>> {
-        self.pop_ref().map(|x| x.map(|r| r.clone()))
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use core::time::Duration;
-
     use super::*;
     extern crate std;
 
     #[test]
     fn no_push() {
         let q: Queue<u32, 5> = Queue::new();
-        assert_eq!(q.pop_ref(), Ok(None));
+        assert_eq!(q.pop(), Ok(None));
     }
 
     #[test]
@@ -143,10 +140,10 @@ mod tests {
         assert_eq!(q.push(0), Ok(None));
         assert_eq!(q.push(1), Ok(None));
         assert_eq!(q.push(2), Ok(None));
-        assert_eq!(q.pop_full(), Ok(Some(0)));
-        assert_eq!(q.pop_full(), Ok(Some(1)));
-        assert_eq!(q.pop_full(), Ok(Some(2)));
-        assert_eq!(q.pop_full(), Ok(None));
+        assert_eq!(q.pop(), Ok(Some(0)));
+        assert_eq!(q.pop(), Ok(Some(1)));
+        assert_eq!(q.pop(), Ok(Some(2)));
+        assert_eq!(q.pop(), Ok(None));
     }
 
     #[test]
@@ -160,26 +157,29 @@ mod tests {
         assert_eq!(q.push(5), Ok(Some(5))); // tries to overflow the queue
         assert_eq!(q.push(55), Ok(Some(55)));
 
-        assert_eq!(q.pop_full(), Ok(Some(0)));
-        assert_eq!(q.pop_full(), Ok(Some(1)));
-        assert_eq!(q.pop_full(), Ok(Some(2)));
+        assert_eq!(q.pop(), Ok(Some(0)));
+        assert_eq!(q.pop(), Ok(Some(1)));
+        assert_eq!(q.pop(), Ok(Some(2)));
         assert!(q.push(1234).is_ok());
-        assert_eq!(q.pop_full(), Ok(Some(3)));
-        assert_eq!(q.pop_full(), Ok(Some(4)));
-        assert_eq!(q.pop_full(), Ok(Some(1234)));
-        assert_eq!(q.pop_full(), Ok(None));
+        assert_eq!(q.pop(), Ok(Some(3)));
+        assert_eq!(q.pop(), Ok(Some(4)));
+        assert_eq!(q.pop(), Ok(Some(1234)));
+        assert_eq!(q.pop(), Ok(None));
     }
 
     #[test]
     /// spawn N threads, all attempting to make accesses to the same queue
     /// thread index `i` sends numbers `i*K` to `(i+1)*K`. In the end,the receiver should receive all numbers from `0` to `N*K`
     fn stress_test() {
+        use std::println;
         use std::thread;
+        use std::time::Duration;
         use std::vec::Vec;
-        const N_THREADS: u32 = 10;
+        const N_THREADS: u32 = 100;
         const K: u32 = 1000;
         let q: Queue<u32, 100> = Queue::new();
         let refq = &q;
+        let mut received_values: Vec<u32> = Vec::new();
         thread::scope(|s| {
             let mut handles: Vec<_> = Vec::new();
             for i in 0..N_THREADS {
@@ -200,15 +200,24 @@ mod tests {
             }
 
             // create consumer thread
-            s.spawn(|| {
-                loop {
-                    match refq.pop_ref()
+            let consumer_handle = s.spawn(|| {
+                while received_values.len() < (N_THREADS * K) as usize {
+                    match refq.pop() {
+                        Ok(Some(x)) => received_values.push(x),
+                        _ => thread::sleep(Duration::from_millis(1)),
+                    }
                 }
-            })
+            });
+            handles.push(consumer_handle);
 
+            println!("joining all handles");
             for h in handles {
-                h.join();
+                h.join().unwrap();
             }
-        })
+        });
+        for expected_value in 0..(N_THREADS * K) {
+            assert!(received_values.contains(&expected_value));
+        }
+        assert_eq!(received_values.len(), (N_THREADS * K) as usize);
     }
 }
