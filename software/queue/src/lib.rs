@@ -4,7 +4,13 @@ use core::mem::MaybeUninit;
 use core::{panic, ptr};
 
 // use std::sync::atomic::AtomicBool;
-use core::sync::atomic::{AtomicBool, Ordering};
+use core::sync::atomic::Ordering;
+
+#[cfg(feature = "portable-atomic")]
+use portable_atomic::AtomicBool;
+
+#[cfg(not(feature = "portable-atomic"))]
+use core::sync::atomic::AtomicBool;
 
 /// MPMC queue with interior mutability
 pub struct Queue<T: Send, const N: usize> {
@@ -21,6 +27,7 @@ unsafe impl<T, const N: usize> Send for Queue<T, N> where T: Send {}
 pub enum QueueErrKind {
     QueueInUse,
 }
+
 type QueueResult<T> = Result<T, QueueErrKind>;
 
 impl<T: Send, const N: usize> Queue<T, N> {
@@ -204,7 +211,9 @@ mod tests {
                 while received_values.len() < (N_THREADS * K) as usize {
                     match refq.pop() {
                         Ok(Some(x)) => received_values.push(x),
-                        _ => thread::sleep(Duration::from_millis(1)),
+                        _ => {
+                            thread::sleep(Duration::from_millis(1));
+                        }
                     }
                 }
             });

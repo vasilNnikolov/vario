@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+portable-atomic = { version = "1.11.1", default-features = false, features = ["require-cas", "critical-section"], optional = true }
+
+[features]
+default = []
+portable-atomic = ["dep:portable-atomic"]

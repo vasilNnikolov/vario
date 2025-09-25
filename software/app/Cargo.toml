@@ -19,6 +19,7 @@ stm32l0 = { version = "0.15.1", features = ["stm32l0x2", "rt"] } # here for the 
 stm32l0-cpac = { path = "../stm32l0-cpac" , features = ["safe-modify-reg"]}
 usb-device = { version = "0.3.2", features = ["defmt"] }
 usbd-serial = "0.2.2"
+queue = { path = "../queue", features = ["portable-atomic"] }
 
 # TODO check how to link externally compiled C lib
 # bme280-bindings-rs = { path = "../bme280-bindings-rs" }

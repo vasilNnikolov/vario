@@ -8,7 +8,8 @@ use usb_device::prelude::*;
 use usbd_serial;
 
 use cortex_m_rt::entry;
-use defmt::{info, warn};
+use defmt::{info, todo, warn};
+use queue::{Queue, QueueErrKind};
 
 use bsp::cpac;
 
@@ -29,6 +30,8 @@ pub enum RunMode {
     /// when the systick has ticked past the argument, the TransitionToStart ends, and the board goes into NormalMode
     TransitionToStart(u64),
 }
+
+static IRQ_QUEUE: Queue<i8, 10> = Queue::new();
 
 #[entry]
 fn main() -> ! {
@@ -67,6 +70,18 @@ fn main() -> ! {
 
         let sw3 = bsp::switches::read_sw3();
         bsp::leds::set_led(bsp::leds::LED::LED3, sw3);
+
+        match IRQ_QUEUE.pop() {
+            Ok(Some(_irq_source)) => {
+                todo!("Logic based on state machine and received IRQ source")
+            }
+            Ok(None) => {
+                info!("main thread woke up but no irq source in queue")
+            }
+            Err(_) => {
+                info!("queue was locked when main thread tried to access")
+            }
+        }
 
         match s {
             State::RunMode(ref rm) => match *rm {
@@ -114,7 +129,6 @@ fn main() -> ! {
                 RunMode::TransitionToStart(i) => {
                     if bsp::systick::get_systic_ticks() > i {
                         warn!("going to RunMode, Normal");
-
                         bsp::leds::run_mode_led_sequence();
                         s = State::RunMode(RunMode::Normal);
                     } else if !sw2 {
